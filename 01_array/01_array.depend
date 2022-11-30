@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1669771445 source:d:\02_code_learn\cpp_learning\06_leetcode\01_array\main.cpp
+	<iostream>
+	"01_array.h"
+
+1669771591 d:\02_code_learn\cpp_learning\06_leetcode\01_array\01_array.h
+	<iostream>
+	<vector>
+
