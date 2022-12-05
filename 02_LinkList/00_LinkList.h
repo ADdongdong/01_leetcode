@@ -42,8 +42,11 @@ public:
     //7.链表翻转(翻转双指针)
     LinkList* reverseList();//返回一个新链表的指针
 
+    //8.两两交换链表中的节点
+    LinkList* swapPairs();
+
     //打印链表
-    void PrinLinkList(){
+    void PrintLinkList(){
         ListNode* cur = m_dummyHead;
         while (cur->next != NULL){
             cout<< cur->next->val << ' ';
@@ -169,5 +172,36 @@ LinkList* LinkList::reverseList(){
     LinkList* reverse_list = new LinkList();//定义虚拟头结点
     reverse_list->m_dummyHead->next = pre;
     return reverse_list;
+}
+
+//8.两两交换链表中的节点
+LinkList* LinkList::swapPairs(){
+//思路
+//n->1->2->3->4
+//n->2,2->1,1->3
+//效果，就好像把一个弯曲的绳子拉直了一样
+//经过这三步的操作，可以把当前结点后面的两个结点顺序颠倒
+//这时候，只要让cur= cur->next->next，然后再进行这三步操作
+//就可以把后面连续的两个结点顺序颠倒了
+    ListNode* cur = m_dummyHead;
+    while(cur->next != NULL && cur->next->next != NULL){
+        //我们要把cur结点后面的两个结点顺序颠倒
+        //所以，就要判断cur结点的后面两个结点时候是空
+        //若都不是空才可以颠倒，若有一个是空，就没法颠倒了
+
+        ListNode* temp = cur->next;//记录临时结点
+        //temp是要颠倒的两个结点中的第一个结点
+        ListNode* temp1 = cur->next->next->next;
+        //temp1是下次要颠倒的两个结点中的第一个结点
+        //进行三部
+        cur->next = cur->next->next;
+        cur->next->next = temp;
+        cur->next->next->next = temp1;
+
+        cur = cur->next->next;
+    }
+    LinkList* rl = new LinkList();
+    rl->m_dummyHead = m_dummyHead;
+    return rl;
 }
 #endif // 00_LINKLIST_H_INCLUDED

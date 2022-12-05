@@ -12,15 +12,8 @@ int main()
     l1->addAtTail(4);
     l1->addAtTail(5);
 
-    l1->addAtHead(10);
-    l1->deleteAtIndex(3);
-    l1->removeElements(5);
-    l1->addAtIndex(3,50);
-    l1->PrinLinkList();
-
-    LinkList* rl = l1->reverseList();
-    rl->PrinLinkList();
-
+    LinkList* l2 = l1->swapPairs();
+    l2->PrintLinkList();//测试成功
 
     return 0;
 }
