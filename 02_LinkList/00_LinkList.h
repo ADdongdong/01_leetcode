@@ -45,6 +45,9 @@ public:
     //8.两两交换链表中的节点
     LinkList* swapPairs();
 
+    //9.删除链表倒数第n个结点
+    void removeNthFromEnd(int n);
+
     //打印链表
     void PrintLinkList(){
         ListNode* cur = m_dummyHead;
@@ -204,4 +207,37 @@ LinkList* LinkList::swapPairs(){
     rl->m_dummyHead = m_dummyHead;
     return rl;
 }
+
+//9.删除链表倒数第n个结点
+void LinkList::removeNthFromEnd(int n){
+//思路
+//使用快慢指针fast和slow
+//问题是如何通过一轮遍历就能让其中一个指针指向倒数第n个结点
+//我们先让快指针往前走n个单位，那么快指针目前到链表结尾的结点数量就是N-n
+//此时，slow和fast指针一起往前走，知道fast指向了最后一个结点
+//此时，slow指针走的距离是N-n,其实就是倒数的第n个结点了
+    ListNode* slow = m_dummyHead;
+    ListNode* fast = m_dummyHead;
+    //快指针先走
+    while(n-- && fast != NULL){
+        //往前走n步，就不在走了
+        //因为fast是指向m_dummyHead的，所以，要n--
+        //这样其实多走了一步，就是m_dummyHead到Head的那一步
+        //如果fast直接指向head，就--n
+        fast = fast->next;
+    }
+    fast = fast->next;//让fast再往前走一步
+    //这样slow就会少走一步，也就是说，slow会指向要删除结点的上一个结点
+    while(fast != NULL){
+        fast = fast->next;
+        slow = slow->next;
+    }
+    //内存管理
+    ListNode* temp = slow->next;
+    slow->next = slow->next->next;
+    delete temp;
+}
+
+
+
 #endif // 00_LINKLIST_H_INCLUDED

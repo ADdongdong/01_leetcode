@@ -15,5 +15,8 @@ int main()
     LinkList* l2 = l1->swapPairs();
     l2->PrintLinkList();//测试成功
 
+    l2->removeNthFromEnd(2);
+    l2->PrintLinkList();//测试成功
+
     return 0;
 }
