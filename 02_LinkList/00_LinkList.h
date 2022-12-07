@@ -20,10 +20,23 @@ public:
         m_head = NULL;
         m_size = 0;//虚拟头结点不会算入链表元素个数中，只为了操作方便
     }
-    //实现一个功能，就是获取
+    //实现一个功能，就是获取指向头结点的指针ListNode*
     ListNode* getHead(){
         return m_head = m_dummyHead->next;
     }
+    //获取指向尾结点（tail）的指针
+    ListNode* getTail(){
+        ListNode* cur = m_dummyHead->next;
+        ListNode* pre = m_dummyHead;
+        while (cur != NULL){
+            cur = cur->next;
+            pre = pre->next;
+        }
+        return pre;
+    }
+
+
+
     //1.获取链表中第index个节点的值，无效返回-1
     int get(int index);
 
@@ -55,6 +68,9 @@ public:
 
     //10.链表相交,寻找当前链表和other链表的交点
     ListNode* getIntersectionNode(LinkList* other);
+
+    //11.返回链表入环的第一个结点，如果没有环，返回NULL
+    ListNode* detectCycle();
 
     //打印链表
     void PrintLinkList(){
@@ -295,5 +311,41 @@ ListNode* LinkList::getIntersectionNode(LinkList* other){
     }
     return NULL;
 }
+
+//11.返回链表入环的第一个结点，如果没有环，返回NULL
+ListNode* LinkList::detectCycle(){
+//思路
+//要解决的两个问题：
+//1.有没有环
+//2.环的入口结点在哪里
+
+//问题1:slow每次走一步，fast每次走两步，如果slow和fast相遇了，说明有环，不然fast永远比slow快
+//不可能相遇的
+//问题2：head到入口结点距离，经过计算，其实就是slow和fast相遇位置到入口结点的位置
+//(具体数学公式推导这里不展开了)
+    ListNode* fast = this->getHead();
+    ListNode* slow = this->getHead();
+    while (fast != NULL && fast->next != NULL){
+        //注意，为什么判断条件要加上fast->next != NULL;？
+        //末尾结点的next的为null,null是没有next的
+        //如果，没有fast->next != NULL，没有环的时候fast指向末尾结点后，【*】行会报错
+        //如果，没哟fast!=NULL，当为空链表是会报错
+        slow = slow->next;
+        fast = fast->next->next;//【*】
+        if(slow==fast){
+            //当slow和fast指向同一个结点的时候，说明在环内相遇了
+            ListNode* index1 = fast;
+            ListNode* index2 = this->getHead();
+            while(index1 != index2){
+                index1 = index1->next;
+                index2 = index2->next;
+            }
+            //找到了，返回找到的结点指针
+            return index1;
+        }
+    }
+    return NULL;
+}
+
 
 #endif // 00_LINKLIST_H_INCLUDED
