@@ -3,22 +3,27 @@
 #include <iostream>
 using namespace std;
 
+//定义链表结点
+class ListNode{
+public:
+    int val;
+    ListNode* next;
+    ListNode(int val):val(val), next(NULL){}
+};
+
 //简单定义链表
 class LinkList{
 public:
-    //定义链表结点
-    class ListNode{
-    public:
-        int val;
-        ListNode* next;
-        ListNode(int val):val(val), next(NULL){}
-    };
     //构造函数
     LinkList(){
         m_dummyHead = new ListNode(0);
+        m_head = NULL;
         m_size = 0;//虚拟头结点不会算入链表元素个数中，只为了操作方便
     }
-
+    //实现一个功能，就是获取
+    ListNode* getHead(){
+        return m_head = m_dummyHead->next;
+    }
     //1.获取链表中第index个节点的值，无效返回-1
     int get(int index);
 
@@ -48,6 +53,9 @@ public:
     //9.删除链表倒数第n个结点
     void removeNthFromEnd(int n);
 
+    //10.链表相交,寻找当前链表和other链表的交点
+    ListNode* getIntersectionNode(LinkList* other);
+
     //打印链表
     void PrintLinkList(){
         ListNode* cur = m_dummyHead;
@@ -61,6 +69,7 @@ public:
 private:
     int m_size;//记录链表中节点个数
     ListNode* m_dummyHead;//虚拟头结点
+    ListNode* m_head;//定义真实头结点
 };
 
 
@@ -238,6 +247,53 @@ void LinkList::removeNthFromEnd(int n){
     delete temp;
 }
 
+//10.链表相交,寻找当前链表和other链表的交点
+ListNode* LinkList::getIntersectionNode(LinkList* other){
+//思路
+//计算两个链表的长度la和lb，这里以la>lb举例子
+//链表交点以后的结点都是公用的，所以，不存在交点以后一个链表结点大于另一个的情况
+//所以，先将la和lb的尾结点对其，然后,curB指向lb
+//curA指向la中和curB位置相同的结点
+//然后，curA和curB移动比较，找到共同结点
 
+    ListNode* curA = this->m_dummyHead->next;
+    ListNode* curB = other->m_dummyHead->next;
+    //计算两个链表的长度
+    int lenA = 0, lenB = 0;
+    while (curA != NULL){
+        lenA++;
+        curA = curA->next;
+    }
+    while (curB != NULL){
+        lenB++;
+        curB = curB->next;
+    }
+    //重置curA和curB的位置
+    curA = this->m_dummyHead->next;
+    curB = other->m_dummyHead->next;
+
+    //curA和lenA永远是最长的那个链表
+    //所以，做判断，若B长一些，则交换，否则A长，保持不变
+    if(lenB > lenA){
+        swap(lenA, lenB);
+        swap(curA, curB);
+    }
+
+    //求长度差
+    int gap = lenA - lenB;
+    //让curA和curB在同一起点上
+    while(gap--){
+        curA = curA->next;
+    }
+    //遍历curA和curB，如果这两个相当，直接返回其中一个结点
+    while(curA != NULL){
+        if(curA == curB){
+            return curA;
+        }
+        curA = curA->next;
+        curB = curB->next;
+    }
+    return NULL;
+}
 
 #endif // 00_LINKLIST_H_INCLUDED
