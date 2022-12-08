@@ -1,0 +1,12 @@
+# depslib dependency file v1.0
+1670463703 source:d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\03_hashtable\main.cpp
+	<iostream>
+	"01_HashTableTest.h"
+
+1670463714 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\03_hashtable\01_hashtabletest.h
+	<iostream>
+	"00_HashTable.h"
+
+1670463433 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\03_hashtable\00_hashtable.h
+	<iostream>
+
