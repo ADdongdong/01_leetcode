@@ -4,6 +4,6 @@ using namespace std;
 
 int main()
 {
-    isAnagnamTest();
+    isHappyTest();
     return 0;
 }
