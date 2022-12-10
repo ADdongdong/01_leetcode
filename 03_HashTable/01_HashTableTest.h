@@ -35,6 +35,18 @@ void isHappyTest(){
 
 }
 
+//4.twoSumTest()
+void twoSumTest(){
+    vector<int> nums = {1,2,3,4,5};
+    vector<int> result = twoSum(nums, 5);
+    PrintVector(result);
+}
+
+
+
+
+
+
 //定义打印vector的函数模板
 template<class T>
 void PrintVector(vector<T> v){

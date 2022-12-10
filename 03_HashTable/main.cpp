@@ -4,6 +4,6 @@ using namespace std;
 
 int main()
 {
-    isHappyTest();
+    twoSumTest();
     return 0;
 }

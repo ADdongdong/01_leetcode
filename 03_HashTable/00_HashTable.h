@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <unordered_set>
-
+#include <unordered_map>
 using namespace std;
 
 //1.有效的字母异位词
@@ -91,4 +91,37 @@ bool isHappy(int n){
         n = sum;//每次刷新n的值，不然永远都是false,哈哈
     }
 }
+
+//4.两数之和
+vector<int> twoSum(vector<int>& nums, int target){
+//题目描述：
+/*给定一个整数数组nums和一个目标值target
+ *请你在数组中找出和为目标值的那两个整数，
+ *并返回他们的数组下标。（返回的值保存在一个数组中）
+ *假设每种输入只会对应一个答案。
+ *但是，数组中同一个元素在答案里不能重复出现
+ */
+
+//关键点：
+//每种输入会对应一个答案，数组中同一个元素在答案中不能重复出现
+//思路：
+//遍历一个元素，将一个元素和其下标打包放在map中，元素值作为key,下标作为value
+//这样可以保证，是正在遍历的元素和已经遍历过的元素做组合，保证了数组元素不重复出现
+//而且，map中的元素值和下标值都保存成了pair所以，也方便获取下标
+    unordered_map<int, int> _map;//建立一个空map,用来保存已经访问过的元素
+    for (int i = 0;  i < nums.size(); i++){
+        typedef typename unordered_map<int ,int>::iterator IT;//重命名map的迭代器
+        //遍历当前元素，并在map中寻找是否有匹配的key
+        IT iter = _map.find(target - nums[i]);//在map中找有没有能匹配上的元素
+        if (iter != _map.end()){
+            //如果匹配值能在map中找到，则返回这两个数的下标
+            return {iter->second, i};//iter->second是map元素对应的value
+            //i是当前遍历数组的下标
+        }
+        //如果没有找到匹配对，就把访问过的元素和下标加入到map中
+        _map.insert(pair<int, int>(nums[i]/*key*/, i/*value*/));
+    }
+    return {};
+}
+
 #endif // 00_HASHTABLE_H_INCLUDED
