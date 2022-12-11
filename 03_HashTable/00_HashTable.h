@@ -124,4 +124,45 @@ vector<int> twoSum(vector<int>& nums, int target){
     return {};
 }
 
+//5.四个数字相加
+int fourSumCount(vector<int> A, vector<int> B, vector<int> C, vector<int> D){
+//描述:
+/*A,B,C,D四个数组，计算有多少个(i,j,k,l)是的A[i] + B[i] + C[i] + D[i] = 0
+ *所以这个题的返回值是int
+ */
+//思路:
+/*这个题和上个题有相同的地方，先用map记录A,B数组中所有两数之和，和每种情况出现的次数
+ *再遍历C,D数组，边遍历边在map中寻找0-(c+d)。
+ *因为这个数字肯定已作为pair记录在map中了
+ *每找到一组，就给count加上一个pair对应的value
+ */
+
+    unordered_map<int, int> umap;//创建一个map，来记录A和B所有元素之和可能出现的情况和出现的次数
+    //遍历A,B两个数组，并统计所有元素之和和出现的次数
+    for (int a : A){
+        for (int b: B){
+            umap[a + b]++;//这种添加map中键值对的方式和python字典是一样的
+            /*
+             *umap.insert(pair<int, int>(a+b, ??)
+             *使用insert函数的话，value部分不好写实时更新
+             *所以，用mapName[key]++这种方式来迭代key所对应value的值
+             */
+        }
+    }
+    //统计a+b+c+d = 0 出现的次数
+    int _count = 0;
+    // 再遍历C和D数组，如果找到 0-(c+d) 在map中出现过的话，
+    // 就把map中key对应的value加到_count中
+    for (int c : C){
+        for (int d : D){
+            if (umap.find(0 - (c+d)) != umap.end()) {
+                _count += umap[0 - (c + d)];
+                cout << "更新_count:" << _count << endl;
+            }
+        }
+    }
+    return _count;
+}
+
+//6
 #endif // 00_HASHTABLE_H_INCLUDED

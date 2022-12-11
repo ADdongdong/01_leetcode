@@ -42,8 +42,16 @@ void twoSumTest(){
     PrintVector(result);
 }
 
-
-
+//5.fourSumCountTest()
+void fourSumCountTest(){
+    vector<int> A = {1,2};
+    vector<int> B = {-2,1};
+    vector<int> C = {-1,2};
+    vector<int> D = {0,2};
+    int result = 0;
+    result = fourSumCount(A, B, C, D);
+    cout << result << endl;
+}
 
 
 

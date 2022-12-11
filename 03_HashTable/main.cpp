@@ -4,6 +4,6 @@ using namespace std;
 
 int main()
 {
-    twoSumTest();
+    fourSumCountTest();
     return 0;
 }
