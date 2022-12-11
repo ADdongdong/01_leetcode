@@ -6,6 +6,19 @@
 #include <unordered_map>
 using namespace std;
 
+//定义打印vector的函数模板
+template<class T>
+void PrintVector(vector<T> v){
+    //gcc编译器无法识别vector<T>::iterator是一个类型
+    //所以，前面要加上typename/class来说明这是一个类型
+    typedef class/*class*/ vector<T>::iterator IT;
+    for(IT it = v.begin(); it != v.end(); it++){
+        cout << *it << ' ';
+    }
+    cout << endl;
+}
+
+
 //1.有效的字母异位词
 bool isAnagram(string s, string t){
 //思路
@@ -164,5 +177,35 @@ int fourSumCount(vector<int> A, vector<int> B, vector<int> C, vector<int> D){
     return _count;
 }
 
-//6
+//6.赎金信
+bool canConstruct(string ransomNote, string magazine){
+//描述：
+//判断ransomNote这个字符串是否可以由magazine这个字符串表示出来
+//注意，magazine中的字符不能重复使用，每个字符只能使用一次
+//思路：
+//把magazine中的出现了那些字符，每个字符出现了多少次用一个数组记录下来
+//遍历ransomNote字符串，每遍历到一个字符，去数组对应的位置下-1
+//最后，检查这个数组，是否出现了<0，如果出现了<0的情况
+//说民，magazine中的字符不够表示ransomNote
+    vector<int> recode(26, 0);//定义一个全为0的数组
+    PrintVector(recode);//打印这个空数组
+    //遍历magazine字符串
+    for(int i = 0; i < magazine.size(); i++){
+        recode[magazine[i] - 'a']++;//对应的字符出现的次数++
+    }
+    PrintVector(recode);//打印记录后的数组
+    //遍历ransomNote字符串
+    for(int i = 0; i < ransomNote.size(); i++){
+        recode[ransomNote[i] - 'a']--;//对应位置出现字符--
+    }
+    PrintVector(recode);
+    //检查recorde数组
+    for (int i:recode){
+        if(i < 0){
+            return false;//如果有一个字符不够，都返回false
+        }
+    }
+    return true;
+}
+
 #endif // 00_HASHTABLE_H_INCLUDED

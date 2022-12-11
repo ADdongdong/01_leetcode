@@ -53,19 +53,16 @@ void fourSumCountTest(){
     cout << result << endl;
 }
 
+//6.canConstructTest()
+void canConstructTest(){
+    string s1 = "aabbccdef";
+    string s2 = "aaabbbcccddef";
+    string s3 = "abc";
+    bool result1 = canConstruct(s1, s2);
+    bool result2 = canConstruct(s1, s3);
+    cout << result1 << endl;
+    cout << result2 << endl;
 
-
-//定义打印vector的函数模板
-template<class T>
-void PrintVector(vector<T> v){
-    //gcc编译器无法识别vector<T>::iterator是一个类型
-    //所以，前面要加上typename/class来说明这是一个类型
-    typedef class/*class*/ vector<T>::iterator IT;
-    for(IT it = v.begin(); it != v.end(); it++){
-        cout << *it << ' ';
-    }
-    cout << endl;
 }
-
 
 #endif // 01_HASHTABLETEST_H_INCLUDED
