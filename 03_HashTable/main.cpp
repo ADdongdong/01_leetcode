@@ -4,6 +4,6 @@ using namespace std;
 
 int main()
 {
-    canConstructTest();
+    threeSumTest();
     return 0;
 }

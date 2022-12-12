@@ -2,6 +2,8 @@
 #define _HASHTABLE_H_INCLUDED
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include <typeinfo>
 #include <unordered_set>
 #include <unordered_map>
 using namespace std;
@@ -13,11 +15,21 @@ void PrintVector(vector<T> v){
     //所以，前面要加上typename/class来说明这是一个类型
     typedef class/*class*/ vector<T>::iterator IT;
     for(IT it = v.begin(); it != v.end(); it++){
-        cout << *it << ' ';
+            cout << *it << ' ';
     }
     cout << endl;
 }
 
+//定义打印二维vector的函数
+void PrintDim2Vector(vector<vector<int>> v){
+    for (auto& row : v){
+        cout << "[";
+        for (auto& ele : row){
+            cout << ele <<"," ;
+        }
+        cout <<"]" <<endl;
+    }
+}
 
 //1.有效的字母异位词
 bool isAnagram(string s, string t){
@@ -206,6 +218,74 @@ bool canConstruct(string ransomNote, string magazine){
         }
     }
     return true;
+}
+
+//7.3数字之和
+vector<vector<int>> threeSum(vector<int>& nums){
+//描述：
+/*给一个包含n个整数的数组nums，判断nums中是否存在三个元素a,b,c
+ *使得a + b + c = 0
+ *找出所有满足条件且不重复的三元组
+ *注意，答案中不可以包含重复的三元组
+ */
+//思路：
+/*双指针法plus三指针法
+ *1.先将这个无序的vector排序从小到大
+ *2.如果第一个元素即最小的元素就是大于0的，那不可能有三个加起来还等于0
+ *3.i指向[0],left指向i+1,right指向最后一个元素即nums.size()-1
+ *4.i和left一直往后走，right往前走，那什么时候走呢
+ *5.计算sum = nums[i]+nums[left]+nums[right]的值，如果等于0则保存着三个数的值
+ *6.如果sum<0,那说明,left的值小了，要left大一些才行，left++
+ *7.如果sum>0,那说明,right的值大了，要right小一些才行，right--
+ *8.对于每一个i,当left和right指向同一个元素的时候，就结束，i++
+ *9.如何去重？
+ *10.如果nums[i]==nums[i-1]那说明，此时如果有left，那么left初试是和i相等的，所以i++
+ *这样，可以保证尽可能省时间，而且，能做到去重，思路也比价清晰
+ */
+    //开始写代码
+    //先创建一个二维数组，用来保存最后的结果
+    vector<vector<int>> result;
+    //将给定的数组排序
+    sort(nums.begin(), nums.end());
+    //只要排序后第一个元素的值大于0，那就不可能有三数值和为0的情况
+    if (nums[0] > 0){
+        return result;//直接返回空列表，程序结束
+    }
+    //开始遍历nums，对于每一个i,都都要找一轮left和right,同时要去重
+    for (int i = 0; i < nums.size(); i++){
+        //先进行去重，看看相邻两个元素是否相同
+        // 错误去重a方法，将会漏掉-1,-1,2 这种情况why
+        /*
+        if (nums[i] == nums[i + 1]) {
+            continue;
+        }
+        */
+        if ( i > 0 && nums[i] == nums[i-1]){
+            continue;
+        }
+        //定义left和right
+        int left = i + 1;
+        int right = nums.size() - 1;
+        while (left < right){
+        //当left==right的时候，本轮循环结束
+            //当三数字之和大于0时，减小right
+            if(nums[i] + nums[left] + nums[right] > 0) right--;
+            //当三数字之和小于0时，增加left
+            else if(nums[i] + nums[left] + nums[right] < 0) left++;
+            //剩下的情况就是三数字之和等于0了，加入到reslut
+            else{
+                 result.push_back({nums[i], nums[left], nums[right]});
+                 //同样，对left和right进行去重
+                 while (right > left && nums[right] == nums[right-1]) right--;
+                 while (right > left && nums[left] == nums[left+1]) left++;
+
+                 //此时，找到了一个答案，而且也进行了去重更新left和right
+                 left++;
+                 right--;
+            }
+        }
+    }
+    return result;//返回最终结果
 }
 
 #endif // 00_HASHTABLE_H_INCLUDED
