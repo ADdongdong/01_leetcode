@@ -68,9 +68,17 @@ void canConstructTest(){
 //7.threeSumTest()
 void threeSumTest(){
     vector<int> nums = {-1,0,1,2,-1,4};
-    vector<vector<int>> result = threeSum(nums);
+    vector<int> nums2 = {-1, -1, 2};
+    vector<vector<int>> result = threeSum(nums2);
     PrintDim2Vector(result);
 }
 
+//8.fourSumTest()
+void fourSumTest(){
+    vector<int> nums = {1, 0, -1, 0, -2, 2};
+    int target = 0;
+    vector<vector<int>> result = fourSum(nums, target);
+    PrintDim2Vector(result);
+}
 
 #endif // 01_HASHTABLETEST_H_INCLUDED

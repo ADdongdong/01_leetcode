@@ -227,6 +227,8 @@ vector<vector<int>> threeSum(vector<int>& nums){
  *使得a + b + c = 0
  *找出所有满足条件且不重复的三元组
  *注意，答案中不可以包含重复的三元组
+ *注意：这里说的重复，是值三元组不重复，不是说里面的元素不能重复
+ *比如[0,0,0,0]这个数组是有一个结果的
  */
 //思路：
 /*双指针法plus三指针法
@@ -256,6 +258,9 @@ vector<vector<int>> threeSum(vector<int>& nums){
         //先进行去重，看看相邻两个元素是否相同
         // 错误去重a方法，将会漏掉-1,-1,2 这种情况why
         /*
+        //这样去重，会把[0, 0, 0]这种情况给去重去完了
+        //还有-1，-1, 2
+        //注意，这里的没有重复的三元组，不是指里面的每个元素都不一样
         if (nums[i] == nums[i + 1]) {
             continue;
         }
@@ -288,4 +293,74 @@ vector<vector<int>> threeSum(vector<int>& nums){
     return result;//返回最终结果
 }
 
+//8.4数字之和
+vector<vector<int>> fourSum(vector<int>& nums, int target){
+//描述：
+/*判断包含有n个元素的数组nums,是否包含不重复的四个元素a,b,c,d
+ *让着四个元素之和等于给定的target
+ *即，target = a + b + c + d
+ */
+//思路
+/*与三数字之和思路相似，i,j是固定值，left，right为每轮循环的移动值
+ *三数字是for i 一层循环，四数字之和是for i for j 两层嵌套循环
+ *将本来需要3层的暴力解法变成了需要两层，节省了时间
+ */
+    //定义结果vector
+    vector<vector<int>> result;
+    //将给定的nums数组进行排序
+    sort(nums.begin(), nums.end());
+    //进入第一层for循环
+    for (int k = 0; k < nums.size(); k++){
+        //对k的第一个操作，剪枝
+        //何时可以直接退出循环，当当前nums[k]的值大于target的时候，
+        //就没有可能和后面的值加载一起还能等于target了，因为后面三个值都大于target
+        if (nums[k] > target && nums[k] >= 0){
+        //为什么是>target并且，是nums[k] >= 0
+        //因为，负数之和会越来越小，比如target = -6 nums = [-1, -2, -3]
+        //不能因为nums[k]>target就直接退出
+            break;
+        }
+
+        //对i的第二个操作：对i索引进行查重
+        if (k > 0 && nums[k] == nums[k-1]){
+            continue;//跳过本轮循环后面的代码，进入下一次循环
+        }
+        //进入第二轮i循环
+        for (int i = k+1; i < nums.size(); i++){
+        //显然，i要从k开始循环才能保证不重复
+            //前面两个步骤是和对k一样的步骤，剪枝和去重
+            //对i进行剪枝处理，查看是否需要跳过本次的i循环
+            if (nums[i]+nums[k] > target && nums[i]+nums[k] >= 0){
+                break;
+            }
+
+            //对i进行去重
+            if (i > k+1 && nums[i] == nums[i-1]){
+                continue;//跳过本次i循环
+            }
+
+            //此时对两个固定的k和i已经处理完了
+            //接下来处理两个移动的值left和right
+            int left = i+1;
+            int right = nums.size()-1;
+            while (left < right){
+                //三种情况，大于target,小于target,等于target
+                if ((long)nums[k] + nums[i] + nums[left] +nums[right] > target) right--;
+                else if((long)nums[k] + nums[i] + nums[left] + nums[right] < target) left++;
+                else{
+                    result.push_back({nums[k], nums[i], nums[left], nums[right]});
+                    //对left和right进行去重
+                    while (left < right && nums[left] == nums[left+1]) left++;
+                    while (left < right && nums[right] == nums[right-1]) right--;
+
+                    //更细left和right的值
+                    right--;
+                    left++;
+                }
+
+            }
+        }
+    }
+    return result;
+}
 #endif // 00_HASHTABLE_H_INCLUDED
