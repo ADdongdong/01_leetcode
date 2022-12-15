@@ -1,0 +1,16 @@
+# depslib dependency file v1.0
+1670984186 source:d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\04_mystring\main.cpp
+	<iostream>
+	"01_myStringTest.h"
+
+1670985471 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\04_mystring\01_mystringtest.h
+	"00_myString.h"
+	<iostream>
+	<vector>
+
+1670985447 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\04_mystring\00_mystring.h
+	<iostream>
+	<vector>
+	<string>
+	<algorithm>
+
