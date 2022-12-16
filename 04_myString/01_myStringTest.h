@@ -18,4 +18,19 @@ void reverseStrIITest(){
     string result = reverseStrII(s,2);
     cout << result << endl;
 }
+
+//3.替换空格test
+void replaceSpaceTest(){
+    string s = "We are happy";
+    string result = replaceSpace(s);
+    cout << result << endl;
+}
+
+//4.翻转字符串测试
+void reverseWordsTest(){
+    string s = "hello world";
+    string result = reverseWords(s);
+    cout << result << endl;
+}
+
 #endif // 01_MYSTRINGTEST_H_INCLUDED
