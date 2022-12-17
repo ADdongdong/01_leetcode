@@ -33,4 +33,10 @@ void reverseWordsTest(){
     cout << result << endl;
 }
 
+//5.左旋转字符串测试
+void leftMoveTest(){
+    string s = "abcdefg";
+    leftMove(s, 2);
+    cout << s << endl;
+}
 #endif // 01_MYSTRINGTEST_H_INCLUDED

@@ -157,5 +157,19 @@ string reverseWords(string& s) {
 }
 
 //5.左旋转字符串
+void leftMove(string& s, int target){
+//描述：
+//给定两个参数，字符串s和targer,就是把字符串的最前面两个元素移动到字符串最后面
+//abcdefg -> cdefgab
+//思路：
+//将整个字符串s翻转
+//翻转前s.size()-target个字符，翻转后target个字符
+    //翻转整个字符串
+    myReverse(s, 0, s.size());
+    //翻转前s.size()-target个字符
+    myReverse(s, 0, s.size()-target);
+    //翻转后面target个字符
+    myReverse(s, s.size()-target, s.size());
+}
 
 #endif // 00_MYSTRING_H_INCLUDED

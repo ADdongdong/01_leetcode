@@ -4,6 +4,6 @@ using namespace std;
 
 int main()
 {
-    reverseWordsTest();
+    leftMoveTest();
     return 0;
 }
