@@ -172,4 +172,75 @@ void leftMove(string& s, int target){
     myReverse(s, s.size()-target, s.size());
 }
 
+//6.KMP算法的实现
+//定义函数构造next数组
+void getNext(int* next, const string& s){
+//这个函数是构造next数组,构造右移动之后的next数组
+    //初始化
+    //定义两个指针i和j，j指向前缀末尾位置，i指向后缀末尾位置
+    //i指向后缀末尾，其实也就是当前子串的末尾
+    //前缀是不包含最后一个字符，所有以第一个字符开头的子串
+    //后缀是不包含第一个字符，所有以第一个字符结尾的子串
+    int j = -1;
+    next[0] = j;
+    //i从1开始，因为只有一个字符的子串是没有前后缀的
+    //有两个字符的自创，第一个字符就是前缀的开头，第二个字符就是后缀的结尾
+    for (int i = 1; i < s.size(); i++){
+        //处理前后缀不同的情况
+        while (j >= 0 && s[i] != s[j+1]){
+            j = next[j];
+        }
+        //处理前后缀相同的情况
+        if (s[i] == s[j+1]){
+            //找到相同的前后缀
+            j++;
+        }
+        next[i] = j;//将j(前缀的长度)赋值给next[i]
+    }
+}
+
+int strStr(string haystack, string needle) {
+    if (needle.size() == 0) {
+        return 0;
+    }
+    //定义next数组
+    int next[needle.size()];
+    //计算next的数组，第一个元素是-1，也就是右移动以后的
+    getNext(next, needle);
+    int j = -1;//因为next数组里记录的起始位置为-1
+    for (int i = 0; i < haystack.size(); i++){
+        while (j >= 0 && haystack[i] != needle[j + 1]){
+            //不匹配的时候，就通过next数组，寻找前一个位置
+            j = next[j];
+        }
+        if (haystack[i] == needle[j+1]){
+            //如果匹配，i,j同时往后移动，检查后面的元素
+            j++;
+        }
+        if (j == (needle.size() - 1)) {
+            return (i - needle.size() + 1);
+        }
+    }
+    return -1;
+}
+
+//7.重复的子字符串
+bool repeatedSubstringPattern(string s) {
+//描述：
+//给定一个非空的字符串，判断它是否可以由它的一个子串重复多次构成
+//给定的字符串只含有小写英文字母，并且长度不超过10000
+//比如：abab 就可以由ab重复多次构成，aba就没有办法由其子串构成
+    //用kmp想法解决
+    if (s.size() == 0){
+        return false;
+    }
+    int next[s.size()];
+    getNext(next, s);
+    int len = s.size();
+    if (next[len - 1] != -1 && len % (len - (next[len - 1] + 1)) == 0) {
+        return true;
+    }
+    return false;
+}
+
 #endif // 00_MYSTRING_H_INCLUDED

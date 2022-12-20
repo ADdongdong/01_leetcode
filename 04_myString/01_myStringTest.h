@@ -39,4 +39,10 @@ void leftMoveTest(){
     leftMove(s, 2);
     cout << s << endl;
 }
+
+
+//6.kmp算法test
+
+//7.repeatedSubstringPatternTest
+
 #endif // 01_MYSTRINGTEST_H_INCLUDED
