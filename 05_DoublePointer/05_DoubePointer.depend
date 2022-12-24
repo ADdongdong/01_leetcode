@@ -1,14 +1,15 @@
 # depslib dependency file v1.0
-1671755741 source:d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\05_doublepointer\main.cpp
+1671793736 source:d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\05_doublepointer\main.cpp
 	<iostream>
 	"01_DoubelpointerTest.h"
 
-1671756074 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\05_doublepointer\01_doubelpointertest.h
+1671798005 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\05_doublepointer\01_doubelpointertest.h
 	"00_DooubeePointer.h"
 	<iostream>
 
-1671757546 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\05_doublepointer\00_dooubeepointer.h
+1671884846 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\05_doublepointer\00_dooubeepointer.h
 	<iostream>
 	<vector>
 	<list>
+	<algorithm>
 

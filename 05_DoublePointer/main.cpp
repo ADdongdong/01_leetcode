@@ -4,6 +4,6 @@ using namespace std;
 
 int main()
 {
-    reverseListTest();
+    removeNthFromEndTest();
     return 0;
 }

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <list>
+#include <algorithm>
 using namespace std;
 
 /*双指针用法一：使用原数组经过某种规则生成新数组
@@ -156,5 +157,197 @@ ListNode* reverseList(ListNode* l){
 }
 
 //6.删除链表的倒数第n个结点
+ListNode* removeNthFromEnd(ListNode* head, int n){
+//倒数第n个结点，是正数第几个结点？
+//假设共N个结点，是正数第N-n个结点
+//先让fast指向第n个结点，那么就剩下了N-n个结点
+//此时让slow指向第一个结点，然后,fast和slow同时移动
+//当fast移动到末尾时候，slow停止，fast走过了N-n个结点，slow也走到了第N-n个结点
+//即就是倒数第n个结点，删除就行le
+    //定义虚拟头结点
+    ListNode* dummy = new ListNode(0);
+    dummy->next = head;
+    ListNode* fast = dummy;
+    ListNode* slow = dummy;
+    while (n-- && fast != NULL){
+        fast = fast->next;
+    }
+    fast = fast->next;
+    while (fast){
+        fast = fast->next;
+        slow = slow->next;
+    }
+    ListNode* temp = slow->next;
+    slow->next = slow->next->next;
+    delete temp;
+    return dummy->next;
+}
 
+//7.链表相交
+ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+//链表相交的特点，如果在第n个结点相交，则后面的结点都是共同结点
+//双指针可以是查找效率最高
+//一个特点：公共的结点数量一定小于等于min(len(a),len(b))
+//所以，找到最短的链表，然后，锻炼表从头开始遍历，长链表从倒数第len(short)个结点开始遍历查找
+    ListNode* curL;
+    ListNode* curS;
+    curL = headA;
+    curS = headB;
+    int lenL = 0, lenS = 0;
+    while (curL) {
+        curL= curL->next;
+        lenL++;
+    }
+    while (curS) {
+        curS= curS->next;
+        lenS++;
+    }
+
+    curL = headA;
+    curS = headB;
+    if(lenS > lenL) {
+        //交换
+        swap(lenL, lenS);
+        swap(curL, curS);
+    }
+
+    //找到长链表的倒数第lenS个结点
+    int n = lenL - lenS;
+    while (n-- && curL != NULL){
+        curL = curL->next;
+    }
+
+    while (curL != NULL) {
+        if (curL == curS) {
+            return curL;
+        }else {
+            curL = curL->next;
+            curS = curS->next;
+        }
+    }
+    return NULL;
+}
+
+//8.环形链表
+ListNode *detectCycle(ListNode *head) {
+//1.如何判断有环
+//slow一次走一个结点，fast一次走2个结点，
+//当slow和fast相遇的时候，就说明有环
+//2.如何找到环入口
+//相遇的时候，一个指针指向相遇结点，一个执行头结点，同时移动，每次都移动一个单位
+//当两个指针相遇，就找到的环的入口
+        ListNode* fast = head;
+        ListNode* slow = head;
+        while (fast != NULL && fast->next != NULL) {
+            slow = slow->next;
+            fast = fast->next->next;
+            //如果slow和fast指向同一个结点的说明就有环了
+            if (slow == fast) {
+                ListNode* index1 = slow;
+                ListNode* index2 = head;
+                while (index1 != index1) {
+                    index1 = index1->next;
+                    index2 = index2->next;
+                }
+                return index1;//找到入口结点了
+            }
+        }
+        return NULL;
+}
+
+//9.三数字之和
+vector<vector<int>> threeSum(vector<int>& nums) {
+    //定义二维数组
+    vector<vector<int>> result;
+    //先对nums进行排序
+    sort(nums.begin(), nums.end());
+    //遍历列表
+    for (int i = 0; i < nums.size(); i++) {
+        //对每一个i进行判断，看是不是大于0
+        if (nums[i] > 0) {
+            break;
+        }
+
+        //对当前的i进行去重复
+        if (i > 0 && nums[i] == nums[i-1]) {
+            continue;
+        }
+
+        //定义left和right
+        int left = i;
+        int right = nums.size();
+        while (left < right) {
+            //有三种情况
+            if (left < right && nums[i] + nums[left] + nums[right] > 0) right--;
+            else if(left < right && nums[i] + nums[left] + nums[right] < 0) left++;
+            else {
+                //先将这一组值加入到result中
+                result.push_back(vector<int>{nums[i], nums[left], nums[right]});
+                //去重
+                while (left < right && nums[left] == nums[left+1]) left++;
+                while (left < right && nums[right] == nums[right - 1]) right--;
+
+                //left和right进行相向移动
+                left++;
+                right--;
+            }
+        }
+    }
+    return result;
+}
+
+//10.四数字之和
+vector<vector<int>> fourSum(vector<int>& nums, int target) {
+//和三数之和思路基本相同，但有个区别，就是
+//判断break的时候，负数相加会变成更小的负数，所以，
+//要给break的判断条件加上nums[i] > 0
+    vector<vector<int>> result;
+    //排序
+    sort(nums.begin(), nums.end());
+    //for循环进行遍历
+    for (int i = 0; i < nums.size(); i++) {
+        //判断break
+        if (nums[i] > target && nums[i] > 0) {
+            break;
+        }
+
+        //去重
+        if (i > 0 && nums[i] == nums[i-1]) {
+            continue;
+        }
+        //进行第二个数字的for循环
+        for (int j = i + 1; j < nums.size(); j++){
+            //判断break,做这个判断的目的是为了减少运算量，加快运算速度
+            if (nums[i] + nums[j] > target && nums[i] + nums[j] > 0) {
+                break;
+            }
+
+            //去重
+            if (j > i+1 && nums[j] == nums[j-1]) {
+                continue;
+            }
+
+            //定义当前i的当前j下的left和right
+            int left = j + 1, right = nums.size() - 1;
+            //寻找当前i和当期那j下满足条件的left和right
+            while (left < right) {
+                //有三种情况
+                if ((long)nums[i] + nums[j] + nums[left] + nums[right] > target) right--;
+                else if ((long)nums[i] + nums[j] + nums[left] + nums[right] < target) left--;
+                else {
+                    //先将这个数组添加到result中
+                    result.push_back(vector<int>{nums[i], nums[j], nums[left], nums[right]});
+                    //去重
+                    while (left < right && nums[right] == nums[right-1]) right--;
+                    while (left < right && nums[left] == nums[left+1]) left++;
+
+                    //left和right相向移动
+                    left++;
+                    right--;
+                }
+            }
+        }
+    }
+    return result;
+}
 #endif // 00_DOOUBEEPOINTER_H_INCLUDED

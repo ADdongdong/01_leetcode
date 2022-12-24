@@ -4,6 +4,7 @@
 #include <iostream>
 using namespace std;
 
+
 //1.removeElementTest
 void removeElementTest(){
     vector<int> nums = {1,2,3,3,4,5};
@@ -36,4 +37,25 @@ void reverseListTest(){
     }
     cout << endl;
 }
+
+//3.删除倒数第n个结点测试
+void removeNthFromEndTest(){
+    ListNode* L = new ListNode(0);
+    ListNode* l1 = new ListNode(1);
+    ListNode* l2 = new ListNode(2);
+    ListNode* l3 = new ListNode(3);
+    l2->next = l3;
+    l1->next = l2;
+    L->next = l1;
+
+    ListNode* result = removeNthFromEnd(L, 2);
+    ListNode* temp1 = result;
+    while (temp1) {
+        cout << temp1->val << ' ';
+        temp1 = temp1 -> next;
+    }
+    cout << endl;
+
+}
+
 #endif // 01_DOUBELPOINTERTEST_H_INCLUDED
