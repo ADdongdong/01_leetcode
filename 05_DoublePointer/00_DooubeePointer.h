@@ -307,7 +307,7 @@ vector<vector<int>> fourSum(vector<int>& nums, int target) {
     //for循环进行遍历
     for (int i = 0; i < nums.size(); i++) {
         //判断break
-        if (nums[i] > target && nums[i] > 0) {
+        if (nums[i] > target && nums[i] >= 0) {
             break;
         }
 
@@ -318,7 +318,7 @@ vector<vector<int>> fourSum(vector<int>& nums, int target) {
         //进行第二个数字的for循环
         for (int j = i + 1; j < nums.size(); j++){
             //判断break,做这个判断的目的是为了减少运算量，加快运算速度
-            if (nums[i] + nums[j] > target && nums[i] + nums[j] > 0) {
+            if (nums[i] + nums[j] > target && nums[i] + nums[j] >= 0) {
                 break;
             }
 
@@ -333,7 +333,7 @@ vector<vector<int>> fourSum(vector<int>& nums, int target) {
             while (left < right) {
                 //有三种情况
                 if ((long)nums[i] + nums[j] + nums[left] + nums[right] > target) right--;
-                else if ((long)nums[i] + nums[j] + nums[left] + nums[right] < target) left--;
+                else if ((long)nums[i] + nums[j] + nums[left] + nums[right] < target) left++;
                 else {
                     //先将这个数组添加到result中
                     result.push_back(vector<int>{nums[i], nums[j], nums[left], nums[right]});

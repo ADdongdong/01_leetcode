@@ -3,6 +3,15 @@
 #include "00_DooubeePointer.h"
 #include <iostream>
 using namespace std;
+//定义函数打印二维vector
+void PrintVector2D(vector<vector<int>> nums){
+    for (auto i : nums){
+        for (int j = 0; j < i.size(); j++){
+            cout << i[j] << ' ';
+        }
+        cout << endl;
+    }
+}
 
 
 //1.removeElementTest
@@ -56,6 +65,14 @@ void removeNthFromEndTest(){
     }
     cout << endl;
 
+}
+
+//4.四个元素之和
+void fourSumTest() {
+    vector<int> nums = {1,0,-1,0,-2,2};
+    vector<vector<int>> nums2 = {{-2,-1,1,2},{-2,0,0,2},{-1,0,0,1}};
+    vector<vector<int>> result = fourSum(nums, 0);
+    PrintVector2D(result);
 }
 
 #endif // 01_DOUBELPOINTERTEST_H_INCLUDED
