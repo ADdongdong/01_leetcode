@@ -4,6 +4,7 @@
 #include <iostream>
 
 using namespace std;
+
 //1.用栈模拟队列测试
 void MyQueueTest() {
     //定义自己的队列
@@ -20,6 +21,17 @@ void MyQueueTest() {
     _queue.pop();
 }
 
+//2.用队列模拟栈测试
+void MyStackTest() {
+    MyStack st;
+    st.push(1);
+    st.push(2);
+    st.push(3);
+    st.push(4);
+    cout << st.top() << endl;
+    st.pop();
+    cout << st.top() << endl;
+}
 
 
 #endif // STACK_QUEUE_TEST_H_INCLUDED

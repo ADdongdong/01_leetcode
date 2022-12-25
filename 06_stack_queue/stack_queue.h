@@ -4,6 +4,7 @@
 #include <stack>
 #include <vector>
 #include <deque>
+#include <queue>
 
 using namespace std;
 
@@ -56,6 +57,47 @@ public:
     }
 };
 
+//2.用队列实现栈
+class MyStack {
+public:
+    //1.定义一个队列
+    queue<int> que;
+
+    MyStack(){}//构造函数
+
+    //1.往MyStack中添加元素
+    void push(int x) {
+        que.push(x);
+    }
+
+    //2.删除MyStach的栈顶元素
+    int pop() {
+        //如何获取栈顶元素呢？
+        //队列中，最后一个进队的在对尾，最后出队
+        //在栈中，最后一个入栈的，在栈顶，最先出栈
+        //一次将队列对尾前的元素天剑到对尾的后面，
+        //然后再进行出队，这时候，原来的队尾元素就到队头了
+        int _size = que.size() - 1;
+        while (_size--) {
+            que.push(que.front());//获取队头元素，并加到
+            que.pop();//stl中的queue的pop返回值为void
+        }
+        int result = que.front();//再获取队头元素，就是原来最后进队的元素了
+        que.pop();
+        return result;
+    }
+
+    //3.获取MyStack的栈顶元素
+    int top() {
+        return que.back();//直接返回队尾元素就行
+    }
+
+    //4.判断队列是否为空队
+    bool isempty() {
+        return que.empty();
+    }
+
+};
 
 
 #endif // STACK_QUEUE_H_INCLUDED

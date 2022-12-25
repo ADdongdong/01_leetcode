@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    MyQueueTest();
+    MyStackTest();
     return 0;
 }
