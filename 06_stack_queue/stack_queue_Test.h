@@ -33,5 +33,12 @@ void MyStackTest() {
     cout << st.top() << endl;
 }
 
+//3.括号匹配检测
+void isValidTest() {
+    string s = "{{}}{}(]";
+    string s2 = "{{}}(())[]";
+    cout << isValid(s) << endl;
+    cout << isValid(s2) << endl;
+}
 
 #endif // STACK_QUEUE_TEST_H_INCLUDED

@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    MyStackTest();
+    isValidTest();
     return 0;
 }

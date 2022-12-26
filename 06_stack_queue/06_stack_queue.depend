@@ -1,13 +1,13 @@
 # depslib dependency file v1.0
-1671949143 source:d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\06_stack_queue\main.cpp
+1671953853 source:d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\06_stack_queue\main.cpp
 	<iostream>
 	"stack_queue_Test.h"
 
-1671950332 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\06_stack_queue\stack_queue_test.h
+1672026951 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\06_stack_queue\stack_queue_test.h
 	"stack_queue.h"
 	<iostream>
 
-1671953732 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\06_stack_queue\stack_queue.h
+1672026855 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\06_stack_queue\stack_queue.h
 	<iostream>
 	<stack>
 	<vector>
