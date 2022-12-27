@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    isValidTest();
+    evalRPNTest();
     return 0;
 }

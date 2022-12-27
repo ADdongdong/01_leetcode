@@ -41,4 +41,10 @@ void isValidTest() {
     cout << isValid(s2) << endl;
 }
 
+//4.逆波兰表达式求值
+void evalRPNTest() {
+    vector<string> tokens = {"2","1","+","3","*"};
+    int result = evalRPN(tokens);
+    cout << result << endl;
+}
 #endif // STACK_QUEUE_TEST_H_INCLUDED

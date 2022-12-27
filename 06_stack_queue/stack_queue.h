@@ -5,6 +5,7 @@
 #include <vector>
 #include <deque>
 #include <queue>
+#include <algorithm>
 
 using namespace std;
 
@@ -130,4 +131,65 @@ bool isValid(string s) {
     }
     return st.empty();
 }
+
+//4.删除字符串重复的元素
+string removeDuplicates(string s) {
+//描述：
+//迭代删除字符串中重复的相邻字符
+//啥意思呢，什么是迭代呢？就像这样abbac->aac->c
+//思路
+//使用栈，每次检查到一个元素，先和栈顶元素左比较，如果相同，则pop
+//如果不同，则入栈吗。整个字符串扫描完毕，结束，所有元素出栈，然后再reverse就是最终的结果了
+    stack<char> st;//定义一个stack
+    for (char a : s) {
+        //若当前检查到的元素和栈顶元素不同，或者为空栈，则这个元素入栈
+        if (a != st.top() || st.empty()) {st.push(a);}
+        else{
+            //否则出栈
+            st.pop();
+        }
+    }
+    //所有元素出栈
+    string new_s = "";
+    while ( !st.empty()) {
+        new_s += st.top();//字符串拼接
+        st.pop();
+    }
+    reverse (new_s.begin(), new_s.end());
+    return new_s;
+}
+
+//5.逆向波兰表达式求值（后缀表达式求值）
+int evalRPN(vector<string>& tokens) {
+//给一个后缀表达式，通过这个后缀表达式计算最终的式子的结果
+//思路：
+/*
+如果遇到数字进栈，如果遇到符号，弹出栈顶两个元素，跟这个符号做运算，然后结果再进栈
+*/
+    stack<long long> st;
+    for (int i = 0; i < tokens.size(); i++) {
+        //如果遇到符号，就弹出栈顶相邻两个元素，做计算然后再进进栈
+        if ( tokens[i] == "+" || tokens[i] == "-" || tokens[i] == "*" || tokens[i] == "/") {
+            //弹出两个栈顶元素
+            long long num1 = st.top();
+            st.pop();
+            long long num2 = st.top();
+            st.pop();
+            //根据不同的符号做运算
+            if (tokens[i] == "+") st.push(num1+num2);
+            if (tokens[i] == "-") st.push(num2-num1);
+            if (tokens[i] == "*") st.push(num1*num2);
+            if (tokens[i] == "/") st.push(num2/num1);
+        } else {
+        //如果遇到了数字，直接进栈就行
+            st.push(stoll(tokens[i]));//stoll将传入的字符串转换成long long int
+            //stol将传入的参数转换成long int
+        }
+    }
+
+    int result = st.top();
+    st.pop();
+    return result;
+}
+
 #endif // STACK_QUEUE_H_INCLUDED
