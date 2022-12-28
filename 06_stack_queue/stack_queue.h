@@ -192,4 +192,65 @@ int evalRPN(vector<string>& tokens) {
     return result;
 }
 
+//6.滑动窗口
+class MaxDqueue {
+public:
+//定义特有的队列，用来维护滑动窗口里面的最大值
+//怎么维护呢？
+//滑动窗口里的值挨个扫描，如果这个值大于back()的值，则pop_back()
+//这样，如果当前扫描到的这个值是滑动窗口中最大的，则会一直pop_back()知道队列中没有没有元素
+//这个最大的元素就是当前队列最大的元素
+    deque<int> que;//用双端对两列deque来实现最大队列
+    //pop函数
+    //队列不为空，弹出的数值是队列出口数值的时候弹出
+    //注意，这个窗口的最左边的值可能不是队列的front
+    //比如[1,22,4,5,6] 队列是[22,4]
+    //此时pop，我们显然是想让窗口移动，窗口变成[22, 4, 5, 6, 2]
+    //这时候，MaxDeque队列还是[22, 4]
+    //如果不检测value == que.front直接进行pop，那么这一步，滑动窗口的移动就直接把22移走了，
+    //这是错误的。因为下一个滑动窗口的最大值显然还是22，但是22被移动走以后，就成了4了
+    void pop(int value) {
+        if (!que.empty() && value == que.front()) {
+            que.pop_front();
+        }
+    }
+    //push函数
+    void push(int value) {
+        //循环检测当前队尾元素和待入队元素的大小，我们要找到的是最大的元素
+        //如果，待入队元素比队尾的元素大，那就一直弹出队尾元素，知道找到一个比待入队元素大的
+        //或者，到对空，如果到对空，那么入队的这个元素就是当前MaxDqueue的max且是front元素
+        while (!que.empty() && value > que.back()) {
+            que.pop_back();
+        }
+        que.push_back(value);
+    }
+
+    //front返回队头元素，对头元素就是当前滑动数组中的max元素
+    int max_front() {
+        return que.front();
+    }
+};
+
+vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+//描述：
+/*
+给一个数组nums和一个滑动窗口的大小k,滑动窗口每次往后移动一个单位
+问？每次移动窗口后，这个窗口里面的最大值是那个数字，并将每次移动的最大值添加到vector中并返回
+*/
+    MaxDqueue que;//定义滑动窗口即，最大元素队列
+    vector<int> result;//定义vector用来保存每次移动滑动窗口的结果
+    //将前面k个元素放入滑动窗口，当然因为我们定义了MaxDqueue，所以放入滑动窗口的都是front是最大元素的
+    for (int i = 0; i < k; i++) {
+        que.push(nums[i]);
+    }
+    //获取到第一个滑动窗口的max
+    result.push_back(que.max_front());
+    //滑动串口移动
+    for (int i = k; i < nums.size(); i++) {
+        que.pop(nums[i - k]);//删除滑动窗口的最左边的元素，注意，这个元素不一定是队头元素
+        que.push(nums[i]);//将当前扫描到的元素加入滑动窗口，同时也加入MaxDeque队列
+        result.push_back(que.max_front());//获取每一次的队头元素，即窗口最大元素加入result数组中
+    }
+    return result;
+}
 #endif // STACK_QUEUE_H_INCLUDED

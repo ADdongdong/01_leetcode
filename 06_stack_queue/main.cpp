@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    evalRPNTest();
+    maxSlidingWindowTest();
     return 0;
 }
