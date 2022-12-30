@@ -6,6 +6,8 @@
 #include <deque>
 #include <queue>
 #include <algorithm>
+#include <unordered_map>
+//#include <priority_queue>
 
 using namespace std;
 
@@ -253,4 +255,56 @@ vector<int> maxSlidingWindow(vector<int>& nums, int k) {
     }
     return result;
 }
+
+//7.前k个高频元素
+class CMP{
+//定义比价器对象。因为我们在创建小顶堆的时候，要使用比较。
+//我们做比较的对象是map的pair，每个pair都是由键值对构成的
+//我们只希望对pair的value进行比较，所有要定义CMP对对小顶堆的比较形式进行说明
+public:
+    bool operator()(const pair<int, int>& lhs, const pair<int, int>& rhs) {
+        return lhs.second > rhs.second;//这里定义成了>，表明是小顶堆，如果是<则是大顶堆
+    }
+};
+
+vector<int> topKFrequent(vector<int>& nums, int k) {
+    //要统计元素出现的频率
+    unordered_map<int, int> map;//每个pair键用来保存数字，值用来保存这个数字出现的次数
+    for (int i = 0; i < nums.size(); i++) {
+        map[nums[i]]++;
+    }
+
+    // 对频率进行排序
+    //定义小顶堆，大小为k，就是要求的前k个高频元素,第三个参数是cmp
+    //这个优先队列底层是由vector构成的，vector的每一个元素都是一个pair<int, int>
+    //使用自定义的CMP只对pair的值进行排序
+    priority_queue<pair<int, int>, vector<pair<int, int>>, CMP> pri_que;
+
+    //定义好小顶堆以后，就要遍历我们刚才计算出来的map
+    //用map的迭代器挨个扫描map中的每一个pair,让其进入小顶堆
+    //同时保持小顶堆中元素的数量为k个，如果大于k个就要pop堆顶元素
+    for (unordered_map<int, int>::iterator it = map.begin(); it != map.end(); it++) {
+        pri_que.push(*it);
+        if (pri_que.size() > k){
+            //如果小顶堆元素大于K了，就要将此事堆中最小的那个元素pop出去，
+            //始终保持堆中只有K个元素
+            //cout << (*it).first << endl;
+            pri_que.pop();
+        }
+    }
+
+
+    //此时最终的小顶堆已经构建完成，我们要将小顶堆中的的数据按照从大到小的数据放入vector中
+    //注意：小顶堆的top和pop返回的都是堆顶元素，堆顶元素是最小的值
+    //所以，要获得从大到小排序的数组，就要把最先出堆的元素放在vector的第k-1个位置
+    vector<int> result(k);//定义一个vector，里面的元素个数是k个
+    for (int i = k-1; i >= 0; i--) {
+        result[i] = pri_que.top().first;//我们此时是要将键放入vector中，
+        //键是数字，值是数字出现的数量
+        pri_que.pop();//每次获取完堆顶的元素以后，要pop，这样堆顶，也就是最小的元素才会更新
+    }
+
+    return result;
+}
+
 #endif // STACK_QUEUE_H_INCLUDED

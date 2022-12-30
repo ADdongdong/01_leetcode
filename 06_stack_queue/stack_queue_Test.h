@@ -50,6 +50,7 @@ void evalRPNTest() {
 
 //5.滑动窗口最大值
 void maxSlidingWindowTest() {
+
     vector<int> nums = {1,3,-1,-3,5,3,6,7};
     vector<int> result = maxSlidingWindow(nums, 2);
     for (int a : result) {
@@ -58,4 +59,13 @@ void maxSlidingWindowTest() {
     cout << endl;
 }
 
+//6.前k个高频元素
+void topKFrequentTest() {
+    vector<int> nums = {1,1,1,2,2,2,2,3,3,3,3,3,4,4,4,5,6};
+    vector<int> result = topKFrequent(nums,2);
+    for (int a:result) {
+        cout << a << ' ';
+    }
+    cout << endl;
+}
 #endif // STACK_QUEUE_TEST_H_INCLUDED

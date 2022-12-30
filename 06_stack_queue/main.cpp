@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    maxSlidingWindowTest();
+    topKFrequentTest();
     return 0;
 }
