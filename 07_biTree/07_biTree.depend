@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1672504717 source:d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\07_bitree\main.cpp
+	<iostream>
+	"biTreeTest.h"
+
+1672587042 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\07_bitree\bitreetest.h
+	<iostream>
+	<vector>
+	"biTree.h"
+
+1672586975 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\07_bitree\bitree.h
+	<iostream>
+	<vector>
+	<typeinfo>
+
