@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    pre_traversal_test();
+    traversal_test();
     return 0;
 }

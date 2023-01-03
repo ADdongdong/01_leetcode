@@ -3,13 +3,15 @@
 	<iostream>
 	"biTreeTest.h"
 
-1672587042 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\07_bitree\bitreetest.h
+1672720781 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\07_bitree\bitreetest.h
 	<iostream>
 	<vector>
 	"biTree.h"
 
-1672586975 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\07_bitree\bitree.h
+1672720614 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\07_bitree\bitree.h
 	<iostream>
 	<vector>
 	<typeinfo>
+	<stack>
+	<algorithm>
 
