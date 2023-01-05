@@ -6,31 +6,41 @@
 
 using namespace std;
 
-//1.二叉树的遍历测试
+//二叉树的遍历测试
 void traversal_test() {
-    TreeNode<char>* T;
+    TreeNode<int>* T;
     cout << "请按照先序顺序创建二叉树" << endl;
-    create<char>(T);
+    create<int>(T);
     cout << "输出先序遍历顺序: " <<endl;
-    vector<char> result;
+    vector<int> result;
     //测试先序遍历
-    pre_traversal<char>(T, result);
-    for (char i:result) {
+    pre_traversal<int>(T, result);
+    for (int i:result) {
         cout << i << ' ';
     }
     cout << endl;
     //测试中序遍历
-    vector<char> result1 = in_Traversal(T);
+    vector<int> result1 = in_Traversal(T);
     cout << "输出中序遍历顺序:" << endl;
-    for (char i:result1) {
+    for (int i:result1) {
         cout << i << ' ';
     }
     cout << endl;
     //测试后序遍历
-    vector<char> result2 = post_Traversal(T);
+    vector<int> result2 = post_Traversal(T);
     cout << "输出后序遍历顺序:" << endl;
-    for (char i:result2) {
+    for (int i:result2) {
         cout << i << ' ';
+    }
+    cout << endl;
+    //层序遍历测试
+    vector<vector<int>> result3;
+    result3 = leave_Order(T);
+    for (auto iterow = result3.begin(); iterow != result3.end(); iterow++){
+        for (auto itcolumn = (*iterow).begin(); itcolumn != (*iterow).end(); itcolumn++) {
+            cout <<  *itcolumn << ' ';
+        }
+        cout << endl;
     }
     cout << endl;
 }

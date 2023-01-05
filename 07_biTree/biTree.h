@@ -5,6 +5,8 @@
 #include <typeinfo>
 #include <stack>
 #include <algorithm>
+#include <queue>
+
 using namespace std;
 
 /*
@@ -112,5 +114,32 @@ vector<T> post_Traversal(TreeNode<T>* root) {
     reverse(result.begin(), result.end());
     return result;
 }
+
+//4.二叉树层序遍历(迭代)
+template<class T>
+vector<vector<T>> leave_Order(TreeNode<T>* root) {
+    vector<vector<T>> result;
+    queue<TreeNode<T>*> que;
+    //判断是否为空树
+    if(root != NULL) que.push(root);
+    while (!que.empty()) {
+        int s = que.size();//保存当前队列的长度
+        //也就是上一层所有元素，然后对下一层所有元素遍历其双孩子
+        vector<int> vec;
+        //这里使用固定大小的size,不使用que.size
+        //遍历上一层进入队列的所有元素
+        for (int i = 0; i < s; i++) {
+            TreeNode<T>* node = que.front();
+            que.pop();
+            vec.push_back(node->val);
+            if (node->left) que.push(node->left);
+            if (node->right) que.push(node->right);
+        }
+        result.push_back(vec);
+    }
+    return result;
+}
+
+//5.翻转二叉树
 
 #endif // BITREE_H_INCLUDED
