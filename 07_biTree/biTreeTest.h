@@ -36,6 +36,7 @@ void traversal_test() {
     //层序遍历测试
     vector<vector<int>> result3;
     result3 = leave_Order(T);
+    cout << "输出层序遍历顺序:" << endl;
     for (auto iterow = result3.begin(); iterow != result3.end(); iterow++){
         for (auto itcolumn = (*iterow).begin(); itcolumn != (*iterow).end(); itcolumn++) {
             cout <<  *itcolumn << ' ';
