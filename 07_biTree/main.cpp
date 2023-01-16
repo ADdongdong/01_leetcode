@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    compareTest();
+    getdepthTest();
     return 0;
 }

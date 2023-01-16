@@ -217,4 +217,25 @@ bool compare(TreeNode<T>* left, TreeNode<T>* right) {
     return isSame;
 }
 
+//7.二叉树的最大深度/高度（递归）
+template<class T>
+int getdepth(TreeNode<T>* node) {
+//二叉树结点的深度：从根节点到该结点的最长简单路径边的条数（从0开始数）或者节点数（从1开始数）
+//二叉树节点的高度：指从该结点到叶子节点的最长简单路径边的条数或者节点数
+
+//跟结点的高度->二叉树的最大深度
+
+//递归三要素：
+    //1.确定递归函数的返回值和参数：参数-传入根节点 返回值-int
+    //2.终止条件：如果为空节点，返回0，表示高度为0
+    if (node == NULL) return 0;
+    //3.确定单层递归的逻辑
+    int leftdepth = getdepth(node->left);//递归求左子树高度
+    int rightdepth = getdepth(node->right);//递归求右子树高度
+    int depth = 1 + max(leftdepth, rightdepth);//树的高度是根到叶子最长路径上的结点的数量
+    //所以，每次要找最高的那个子树，所以要使用max函数
+    //调用两个递归函数直接可以算出来两个子树的高度，取最高的子树就作为子树高度，再加上根节点高度就行
+    return depth;//在这个题目中，我们认为的高度是从根节点到叶子节点最长路径上结点的数量
+    //所以，如果这个二叉树只有一个节点，那么这个树的高度就是1
+}
 #endif // BITREE_H_INCLUDED

@@ -72,4 +72,16 @@ void compareTest() {
     bool result = compare(T->left, T->right);
     cout << result << endl;
 }
+
+//测试计算树高()
+void getdepthTest() {
+    TreeNode<int>* T;
+    cout << "请按照先序创建二叉树" << endl;
+    create<int>(T);
+    printLeave_oreder(T);
+    //计算树的高度
+    int result = getdepth(T);
+    cout << "树的高度是" << result << endl;
+
+}
 #endif // BITREETEST_H_INCLUDED
