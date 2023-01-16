@@ -6,6 +6,20 @@
 
 using namespace std;
 
+//打印层序遍历结果
+template<class T>
+void printLeave_oreder(TreeNode<T>* Tree){
+    cout << "输出层序遍历的结果" << endl;
+    vector<vector<T>> result3 = leave_Order(Tree);
+    for (auto iterow = result3.begin(); iterow != result3.end(); iterow++){
+            for (auto itcolumn = (*iterow).begin(); itcolumn != (*iterow).end(); itcolumn++) {
+                cout <<  *itcolumn << ' ';
+            }
+            cout << endl;
+        }
+        cout << endl;
+}
+
 //二叉树的遍历测试
 void traversal_test() {
     TreeNode<int>* T;
@@ -34,17 +48,28 @@ void traversal_test() {
     }
     cout << endl;
     //层序遍历测试
-    vector<vector<int>> result3;
-    result3 = leave_Order(T);
-    cout << "输出层序遍历顺序:" << endl;
-    for (auto iterow = result3.begin(); iterow != result3.end(); iterow++){
-        for (auto itcolumn = (*iterow).begin(); itcolumn != (*iterow).end(); itcolumn++) {
-            cout <<  *itcolumn << ' ';
-        }
-        cout << endl;
-    }
-    cout << endl;
+    printLeave_oreder(T);
 }
 
+//翻转二叉树测试
+void invertTreeTest() {
+    TreeNode<int>* T;//定义一个空树‘
+    cout << "请按照先序创建二叉树" << endl;
+    create<int>(T);
+    printLeave_oreder(T);
+    cout << "翻转二叉树" << endl;
+    TreeNode<int>* T_v = inverTree(T);
+    printLeave_oreder(T_v);
+}
 
+//测试是否是对称二叉树
+void compareTest() {
+    TreeNode<int>* T;//定义一个空树
+    cout << "请按照先序创建二叉树" << endl;
+    create<int>(T);
+    printLeave_oreder(T);
+    //判断是否是对称二叉树
+    bool result = compare(T->left, T->right);
+    cout << result << endl;
+}
 #endif // BITREETEST_H_INCLUDED
