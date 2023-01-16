@@ -232,7 +232,8 @@ int getdepth(TreeNode<T>* node) {
     //3.确定单层递归的逻辑
     int leftdepth = getdepth(node->left);//递归求左子树高度
     int rightdepth = getdepth(node->right);//递归求右子树高度
-    int depth = 1 + max(leftdepth, rightdepth);//树的高度是根到叶子最长路径上的结点的数量
+    //int depth = 1 + max(leftdepth, rightdepth);//树的高度是根到叶子最长路径上的结点的数量
+    int depth = 1 + (leftdepth > rightdepth?leftdepth:rightdepth);//这样写和上面一样
     //所以，每次要找最高的那个子树，所以要使用max函数
     //调用两个递归函数直接可以算出来两个子树的高度，取最高的子树就作为子树高度，再加上根节点高度就行
     return depth;//在这个题目中，我们认为的高度是从根节点到叶子节点最长路径上结点的数量
