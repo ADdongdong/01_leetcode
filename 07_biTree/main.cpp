@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    getdepthTest();
+    getNumberDiedaiTest();
     return 0;
 }

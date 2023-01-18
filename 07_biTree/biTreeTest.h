@@ -84,4 +84,26 @@ void getdepthTest() {
     cout << "树的高度是" << result << endl;
 
 }
+
+//测试计算树的最小深度
+void getmindepthTest() {
+    TreeNode<int>* T;
+    cout << "请按照先序创建二叉树" << endl;
+    create<int>(T);
+    printLeave_oreder(T);
+    //计算树的最小深度
+    int result = getmindepth(T);
+    cout << "树的最小深度是：" << result << endl;
+}
+
+//测试计算完全二叉树的结点个数
+void getNumberDiedaiTest() {
+    TreeNode<int>* T;
+    cout << "请按照先序创建二叉树" << endl;
+    create<int>(T);
+    printLeave_oreder(T);
+    //计算树的最小深度
+    int result = getNumberDiedai(T);
+    cout << "完全二叉树的节点个数是：" << result << endl;
+}
 #endif // BITREETEST_H_INCLUDED

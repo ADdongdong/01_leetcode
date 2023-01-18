@@ -239,4 +239,108 @@ int getdepth(TreeNode<T>* node) {
     return depth;//在这个题目中，我们认为的高度是从根节点到叶子节点最长路径上结点的数量
     //所以，如果这个二叉树只有一个节点，那么这个树的高度就是1
 }
+
+//8.二叉树的最小深度(后序遍历)
+template<class T>
+int getmindepth(TreeNode<T>* node) {
+//这里要注意深度和高度的区别
+//树的深度是从根到叶子节点路径上边的条数(从0开始)或者结点的个数（从1开始）
+//树的高度是从根到距离根最远的那个结点路径上边的条数(从0开始)或者结点的个数(从1开始)
+//所以，如果这个二叉树只有两个节点，那么，这个树的最小深度是2，不是1，因为只有一个叶子节点
+//所以，如果左子树为空，那么树最小深度就是右子树的最小深度+1
+
+    //递归函数三部曲
+    //1.确定函数返回值和参数
+    //2.确定函数返回值
+    if (node == NULL) return 0;//如果为空树，返回0
+    //递归计算左子树深度
+    int leftheight = getmindepth(node->left);
+    //递归计算右子树深度
+    int rightheight = getmindepth(node->right);
+
+    //由于深度的特性，处理根节点左右子树分别为空的情况
+    if (node->left == NULL && node->right != NULL) {
+        return 1 + rightheight;
+    }
+    if (node->left != NULL && node->right == NULL) {
+        return 1 + leftheight;
+    }
+
+    //计算最终的结果
+    int result = 1 + min(leftheight, rightheight);//在根节点左右子树中寻找一个深度最小的树
+    return result;
+}
+
+//8.1 二叉树的最小深度(迭代)
+template<class T>
+int mindepth(TreeNode<T>* node) {
+    if (node == NULL) return 0;
+    int depth = 0;
+    queue<TreeNode<T>*> que;
+    que.push(node);
+    while (!que.empty()) {
+        //使用层序进行遍历，找最靠近根的那个叶子节点
+        int size = que.size();
+        depth++;//记录最小深度
+        //使用迭代法找最小深度的时候，第一个最上一层高的最靠近根节点的第一个叶子节点
+        //到根节点的的深度就是 这个树的最小深度，所以，depth更新到最近叶子节点的时候就返回了
+        for (int i = 0; i < size; i++) {
+            TreeNode<T>* node = que.front();
+            que.pop();
+            if (node->left) que.push(node->left);
+            if (node->right) que.push(node->right);
+            if (!node->left && !node->right) {
+                //当左右节点都为空的时候，说明遇到了距离根节点最近的第一个叶子结点
+                //这个叶子节点到根节点的距离就会最小深度
+                return depth;
+            }
+        }
+    }
+    return depth;//这里返回的是空树的depth因为执行不到while训练里面的内容
+}
+
+//9.完全二叉树的节点个数
+template<class T>
+int getNumber(TreeNode<T>* cur) {
+//思路：可以采用后序遍历，先找到左子树节点，再找到又子树结点
+//最后左右子树结点相加再加一就是最终二叉树的结点的个数
+//递归三部曲
+//1.返回值-int,参数结点-node
+//2.终止条件，如果cur==NULL return 0
+    if (cur==NULL) return 0;
+    int lefnumber = getNumber(cur->left);
+    int rightnumber = getNumber(cur->right);
+    //计算最终整个树的结点个数
+    int sum = 1 + lefnumber + rightnumber;
+    return sum;
+}
+
+//9.1 计算完全二叉树的结点个数【迭代法】
+template<class T>
+int getNumberDiedai(TreeNode<T>* cur) {
+    //使用层序遍历
+    if (cur == NULL) return 0;//如果是空树，直接返回0
+    //定义队列
+    queue<TreeNode<T>*> que;
+    //根节点进入队列
+    que.push(cur);
+    //定义result
+    int result = 0;
+    //while训话
+    while (!que.empty()) {
+        int size = que.size();//注意，层序遍历for循环中，每次只取到上一层的左右孩子结点
+        //所以遍历的个数就是上一层结点的个数。每次队列只保存一层结点。
+        for (int i = 0; i < size; i++) {
+            //获取队头结点
+            TreeNode<T>* node = que.front();
+            que.pop();//删除刚才获取到的结点
+            result++;//每出队一个结点，就result++
+            //刚才出队左孩子入队
+            if (node->left) que.push(node->left);
+            if (node->right) que.push(node->right);
+        }
+    }
+    return result;//返回最终的结果
+}
+
 #endif // BITREE_H_INCLUDED
