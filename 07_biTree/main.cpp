@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    getNumberDiedaiTest();
+    binaryTreePathsTest();
     return 0;
 }

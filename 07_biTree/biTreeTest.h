@@ -73,7 +73,7 @@ void compareTest() {
     cout << result << endl;
 }
 
-//测试计算树高()
+//测试计算树高
 void getdepthTest() {
     TreeNode<int>* T;
     cout << "请按照先序创建二叉树" << endl;
@@ -106,4 +106,34 @@ void getNumberDiedaiTest() {
     int result = getNumberDiedai(T);
     cout << "完全二叉树的节点个数是：" << result << endl;
 }
+
+//测试判断这个树是不是平衡二叉树
+void getHeightTest() {
+    TreeNode<int>* T;
+    cout << "请按照先序创建二叉树" << endl;
+    create<int>(T);
+    printLeave_oreder(T);
+    //判断是不是平衡二叉树
+    bool result = getHeight(T);
+    cout << result << endl;
+}
+
+//测试获取一个树的所有路径
+void binaryTreePathsTest() {
+    TreeNode<int>* T;
+    cout << "请按照先序创建二叉树" << endl;
+    create<int>(T);
+    printLeave_oreder(T);
+    //定义path
+    vector<int> path;
+    //定义result
+    vector<string> result;
+    //调用函数
+    binaryTreePaths(T, path, result);
+    for (string i :result){
+        cout << i << endl;
+    }
+}
+
+
 #endif // BITREETEST_H_INCLUDED

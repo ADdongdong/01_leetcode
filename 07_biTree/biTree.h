@@ -299,7 +299,7 @@ int mindepth(TreeNode<T>* node) {
     return depth;//这里返回的是空树的depth因为执行不到while训练里面的内容
 }
 
-//9.完全二叉树的节点个数
+//9.完全二叉树的节点个数【递归】
 template<class T>
 int getNumber(TreeNode<T>* cur) {
 //思路：可以采用后序遍历，先找到左子树节点，再找到又子树结点
@@ -343,4 +343,84 @@ int getNumberDiedai(TreeNode<T>* cur) {
     return result;//返回最终的结果
 }
 
+//10. 判定一个树是不是平衡二叉树【递归法】
+template<class T>
+int getHeight(TreeNode<T>* node) {
+//平衡二叉树的定义：一个二叉树每个节点的左右两个子树的高度差绝对值不超过1
+//二叉树节点的高度：指从该结点到(距离最远的)叶子节点的最长简单路径边的条数或者节点数
+//思路：这个题目就是要对每一个节点进行比较，比较其两个子树的高度，如果所有的节点都满足，则树满足
+    //1.明确函数返回值和参数
+    //函数返回值：如果为平衡二叉树，返回树的高度，如果不是，返回-1
+    //参数：TreeNode<T>*
+    //2.终止条件
+    if (node == NULL) return 0;
+
+    //递归遍历左子树
+    int leftheight = getHeight(node->left);
+    //递归遍历右子树
+    int rightheight = getHeight(node->right);
+
+    //左右子树进行比较
+    int result;
+    if (abs(leftheight- rightheight) > 1) {
+        return -1;
+    } else {
+        result =  1 + max(rightheight,leftheight);//如果树正常，则左右子树中最高的树的高度+1为整个树的高度
+    }
+    return result;
+}
+
+//11.二叉树的所有路径【递归法】
+template<class T>
+void binaryTreePaths(TreeNode<T>* cur, vector<T>& path, vector<string>& result) {
+//采用先序遍历的方式进行操作
+//1.返回值和参数
+//2.终止条件
+//3.每一层迭代的逻辑
+
+/*
+思路：
+先序遍历，每次遇到一个结点，就将这个结点放入path中
+每次遍历到一个叶子节点的时候，就会得到一个路径
+所以，每次得到一个路径就把这个路径加入result中，
+这时候，要将path中刚才加入reusult的那些结点都删除了，也就是回溯
+然后，找下一个path，直到遇到下一个叶子结点
+result保存了所有的路径
+*/
+
+    path.push_back(cur->val);//将遍历到这个节点的val加入到当前的path
+
+    //到叶子结点以后，就将当前path稍作修饰，加入result
+    if (cur->left == NULL && cur->right == NULL) {
+        string sPath;
+        //给每一个节点后面加上->
+        for (int i = 0; i < path.size() - 1; i++){
+            sPath += to_string(path[i]);
+            sPath += "->";
+        }
+        //将path中最后一个元素加入到sPath中
+        sPath += to_string(path[path.size() - 1]);
+        //将刚才处理好的sPath加入到result
+        result.push_back(sPath);
+        return;
+    }
+    //递归遍历左子树
+    if (cur->left) {
+        binaryTreePaths(cur->left, path, result);
+        //回溯
+        path.pop_back();
+        //当执行到回溯代码的时候，已经将第一个path加入到result中了
+        //此时，要将path中的叶子结点pop了，继续往下检查(遍历右子树)
+        //看叶子节点的父节点还有没有右孩子，如果有，则就是新的path
+        //如果没有，则会继续回溯继续删除path中的元素，直到找到有右孩子的
+        //或者一直删除完,一层一层迭代删除完
+    }
+
+    //递归遍历右子树
+    if (cur->right) {
+        binaryTreePaths(cur->right, path, result);
+        //回溯
+        path.pop_back();
+    }
+}
 #endif // BITREE_H_INCLUDED
