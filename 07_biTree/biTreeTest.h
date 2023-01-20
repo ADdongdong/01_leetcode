@@ -135,5 +135,14 @@ void binaryTreePathsTest() {
     }
 }
 
-
+//测试计算一个二叉树的所有左叶子结点的value之和
+void sumOFLeftLeavesTest() {
+    TreeNode<int>* T;
+    cout << "请按照先序创建二叉树" << endl;
+    create<int>(T);
+    printLeave_oreder(T);
+    //int result = sumOFLeftLeaves(T);
+    int result = sumOFLeftLeavesDiedai(T);
+    cout << result << endl;
+}
 #endif // BITREETEST_H_INCLUDED

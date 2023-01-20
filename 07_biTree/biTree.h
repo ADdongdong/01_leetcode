@@ -423,4 +423,66 @@ result保存了所有的路径
         path.pop_back();
     }
 }
+
+//12.1计算给定二叉树的所有左叶子结点之和【递归法】
+template<class T>
+int sumOFLeftLeaves(TreeNode<T>* node) {
+    //递归遍历来求二叉树的所有左叶子节点
+    //采用后序遍历，左右中
+    //先递归求左子树的左叶子节点个数，再递归遍历求有子树所有左叶子节点个数
+    //最后对两个值求和就是最终的结果了
+
+    //递归三部曲
+    //1.返回值和参数:返回值int返回的是所有左叶子结点的个数，参数是树指针
+    //2.终止条件:
+    //2.1 这是一个空树
+    if (node == NULL) return 0;
+    //2.2 这个树的左右节点都是空节点，即，只有一个根节点
+    if (node->left==NULL && node->right==NULL) return 0;
+
+    //递归遍历左子树
+    int leftValue = sumOFLeftLeaves(node->left);
+
+    //检查这个节点的左子树是不是左叶子，如果是左叶子就赋值给leftValue
+    //是一个左子树，有左孩子，没有右孩子，而且左孩子的左右节点都是空节点
+    if (node->left != NULL && node->left->left == NULL && node->left->right == NULL) {
+        leftValue = node->left->val;//此时，左子树上的叶子结点的数字就求出来了
+    }
+
+    //递归遍历右子树
+    int rightValue = sumOFLeftLeaves(node->right);
+
+    //计算左右子树所有叶子结点value之和
+    //递归遍历中间结点
+    int sum = leftValue + rightValue;
+    return sum;
+}
+
+//12.2计算给定二叉树的所有的做叶子结点之和【迭代发】
+template<class T>
+int sumOFLeftLeavesDiedai(TreeNode<T>* node) {
+    //使用迭代法很简单，这里使用栈，每次出栈一个结点，只要检查这个结点是不是左叶子结点就行了
+    stack<TreeNode<T>*> st;//定义一个栈
+    //如果树不为空，进栈
+    if (node != NULL) st.push(node);
+    //定义result来保存最后的结果
+    int result = 0;
+    //while循环,采用先序遍历的迭代算法
+    while (!st.empty()) {
+        //栈顶元素出栈（中）
+        TreeNode<T>* node = st.top();
+        st.pop();
+        //判断出栈的这个元素的左孩子是不是左叶子结点
+        //注意，不是判断这个元素是不是左叶子
+        if (node->left != NULL && node->left->left == NULL && node->left->right == NULL) {
+            //如果是左叶子，那么就加入到result中
+            result += node->left->val;
+        }
+        //这个结点的右孩子进队
+        if (node->right) st.push(node->right);
+        //左孩子进队
+        if (node->left) st.push(node->left);
+    }
+    return result;
+}
 #endif // BITREE_H_INCLUDED

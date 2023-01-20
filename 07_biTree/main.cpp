@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    binaryTreePathsTest();
+    sumOFLeftLeavesTest();
     return 0;
 }
