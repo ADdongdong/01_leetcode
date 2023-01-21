@@ -145,4 +145,14 @@ void sumOFLeftLeavesTest() {
     int result = sumOFLeftLeavesDiedai(T);
     cout << result << endl;
 }
+
+//测试寻找二叉树最左下角节点的val
+void findBottomLeftValueTest() {
+    TreeNode<int>* T;
+    cout << "请按照先序创建二叉树" << endl;
+    create<int>(T);
+    printLeave_oreder(T);
+    findBottomLeftValue(T, 0);
+    cout << my_result << endl;
+}
 #endif // BITREETEST_H_INCLUDED

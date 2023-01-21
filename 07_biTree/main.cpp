@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    sumOFLeftLeavesTest();
+    findBottomLeftValueTest();
     return 0;
 }

@@ -485,4 +485,39 @@ int sumOFLeftLeavesDiedai(TreeNode<T>* node) {
     }
     return result;
 }
+
+//13.找树左下角的值
+//定义两个全局变量
+int maxDepth = INT_MIN;//maxDepth变量用来保存遍历到现在深度最大叶子节点的深度
+int my_result;//result用来保存最后的结果
+template<class T>
+void findBottomLeftValue(TreeNode<T>* node, int depth) {
+    //递归三部曲
+    //1.返回值和参数
+    //返回值肯定是int,参数depth用来保存当前最大深度叶子结点的深度
+    //2.终止的条件
+    //如果是叶子结点就查看其节点的深度，如果是最深，则更新result的值
+    if (node->left == NULL && node->right == NULL) {
+        //如果当前深度大于maxDepth则更新my_result
+        if (depth > maxDepth) {
+            maxDepth = depth;
+            my_result = node->val;
+        }
+        return;
+    }
+    //3.单层递归的逻辑
+    //递归遍历左子树
+    if (node->left) {
+        depth++;//每向下遍历一个结点，则当前节点的深度++
+        findBottomLeftValue(node->left, depth);
+        depth--;//回溯，遍历完当前节点(当前子树)以后，回退到上一层，深度-1
+    }
+
+    if (node->right) {
+        depth++;
+        findBottomLeftValue(node->right, depth);
+        depth--;
+    }
+    return;
+}
 #endif // BITREE_H_INCLUDED
