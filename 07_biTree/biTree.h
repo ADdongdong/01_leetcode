@@ -27,7 +27,7 @@ public:
 	TreeNode* left;
 	TreeNode* right;
 	TreeNode():val('0'), left(NULL), right(NULL){}
-
+	TreeNode(T value):val(value), left(NULL), right(NULL){}
 };
 
 //前序递归创建二叉树
@@ -486,7 +486,7 @@ int sumOFLeftLeavesDiedai(TreeNode<T>* node) {
     return result;
 }
 
-//13.找树左下角的值
+//13.1找树左下角的值
 //定义两个全局变量
 int maxDepth = INT_MIN;//maxDepth变量用来保存遍历到现在深度最大叶子节点的深度
 int my_result;//result用来保存最后的结果
@@ -520,4 +520,116 @@ void findBottomLeftValue(TreeNode<T>* node, int depth) {
     }
     return;
 }
+
+//13.2找树左下角节点的值【迭代】
+template<class T>
+int findBottomLeftValueDiedai(TreeNode<T>* root){
+//使用层序，只要返回最后一层的第一个节点的value
+    queue<TreeNode<T>*> que;
+    if (root != NULL) que.push(root);
+    int result;//定义result保存最后得结果
+    while(!que.empth()){
+        int size = que.size();//保存当前层节点的个数
+        for (int i = 0; i < size; i++) {
+            //获取队头
+            TreeNode<T>* node = que.front();
+            que.pop();
+            //获取每一层第一个结点的值
+            //每遍历新的一层都会更新result的值，最后返回的result就是最后一层最左边的result
+            if (i==0) result = node->val;
+            if (node->left) que.push(node->left);
+            if (node->right) que.puh(node->right);
+        }
+    }
+    return result;
+}
+
+//14 判断这个二叉树中是否存在一条路径，这个路径上结点value之和等于给定的target
+template<class T>
+bool hasPathSum(TreeNode<T>* root, int _count) {
+    //1.返回值和参数
+    //2.递归终止的条件
+    //当遍历到了叶子结点，则对其进行判断，判断是否以这个结点为结尾的路径是目标路径
+    //给定的_count就是目标target,每遍历一个结点，就减去对应结点的value值
+    //如果遍历到某个叶子结点_count被减到了0，则说明存在Path返回true，否则返回false
+    if ( root->left == NULL && root->right == NULL && _count == 0) return true;
+    if ( root->left == NULL && root->right == NULL && _count != 0) return false;
+
+    //递归遍历左子树
+    if (root->left) {
+        _count -= root->left->val;
+        if (hasPathSum(root->left, _count)) return true;
+        _count += root->left->val;//如果没有return true，就要回溯，继续寻找满足条件的path
+    }
+
+    //递归遍历右子树
+    if (root->right) {
+        _count -= root->right->val;
+        if (hasPathSum(root->right, _count)) return true;
+        _count += root->right->val;//回溯
+    }
+
+    return false;//如果没有返回true, 则返回false
+//经过本题目，对回溯的理解
+/*
+什么时候回溯？
+如果一个倒数第二层的结点有两个叶子节点，其中一个叶子节点所在的路径是target，另个一不是
+那么，如果先检查到不是target的那个节点，然后要去检查第二个结点，那第二个结点使用从root再重新寻找吗？
+当然不是，只要取到这个叶子结点的父节点，然后从父节点再往下找就行了。
+从叶子到父节点这个过程就是回溯，递归遍历是自带回溯的(这个回溯的过程需要自己手推递归遍历)。
+但是，我们要让参数_count也保持回溯，那就要
+把代码写出来。就是下面两行
+_count -= root->right->val;
+_count += root->right->val;
+*/
+}
+
+//15 根据一棵树的中序遍和后序遍历历构造二叉树
+template<class T>
+TreeNode<T>* buildTree(vector<T>& inorder, vector<T>& postorder) {
+    //第一步:判断这是不是一个空树
+    if (postorder.size() == 0) return NULL;
+
+    //第二步：后序遍历数组最后一个元素，就是当前树的根节点,并创建相应根节点
+    int rootValue = postorder[postorder.size() - 1];
+    TreeNode<T>* root = new TreeNode<T>(rootValue);
+
+    //如果先序遍历序列中只有一个元素，那么这个结点就是整个二叉树
+    if (postorder.size() == 1) return root;
+
+    //第三步：找到中序遍历的切割点
+    int delimiterIndex;
+    for (delimiterIndex = 0; delimiterIndex < inorder.size(); delimiterIndex++) {
+        if (inorder[delimiterIndex] == rootValue) break;//此时，delimiterIndex的值就是切割点下标
+    }
+
+    //第四步：切割中序数组，得到 中序左数组和中序右数组
+    //左闭右开区间 [0, delimiterIndex) 略过了切割元素
+    vector<T> leftInorder(inorder.begin(), inorder.begin() + delimiterIndex);//这样是根据传入参数，左闭右开来构造vectorde
+    //左闭右开区间 [delimiterIndex + 1, end)
+    vector<T> rightInorder(inorder.begin() + delimiterIndex + 1, inorder.end());//end()终止迭代器，是最后一个元素下标的后一个位置
+    //所以，如果构造函数第二个参数是end(),那么是可以取到inorder的，不用担心左闭右开把最后一个元素忽略的情况
+
+
+
+    //postorder(后序数组)要舍弃末尾元素，因为，后序遍历的最后一个结点就是跟结点
+    //在刚才的处理中已经放到二叉树中了，下一次迭代就不能使用了，所以要size-1
+    postorder.resize(postorder.size() - 1);
+
+    //第五步：切割后序数组，得到 后序左数组和后序右数组
+    //依然使用左闭右开，这里使用左中序数组大小作为切割点
+    //[0, leftInorder.size),前面leftInorder.size个元素都是中序遍历左子树的元素
+    vector<int> leftPostorder(postorder.begin(), postorder.begin() + leftInorder.size());
+    //[leftInorder.size, end)
+    vector<int> rightPostorder(postorder.begin() + leftInorder.size(), postorder.end());
+
+    //第六步：递归建立左子树和右子树
+    root->left = buildTree(leftInorder, rightInorder);
+    root->right = buildTree(leftPostorder, rightPostorder);
+
+    return root;
+}
+
+//16 最大二叉树
+
 #endif // BITREE_H_INCLUDED

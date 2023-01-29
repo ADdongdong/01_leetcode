@@ -155,4 +155,23 @@ void findBottomLeftValueTest() {
     findBottomLeftValue(T, 0);
     cout << my_result << endl;
 }
+
+//测试判断这个树中是否存在一个path，使得path上所有结点的val之和是target
+void hasPathSumTest() {
+    TreeNode<int>* T;
+    cout << "请按照先序创建二叉树" << endl;
+    create<int>(T);
+    printLeave_oreder(T);
+    //测试10
+    bool result = hasPathSum(T, 10-T->val);
+    cout << result << endl;
+}
+
+//测试通过中序和后序来构造一个二叉树
+void buildTreeTest() {
+    vector<int> inorder = {9, 3, 15, 20, 7};
+    vector<int> postorder = {9, 15, 7, 20, 3};
+    TreeNode<int>* root = buildTree(inorder, postorder);
+    printLeave_oreder(root);
+}
 #endif // BITREETEST_H_INCLUDED
