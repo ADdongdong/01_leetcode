@@ -630,6 +630,88 @@ TreeNode<T>* buildTree(vector<T>& inorder, vector<T>& postorder) {
     return root;
 }
 
-//16 最大二叉树
+//16 最大二叉树【给定一个列表，去根据这个列表构造最大二叉树】
+template<class T>
+TreeNode<T>* constructMaximumBinaryTree(vector<T>& nums){
+    //1.确定函数返回值和参数
+    //2.确定递归终止的条件
+    //当检测到nums只有一个元素的时候，说明要么到了叶子结点，要么是根节点
+    //此时需要构建一个新的结点，将max值放到新的结点中
+    TreeNode<T>* node = new TreeNode<T>(0);
+    if (nums.size() == 1) {
+        node->val = nums[0];
+        return node;//返回这个叶子结点的指针
+    }
+
+    //3.单层遍历的逻辑
+    //3.1 找到当前数组中最大元素对应的下标，用最大的值来构造根节点，并用最大的值来切分数组
+    int maxValue = 0;
+    int maxValueIndex = 0;
+    for (int i = 0; i < nums.size(); i++) {
+        if (nums[i] > maxValue) {
+            maxValue = nums[i];
+            maxValueIndex = i;
+        }
+    }
+    //将刚才找到了max值放在新创建的node中
+    node->val = maxValue;
+    //3.2 最大值所在的下标左区间，构造左子树
+    //要保证构造子树的那个数组区间中至少有一个元素
+    if (maxValueIndex > 0) {
+        //当刚才记录到的maxValueIndex>0的时候，说明最大值左边区间至少有一个元素
+        vector<T> newVec(nums.begin(), nums.begin() + maxValueIndex);//切割出来的这个区间是不包括maxValue的
+        node->left = constructMaximumBinaryTree(newVec);//用左边区间递归创建左子树
+    }
+
+    //3.3 最大值所在的下标右区间，构造右子树
+    if ((nums.size() - maxValueIndex) > 1) {
+        vector<T> newVec(nums.begin() + maxValueIndex + 1, nums.end());
+        node->right = constructMaximumBinaryTree(newVec);
+    }
+    return node;
+}
+
+//17 合并二叉树
+template<class T>
+TreeNode<T>* mergeTrees(TreeNode<T>* t1, TreeNode<T>* t2) {
+    //1 确定函数的返回值和参数
+    //2 确定终止的条件
+    //在对叶子结点的处理上，可以把合并树理解为取并集，哪个有，就取哪个结点
+    if (t1 == NULL) return t2;
+    if (t2 == NULL) return t1;
+    //3 单层递归逻辑
+    //3.1 如果遍历到这个位置两个结点都不是NULL，那么就要将这两个结点的value相加
+    //    (我们这里将t1作为一会要返回的树)
+    t1->val += t2->val;
+    //3.2 递归处理t1,t2的下一个结点
+    t1->left = mergeTrees(t1->left, t2->left);
+    t1->right = mergeTrees(t1->right, t2->right);
+
+    return t1;//最后返回t1
+}
+
+//18 在二叉搜索树(BST)中搜索给定value的结点
+template<class T>
+TreeNode<T>* searchBST(TreeNode<T>* root, int val) {
+    //1. 确定函数的返回值和参数
+    //返回值：因为要判断指定value的结点是否在BST中，如果在，返回的是指定val的结点
+    //参数：当然必定有一个参数要给定val，另一个给定在那个BST中查找
+
+    //2. 递归终止的条件
+    //当访问到空或者val的时候终止当前递归
+    if (root == NULL || root->val == val ) return root;
+
+    //3. 单层遍历的逻辑
+    //注意，这里是在BST中搜索，所以，就可以用类似二分查找的逻辑去寻找指定的val
+    TreeNode<T>* result = NULL;//首先给最终的结果赋值为NULL,因为如果最后递归完了还没找到，就只能返回NULL了
+    //如果找到了，自然会返回响应的root
+    if (root->val > val) result = searchBST(root->left, val);
+    if (root->val < val) result = searchBST(root->right, val);
+
+    return result;//返回最终的result
+}
+
+//19 验证二叉搜索树
+template<class T>
 
 #endif // BITREE_H_INCLUDED

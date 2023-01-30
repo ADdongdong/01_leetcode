@@ -174,4 +174,37 @@ void buildTreeTest() {
     TreeNode<int>* root = buildTree(inorder, postorder);
     printLeave_oreder(root);
 }
+
+//测试通过数组构造最大二叉树
+void constructMaximumBinaryTreeTest() {
+    vector<int> nums = {3, 2, 1, 6,0, 5};
+    TreeNode<int>* root = constructMaximumBinaryTree(nums);
+    printLeave_oreder(root);
+}
+
+//测试合并两个二叉树
+void mergeTreesTest() {
+    TreeNode<int> *t1, *t2, *result;
+    //请输入第一个二叉树
+    cout << "请输入第1个二叉树:"<<endl;
+    create(t1);
+    //请输入第二个二叉树
+    cout << "请输入第2个二叉树:"<<endl;
+    create(t2);
+
+    result = mergeTrees(t1, t2);
+    printLeave_oreder(result);
+}
+
+//测试在BST中搜索指定val的结点
+void searchBSTTest() {
+    TreeNode<int> *root, *result;
+    create(root);
+    printLeave_oreder(root);
+    int val;
+    cout << "请输入要查询的数字:" << endl;
+    cin >> val;
+    result = searchBST(root, val);
+    cout << "最后查询的结果是:" << '\n' << result->val << endl;
+}
 #endif // BITREETEST_H_INCLUDED
