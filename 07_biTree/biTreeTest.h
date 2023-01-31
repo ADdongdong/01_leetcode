@@ -207,4 +207,13 @@ void searchBSTTest() {
     result = searchBST(root, val);
     cout << "最后查询的结果是:" << '\n' << result->val << endl;
 }
+
+//测试验证二叉搜索树
+void isValidBSTTest() {
+    TreeNode<int> *root;
+    create(root);
+    printLeave_oreder(root);
+    bool result = isValidBST(root);
+    cout << "最后判断的结果是：" << result << endl;
+}
 #endif // BITREETEST_H_INCLUDED

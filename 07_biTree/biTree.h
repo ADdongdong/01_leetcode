@@ -712,6 +712,28 @@ TreeNode<T>* searchBST(TreeNode<T>* root, int val) {
 }
 
 //19 验证二叉搜索树
+long long maxVal = LONG_MIN;
 template<class T>
+bool isValidBST(TreeNode<T>* root) {
+    if (root == NULL) return true;
+
+    //递归处理左子树
+    bool left = isValidBST(root->left);
+    //中序遍历处理中间结点
+    //中间结点的处理就是承前启后，中间结点要和跟刚才左子树相比，如果比左大，说明左->中的顺序是合理的
+    //同时，要将此时中间结点的val赋值给maxVal，因为，这个值要和右结点做同样的比较
+    //如果，左大于中间，则说明这个二叉搜索树是错误的，返回false
+    if (maxVal < root->val) maxVal = root->val;//maxVal保存前一个访问过的结点，中序遍历，只要前一个访问节点一直小于后一个访问节点就可以了
+    else return false;
+
+    //递归遍历右子树
+    bool right = isValidBST(root->right);
+
+    //返回的最终结果是左右子树返回的bool值取交集，这样整个树只要有一个false就会返回false
+    return left && right;
+}
+
+//20 二叉搜索树的最小绝对值差
+
 
 #endif // BITREE_H_INCLUDED
