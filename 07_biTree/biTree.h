@@ -734,6 +734,83 @@ bool isValidBST(TreeNode<T>* root) {
 }
 
 //20 二叉搜索树的最小绝对值差
+int result = INT_MAX;
+TreeNode<int>* pre = NULL;
+template<class T>
+void getMinimumDifference(TreeNode<T>* cur) {
+    //思路：在二叉搜索树中找最小绝对值之差，首先，中序遍历二叉搜索树得到的是一个递增的序列
+    //所以，二叉搜索树的最小绝对值之差只会在相邻两个结点出现，不可能说是间隔两个结点的差值比相邻的还小
+    //1.返回值和参数
+    //2.递归终止的条件
+    if (cur == NULL) return;
 
+    //3.1递归遍历左子树
+    getMinimumDifference(cur->left);
+
+    //3.2递归处理中间结点
+    //计算中间结点和上一个结点val的差值，这个差值和result之间取最小的作为新的result
+    if (pre != NULL) {
+        result = min(result, cur->val - pre->val);
+    }
+    pre = cur;//pre指针按顺序往后移动一个结点
+
+    //3.3递归遍历右子树
+    getMinimumDifference(cur->right);
+}
+
+//21 二叉搜索树中的众数字
+int maxCount = 0;
+int Count = 0;
+TreeNode<int>* pre_21 = NULL;
+vector<int> result_21;
+template<class T>
+void findMode(TreeNode<T>* cur) {
+//思路:
+/*
+    二叉搜索树的中序遍历序列是由小到大的递增序列。
+    所以， 和上一个题目一样，仍然是一个cur指针，一个pre指针。
+    如果cur和pre所指向结点的val相同，那么当前val的Count就++，并且，当前Count和maxCount做比较。
+    如果当前Count等于maxCount就讲过当前的val加入到result中。
+    如果当前Count大于maxCount，那么就清空result,并更新maxCount，在将当前val加入到result中。
+    如果当前Count小于maxCount那就继续遍历，不做任何操作。
+    maxCount：记录的是当前出现最多的元素所出现的次数。
+    Count：记录的是当前cur所指向的val出现的次数。
+    result：记录的是出现次数等于maxCount的val。如果maxCount更新，result也要清除更新。
+*/
+    //1.返回值和参数
+    //2.递归终止的条件
+    if(cur == NULL) return ;
+
+    //3.1 递归遍历左子树
+    findMode(cur->left);
+
+    //3.2 递归遍历中间结点
+    if (pre_21 == NULL) {
+    //当pre为NULL的时候，说明cur正在遍历第一个结点
+        Count = 1;//此时cur所指的val出现了1次
+    } else if (pre_21->val == cur->val) {
+    //当cur与前一个结点相同的时候，就Count++
+        Count++;
+    } else {
+    //当个cur与前一个结点不同的时候,Count继续置为1
+    }
+
+    //当当前遍历结点的val出现次数到达当前的maxCount，那么就将当前cur指向的val加入result
+    if (Count == maxCount) {
+        result_21.push_back(cur->val);
+    }
+
+    //当当前遍历结点的val出现次数大于当前maxCount是，更新maxCount和result
+    if (Count > maxCount) {
+        maxCount = Count;
+        result_21.clear();
+        result_21.push_back(cur->val);
+    }
+    pre_21 = cur;//处理完中间结点要更新pre的值
+
+    //3.3 递归遍历右子树
+    findMode(cur->right);
+    return;
+}
 
 #endif // BITREE_H_INCLUDED

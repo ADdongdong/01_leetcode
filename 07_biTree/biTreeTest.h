@@ -216,4 +216,26 @@ void isValidBSTTest() {
     bool result = isValidBST(root);
     cout << "最后判断的结果是：" << result << endl;
 }
+
+//测试二叉搜索树的最小绝对值差
+void getMinimumDifference_Test() {
+    TreeNode<int> *root;
+    create(root);
+    printLeave_oreder(root);
+    getMinimumDifference(root);
+    cout << "最后的结果是：" <<result << endl;
+}
+
+//测试二叉搜索树中的众数字
+void findModeTest() {
+    TreeNode<int> *root;
+    create(root);
+    printLeave_oreder(root);
+    findMode(root);
+    cout << "请输出这个树中的众数:" << endl;
+    for (int i : result_21) {
+        cout << i << ' ';
+    }
+    cout << endl;
+}
 #endif // BITREETEST_H_INCLUDED

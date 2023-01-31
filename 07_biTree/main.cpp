@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    isValidBSTTest();
+    findModeTest();
     return 0;
 }
