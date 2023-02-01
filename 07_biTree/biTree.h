@@ -813,4 +813,56 @@ void findMode(TreeNode<T>* cur) {
     return;
 }
 
+//22 二叉树的最近公共祖先
+template<class T>
+TreeNode<T>* lowestCommonAncestor(TreeNode<T>* root, TreeNode<T>* p, TreeNode<T>* q) {
+//思路
+/*
+    题目给了两个二叉树结点的指针，要返回这两个指针的最近的公共祖先。
+    首先，这个题只能使用后序遍历，左右中。因为后序是先访问两个叶子，再访问中间结点。
+    那根据后序遍历的访问顺序怎么操作呢？
+    我们将后序每个结点后序左右子树遍历的结果保存在left和right中。
+    如果有p那left保存的就是p
+    (只要左子树出现p就，整个左子树返回的就是p，q同理，右子树同理，如果p,q都没有出现，就返回NULL)
+
+    这样，对每一个结点都可以得到这个结点左右子树返回来的值。
+    我们就根据这个结点左右子树返回来的值来判断这个结点是不是p，q的最近公共结点。
+    怎么判断呢？左右子树可能跟返回如下三个值：p, q, NULL
+    那么请问，一个结点的左右子树满足那种情况的时候，这个结点是p, q的最近公共祖先呢？
+    当然只有两种情况：left:q, right:p 和left:p, right:q这两种情况了。
+    所以，这时候只需要做判断，如果左右子树返回的都不是NULL那么，当前处理的这个结点就是p,q的最近公共祖先了。
+    结束。
+*/
+    //1.返回值和参数：返回值仍然是Treenode
+    //2.递归终止的条件
+    /*什么时候递归终止？
+     2.1 当前访问的结点是p或者q
+     2.2 当前访问到了空节点NULL(这个树是空树，或者叶子结点的孩子)
+    */
+    if (root == q || root == p || root == NULL) return root;//对叶子结点的处理
+    //3.单层递归处理逻辑
+    //3.1 后序遍历左子树
+    TreeNode<T>* left = lowestCommonAncestor(root->left, p, q);
+    //3.2 后序遍历右子树
+    TreeNode<T>* right = lowestCommonAncestor(root->right, p, q);
+    //3.3 后序遍历处理中间结点
+
+    //问题：这里为什么判断的是左右子树返回值不为NULL，为什么不判断左右子树返回值是p,q?
+    /*
+        因为，我们要向上传递的是四种值：NULL,p,q,最近公共祖先
+        如果，判断是左右子树返回的是否是p,q那么，如果左右子树有一个子树出现了【最近公共祖先】
+        那这个结果会因为不是p,q而传递不上去。
+        反之，我们之和NULL做比较，只要不是NULL的都往上传，那无论在哪里找到了【最近公共祖先】
+        都会被递归返回上去。
+    */
+    //得到了这个结点左右子树的值，就要判断这个结点是不是p,q的最近公共结点了
+    if (left != NULL && right != NULL) return root;//左右子树都不为空，说明左右子树返回的是p,q或者q,p具体顺序我们不关心
+
+    if (left != NULL && right == NULL) return left;//一个不为空，返回不为空的那个
+    else if (left == NULL && right != NULL) return right;//同理
+    else {
+        return NULL;//只剩下最后一种情况，左右两边都返回的是NULL
+    }
+
+}
 #endif // BITREE_H_INCLUDED
