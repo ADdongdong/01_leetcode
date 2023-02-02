@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    findModeTest();
+    deleteNodeTest();
     return 0;
 }

@@ -238,4 +238,24 @@ void findModeTest() {
     }
     cout << endl;
 }
+
+//测试二叉搜索树中插入结点
+void insertIntoBSTTest() {
+    TreeNode<int> *root;
+    create(root);
+    printLeave_oreder(root);
+    int val = 10;
+    insertIntoBST(root, val);
+    printLeave_oreder(root);
+}
+
+//测试删除二叉搜索树的结点
+void deleteNodeTest() {
+    TreeNode<int> *root;
+    create(root);
+    printLeave_oreder(root);
+    int val = 3;
+    deleteNode(root, val);
+    printLeave_oreder(root);
+}
 #endif // BITREETEST_H_INCLUDED

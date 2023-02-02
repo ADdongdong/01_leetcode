@@ -865,4 +865,104 @@ TreeNode<T>* lowestCommonAncestor(TreeNode<T>* root, TreeNode<T>* p, TreeNode<T>
     }
 
 }
+
+//23 二叉搜索树的最近公共祖先
+template<class T>
+TreeNode<T>* lowestCommonAncestorBST(TreeNode<T>* cur, TreeNode<T>* p, TreeNode<T>* q) {
+    //1.返回值和参数
+    //2.递归终止的条件
+    if (cur == NULL) return cur;
+    //3.单层递归遍历的逻辑
+    //这是二叉搜索树，是有序的,所以p和q的最近公共祖先只可能在p和q的中间
+    //如果当前遍历的结点在p,q的右边，那就要向左边遍历，说明目标在左边
+    if (cur->val > p->val && cur->val > q->val) {
+        TreeNode<T>* left = lowestCommonAncestorBST(cur->left, p, q);
+        if (left != NULL) {
+            return left;
+        }
+    }
+
+    //如果当前遍历的结点在p,q的左边，那就要向这个几结点的右边遍历，说明目标在右边
+    if (cur->val < p->val && cur->val < q->val) {
+        TreeNode<T>* right = lowestCommonAncestorBST(cur->right, p, q);
+        if (right != NULL) {
+            return right;
+        }
+    }
+
+    //如果，上面两个if都没有执行，说明当前cur在p和q的中间，就是我们要求的目标值
+    return cur;
+}
+
+//24 二叉搜索树中的插入操作
+template<class T>
+TreeNode<T>* insertIntoBST(TreeNode<T>* root, int val) {
+    //1.确定返回值和参数
+    //2.递归终止的条件
+    if (root == NULL) {
+        //如果遍历到了空结点，说明可以再这里插入新的结点了
+        TreeNode<T>* node = new TreeNode<T>(val);
+        return node;
+    }
+    //3.确定单层结点的逻辑
+    if (root->val > val) root->left = insertIntoBST(root->left, val);//下一层返回的node指针我们用叶子结点左指针来接住
+    if (root->val < val) root->right = insertIntoBST(root->right, val);
+    return root;
+}
+
+//25 删除二叉搜索树中的结点
+template<class T>
+TreeNode<T>* deleteNode(TreeNode<T>* root, int key) {
+    //2.递归终止的条件，没有找到要删除的目标结点，返回NULL
+    if (root == NULL) return root;
+
+    //3.单层处理的逻辑，这里采用先序遍历处理
+    if (root->val == key) {
+        //3.1 找到要删除的结点了，这个结点没有左右孩子,直接删除这个结点
+        if (root->left == NULL && root->right == NULL) {
+            //要释放这个结点的内存
+            delete root;
+            return NULL;
+            //为什么要返回NULL,是为了让删除节点的父节点接住，也就是说，将父节点的孩子置为NULL了
+            //这个return NULL在回溯的过程中才会体现出来。
+        }
+        //3.2 左孩子为空，右孩子不为空，删除结点，右孩子补位置，返回右孩子，作为删除结点父节点的孩子
+        else if (root->left == NULL) {
+            TreeNode<T>* retNode = root->right;//保存右孩子
+            delete root;//删除遍历结点
+            return retNode;//返回刚才保存的右子树的父节点
+        }
+        //3.3 左孩子不为空，右孩子为空，删除结点，左孩子补充位置，返回左孩子作为删除节点父节点的孩子
+        else if (root->right == NULL) {
+            TreeNode<T>* retNode = root->left;
+            delete root;
+            return retNode;
+        }
+        //3.4 左右孩子都不为空，将删除结点的左子树放在删除结点右子树的最左边结点的左子树上
+        //    返回删除结点右子树的根节点
+        else {
+            TreeNode<T>* retNode = root->left;
+            //寻找右子树的最左结点
+            TreeNode<T>* cur = root->right;
+            while (cur->left != NULL) {
+                cur = cur->left;//一直寻找右子树的左子树，知道找到空节点，也就是最左结点的左子树，此时为空
+            }
+            //将待删除结点的左子树放在刚才找到cur的左子树位置上
+            cur->left = retNode;
+            //保存待删除的root
+            TreeNode<T>* tmp = root;
+            root = root->right;//待删除结点右待删除结点的右子树所代替
+            delete tmp;//删除待删除结点【注意，这里千万不能删除root，因为此时root已经是待删除结点的右子树了】
+            return root;//返回新的root
+        }
+    }
+
+    //如果当前遍历的结点大于要删除的目标值，要往当前结点的左边找，找比当前结点小的值
+    if (root->val > key) root->left = deleteNode(root->left, key);
+    //如果当前遍历的结点小于要删除的目标值，要往当前结点的右边找，找比当前结点大的值
+    if (root->val < key) root->right = deleteNode(root->right, key);
+
+    return root;//返回root
+}
+
 #endif // BITREE_H_INCLUDED
