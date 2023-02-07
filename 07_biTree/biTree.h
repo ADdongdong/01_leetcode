@@ -965,4 +965,39 @@ TreeNode<T>* deleteNode(TreeNode<T>* root, int key) {
     return root;//返回root
 }
 
+//25 修剪二叉搜索树
+template<class T>
+TreeNode<T>* trimBST(TreeNode<T>* root, int low, int height){
+    //1.返回值和参数
+    //2.递归终止的条件
+    if (root == NULL) return NULL;
+
+    //3.单层递归的逻辑(为什么这里说是单层，因为，递归函数，就像一个宝塔，每一个结点带入都是新的一层)
+    //3.1 如果当前结点的val小low
+    if (root->val < low) {
+        //如果当前结点小于low,说明，应该往这个结点的右边去找，去这个结点的右子树上找一个合适的结点
+        //用右子树上再low到height之间的合适子树来代替root
+        TreeNode<T>* right = trimBST(root->right, low, height);
+        return right;//将这层寻找的结果返回给上一层
+    }
+
+    //3.1 如果当前结点的val大于height
+    if (root->val > height) {
+        //如果当前结点的val大于height，说明应该往这个结点的左边去寻找
+        //找左子树上小于val的在low到height之间的子树来代替当前结点
+        TreeNode<T>* left = trimBST(root->left, low, height);
+        return left;//将这个结点左子树找到的结果返回给上一层
+    }
+
+    //如果当前结点是在low和height之间的结点，那就修剪这个结点的左右子树
+    root->left = trimBST(root->left, low, height);
+    root->right = trimBST(root->right, low, height);
+    return root;//返回这个结点(子树/树)
+}
+
+//26 将有序数组转化为二叉树
+template<class T>
+TreeNode<T>* sortedArrayToBST(vector<T>& nums) {
+
+}
 #endif // BITREE_H_INCLUDED

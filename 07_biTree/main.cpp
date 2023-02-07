@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    deleteNodeTest();
+    trimBSTTest();
     return 0;
 }

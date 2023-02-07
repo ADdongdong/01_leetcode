@@ -258,4 +258,14 @@ void deleteNodeTest() {
     deleteNode(root, val);
     printLeave_oreder(root);
 }
+
+//测试修剪二叉搜索树
+void trimBSTTest() {
+    TreeNode<int>* root;
+    create(root);
+    printLeave_oreder(root);
+    int low = 1, height = 3;
+    trimBST(root, low, height);
+    printLeave_oreder(root);
+}
 #endif // BITREETEST_H_INCLUDED
