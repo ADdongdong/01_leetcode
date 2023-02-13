@@ -268,4 +268,22 @@ void trimBSTTest() {
     trimBST(root, low, height);
     printLeave_oreder(root);
 }
+
+//测试将有序数组转化为二叉树
+void sortedArrayToBSTTest() {
+    vector<int> nums = {-10, -3, 0, 5, 9};
+    //生成树
+    TreeNode<int>* root = sortedArrayToBST(nums, 0, 4);
+    printLeave_oreder(root);
+}
+
+//测试把二叉搜索树转换为累加二叉树
+void convertBSTTest() {
+    TreeNode<int>* root;
+    create(root);
+    printLeave_oreder(root);
+    //转换
+    convertBST(root);
+    printLeave_oreder(root);//输出转换后的二叉树
+}
 #endif // BITREETEST_H_INCLUDED

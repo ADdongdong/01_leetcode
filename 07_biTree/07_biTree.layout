@@ -4,12 +4,12 @@
 	<ActiveTarget name="Debug" />
 	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="105" topLine="0" />
+			<Cursor1 position="114" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="biTree.h" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="41949" topLine="221" />
+			<Cursor1 position="44859" topLine="182" />
 		</Cursor>
 		<Folding>
 			<Collapse line="34" />
@@ -40,11 +40,14 @@
 			<Collapse line="766" />
 			<Collapse line="817" />
 			<Collapse line="870" />
+			<Collapse line="898" />
+			<Collapse line="914" />
+			<Collapse line="969" />
 		</Folding>
 	</File>
 	<File name="biTreeTest.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="7406" topLine="89" />
+			<Cursor1 position="7633" topLine="98" />
 		</Cursor>
 		<Folding>
 			<Collapse line="10" />

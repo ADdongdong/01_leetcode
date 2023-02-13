@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    trimBSTTest();
+    convertBSTTest();
     return 0;
 }

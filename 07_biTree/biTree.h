@@ -997,7 +997,48 @@ TreeNode<T>* trimBST(TreeNode<T>* root, int low, int height){
 
 //26 将有序数组转化为二叉树
 template<class T>
-TreeNode<T>* sortedArrayToBST(vector<T>& nums) {
+TreeNode<T>* sortedArrayToBST(vector<T>& nums, int left, int right) {
+    //1.返回值和参数
+    //返回值是TreeNode<T>*类型，返回的其实是子树根的指针
+    //参数：第一参数是当前递归生成子树的数组引用，第二三个参数是这个数组分段的做下标和右下标
+    /*理解：我们要将nums这个参数转化成而二叉搜索树，肯定是先选取中间结点，
+            然后，将以这个中间结点划分出来的左右区间，再次作为数组，进行递归生成子树。
+            这里，我们每次递归传入的起始都是原来那个数组的引用，我们也没有对原来的数组进行修改。
+            但是，每次递归到下一层还要对数组进行划分成子数组，这里用的方法就是传入子数组在nums中的下标范围。
+    */
+    //2.递归终止的条件
+    //当这个子数组做下标大于由下标，说明这个子数组是空数组，返回NULL
+    if (left > right) return NULL;
 
+    //3.单层遍历的逻辑
+    //3.1 找到当前数组的中间结点下标
+    int mid = left + ((right-left)/2);//这样是防止int溢出
+    //3.2 生成新的结点，并将中间结点赋值给这个新的结点
+    TreeNode<T>* root = new TreeNode<T>(nums[mid]);
+    //3.3 递归生成root的左子树
+    root->left = sortedArrayToBST(nums, left, mid-1);
+    //3.4 递归生成root的右子树
+    root->right = sortedArrayToBST(nums, mid+1, right);
+
+    return root;//返回这个树
 }
+
+//27 把二叉搜索树转化成累加树
+int pre_27 = 0;//用pre来记录上一个结点计算出来的结果
+void convertBST(TreeNode<int>* cur){
+    //这个函数只是对树中每个节点的值做修改，所以，没有返回值
+    //按照从大到小的顺序遍历，顺序为右->根->左
+    //将右+根赋值给根
+    if (cur == NULL) return;//没有返回值
+
+    //递归遍历右子树
+    convertBST(cur->right);
+    //递归处理中间结点
+
+    cur->val = cur->val + pre_27;//pre记录的是上一个遍历修改过的结点
+    pre_27 = cur->val;
+    //递归遍历左子树
+    convertBST(cur->left);
+}
+
 #endif // BITREE_H_INCLUDED
