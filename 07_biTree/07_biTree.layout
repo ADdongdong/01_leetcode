@@ -2,14 +2,34 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="biTreeTest.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="114" topLine="0" />
+			<Cursor1 position="7715" topLine="98" />
 		</Cursor>
+		<Folding>
+			<Collapse line="10" />
+			<Collapse line="23" />
+			<Collapse line="54" />
+			<Collapse line="65" />
+			<Collapse line="76" />
+			<Collapse line="88" />
+			<Collapse line="99" />
+			<Collapse line="110" />
+			<Collapse line="121" />
+			<Collapse line="138" />
+			<Collapse line="149" />
+			<Collapse line="159" />
+			<Collapse line="170" />
+			<Collapse line="178" />
+			<Collapse line="185" />
+			<Collapse line="199" />
+			<Collapse line="211" />
+			<Collapse line="220" />
+		</Folding>
 	</File>
 	<File name="biTree.h" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="44859" topLine="182" />
+			<Cursor1 position="44402" topLine="0" />
 		</Cursor>
 		<Folding>
 			<Collapse line="34" />
@@ -45,29 +65,9 @@
 			<Collapse line="969" />
 		</Folding>
 	</File>
-	<File name="biTreeTest.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="7633" topLine="98" />
+			<Cursor1 position="108" topLine="0" />
 		</Cursor>
-		<Folding>
-			<Collapse line="10" />
-			<Collapse line="23" />
-			<Collapse line="54" />
-			<Collapse line="65" />
-			<Collapse line="76" />
-			<Collapse line="88" />
-			<Collapse line="99" />
-			<Collapse line="110" />
-			<Collapse line="121" />
-			<Collapse line="138" />
-			<Collapse line="149" />
-			<Collapse line="159" />
-			<Collapse line="170" />
-			<Collapse line="178" />
-			<Collapse line="185" />
-			<Collapse line="199" />
-			<Collapse line="211" />
-			<Collapse line="220" />
-		</Folding>
 	</File>
 </CodeBlocks_layout_file>
