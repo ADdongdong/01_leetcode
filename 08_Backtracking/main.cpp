@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    backtrackCombinationTest();
+    combinationSum3Test();
     return 0;
 }

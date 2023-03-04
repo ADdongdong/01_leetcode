@@ -31,6 +31,12 @@ void backtrackCombinationTest() {
     print2Vector(result_01);
 }
 
+//2 组合综合(三)
+void combinationSum3Test() {
+    combinationSum3(5, 2, 0, 1);
+    print2Vector(result_02);
+}
+
 
 
 #endif // BACKTRACKINGTEST_H_INCLUDED
