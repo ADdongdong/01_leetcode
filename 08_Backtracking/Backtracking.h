@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <algorithm>
 
 using namespace std;
 
@@ -11,6 +12,9 @@ using namespace std;
 vector<vector<int>> result_01;
 //定义path_01,这个数组中只维护k个元素，如果path_01中元素个数满足k个，就将当前path_01加入到result_01中
 vector<int> path_01;
+//为什么回溯里面的path也定义成全局变量？
+//因为，是一直在对这个path做修改，然后把每次修改后满足条件的path的副本存入到result中。
+//这个修改的过程，就是回溯的过程。每次回溯，都会弹出一个末尾元素，然后添加新的元素。
 void backtrackCombination(int n, int k, int starIndex) {
     //1.1 返回值：无返回值，
     //1.2 参数，当前是找[1, n]中元素的组合，所以，要给出这个范围
@@ -149,8 +153,49 @@ void letterCombinations(const string& digits, int index) {
 
 }
 
-
-
+//4 组合总和
+/*题目描述：
+ *给定一个数组candidates和一个目标数字target
+ *注意：candidates中的数在[2,40]之内,且均为正整数
+ *要求：从candidates中挑选数字，让这些数字之和为target
+ *对于candidates中的数字可以重复使用
+ *比如：
+ *输入: candidates = [2,3,5], target = 8
+ *输出: [[2,2,2,2],[2,3,3],[3,5]]
+ */
+vector<vector<int>> result_04;//定义二维int数组，用来保存最终的结果
+vector<int> path_03;//定义path_04用来保存每一个路径上的结果
+void combinationSum(int sum, int target, vector<int> candidates, int startIndex) {
+//step1：确定回溯算法的参数
+//sum:记录当前path_03中所有元素的和
+//target:这是path_03中元素的目标和
+//startIndex:for循环开始的下标，为了防止组合重复
+//这个题目对path中元素个数是没有要求了
+//step2：回溯算法终止的条件
+    //2.1 剪枝，当当前path_03中元素之和已经大于target时候，就停止
+    //if (sum > target) return;
+    //2.2 如果当前path_03中的数字之和为target,就把当前path加入到result_04中
+    if (sum == target) {
+        result_04.push_back(path_03);
+        return;//这里返回上一层，因为，如果再加长path_04的元素个数，就会大于target了
+    }
+//step3：回溯算法的单层逻辑
+    //注意：这里是i < candidates.size()不能写成<=，写成<=就越界了会出现candidates[candidates.size()]这种情况出现
+    for(int i = startIndex; i < candidates.size() && sum + candidates[i] <= target; i++) {
+    //每次都要对candidates从头开始遍历，因为，path_04中的元素可以重复出现
+    //剪枝2.2：在剪枝1.1中判断了，如果sum大于target就继续进行了，这时候，其实已经多算了一次了
+    //因为，如果没多算，不可能得到一个大于target的sum的，所以，我们这里就要优化，不然递归进入到
+    //sum计算出来大于target的那一层。具体操作就是加上sum + candidates[i] <= target
+    //这样，可以保证，for循环体里面，进入下一层递归的sum都是<=target的，如果大于target,就不会进入。
+        sum += candidates[i];
+        path_03.push_back(candidates[i]);
+        combinationSum(sum, target, candidates, i);
+        //这里是从i开始不是从i+1开始，因为元素可以重复出现
+        //回溯
+        sum -= candidates[i];
+        path_03.pop_back();
+    }
+}
 
 
 

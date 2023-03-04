@@ -1,14 +1,15 @@
 # depslib dependency file v1.0
-1677924136 source:d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\08_backtracking\main.cpp
+1677938378 source:d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\08_backtracking\main.cpp
 	<iostream>
 	"BacktrackingTest.h"
 
-1677924174 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\08_backtracking\backtrackingtest.h
+1677938660 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\08_backtracking\backtrackingtest.h
 	<iostream>
 	"Backtracking.h"
 
-1677923948 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\08_backtracking\backtracking.h
+1677939118 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\08_backtracking\backtracking.h
 	<iostream>
 	<vector>
 	<string>
+	<algorithm>
 

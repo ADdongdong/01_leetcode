@@ -58,5 +58,12 @@ void letterCombinationsTest() {
 
 }
 
+//4 测试数组总和
+void combinationSumTest() {
+    vector<int> candidates = {2, 3, 6, 7};
+    combinationSum(0, 7, candidates, 0);
+    print2Vector(result_04);
+}
+
 
 #endif // BACKTRACKINGTEST_H_INCLUDED
