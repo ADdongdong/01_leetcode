@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    combinationSum3Test();
+    letterCombinationsTest();
     return 0;
 }

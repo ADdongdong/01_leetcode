@@ -2,6 +2,7 @@
 #define BACKTRACKING_H_INCLUDED
 #include <iostream>
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -96,4 +97,61 @@ void combinationSum3(int targetSum, int k, int sum, int startIndex) {
         path_02.pop_back();//回溯到上一层
      }
 }
+
+
+//3 电话号码的字母组合
+/*题目描述：
+ *手机的九宫格按键,2-9这几个数字上是有字母的
+ *问，这几个数字，任意输出几个数字，有多少种组合方式
+ * 比如：输入2,3
+ * 可以有：ad, ae, af, bd, be, bf, cd, ce, cf
+ *同样，如果输入更多的数组，那么组合的形式会更多
+ */
+
+//将2-9这8个数字对应的字符串映射到一个二维数组上
+const string letterMap[10] = {
+    "",//0代表空字符串
+    "",//1代表空字符串
+    "abc",//2
+    "def",//3
+    "ghi",//4
+    "jkl",//5
+    "mno",//6
+    "pqrs",//7
+    "tuv",//8
+    "wxyz",//9
+};
+
+vector<string> result_03;//定义string类型的vector,result_03中的每一个元素都是string类型的
+string s;//定义s，相当于前两个题的path，用来保存每一个小的组合，这些组合将会被添加到result_03上
+void letterCombinations(const string& digits, int index) {
+//step1:确定回溯算法的参数
+//digits参数：按了那几个键，比如：23,2333,34...
+//index参数：index记录遍历到了digits的那一个数字了
+
+    //step2:确定终止条件
+    //根节点为第0层，如果输入了两个数字：23，那么遍历到第二层的时候，就可以返回了
+    if (index == digits.size()) {
+        result_03.push_back(s);//如果检测到当前已经遍历到了第二个数字，就将s加入到result中
+        return;
+    }
+
+    //step3：确定单层遍历的逻辑
+    //3.1 找到index所指向的数字
+    int digit = digits[index] - '0';//取出对应的字符，这个字符和0之间的差值，可以再letterMap中取字符串
+    //比如，index为0，取到了'2'这个字符，'2'-'0' = 2,最后的这个结果2是int类型的
+    string letter = letterMap[digit];//取letterMap中数字对应的字符串
+    for (int i = 0; i < letter.size(); i++) {
+        s.push_back(letter[i]);//取到2对应letterMap中字符串的第i个元素
+        letterCombinations(digits, index + 1);//该遍历输入的第二个数字了，要从第二个数字中取字母了
+        s.pop_back();//回溯到上一层
+    }
+
+}
+
+
+
+
+
+
 #endif // BACKTRACKING_H_INCLUDED

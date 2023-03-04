@@ -25,6 +25,19 @@ void print2Vector(vector<vector<int>> result) {
     cout << endl;
 }
 
+//打印二维字符串数组
+void print2VectorStr(vector<string> result) {
+    for (string i : result) {
+        cout << "[";
+        cout << i[0];
+        for (int j = 1; j < i.size(); j++) {
+            cout << ","<< i[j];
+        }
+        cout << "]" << ' ';
+    }
+    cout << endl;
+}
+
 //1 生成组合测试
 void backtrackCombinationTest() {
     backtrackCombination(4,2,1);
@@ -37,6 +50,13 @@ void combinationSum3Test() {
     print2Vector(result_02);
 }
 
+//3 电话号码字母的组合测试
+void letterCombinationsTest() {
+    string dig = "23";
+    letterCombinations(dig, 0);
+    print2VectorStr(result_03);
+
+}
 
 
 #endif // BACKTRACKINGTEST_H_INCLUDED
