@@ -1,6 +1,7 @@
 #ifndef BACKTRACKINGTEST_H_INCLUDED
 #define BACKTRACKINGTEST_H_INCLUDED
 #include <iostream>
+#include <algorithm>
 #include "Backtracking.h"
 
 using namespace std;
@@ -65,5 +66,14 @@ void combinationSumTest() {
     print2Vector(result_04);
 }
 
+//5 数组总和2
+void combinationSum2Test() {
+    vector<int> candidates = {10, 1, 2, 7, 6, 1, 5};
+    //定义used数组，类型为bool类型
+    vector<bool> used(candidates.size(), false);//初试化这个数组，大小为candidates.size()，里面所有元素都为false
+    sort(candidates.begin(), candidates.end());
+    combinationSum2(8, 0, 0, candidates, used);
+    print2Vector(result_05);
+}
 
 #endif // BACKTRACKINGTEST_H_INCLUDED

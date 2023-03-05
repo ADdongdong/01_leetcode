@@ -44,9 +44,9 @@ void backtrackCombination(int n, int k, int starIndex) {
 }
 
 
-//2 组合综合（三）
-//题目描述：
-/*找到k个数字，这k个数字的和是n
+/*2 组合综合（三）
+ *题目描述：
+ *找到k个数字，这k个数字的和是n
  *要求：
  *  这k个数字只能从1-9这9个正数中间选择
  *  组合不能重复出现比如有了[1,3]就不能再出现[3,1]
@@ -103,15 +103,14 @@ void combinationSum3(int targetSum, int k, int sum, int startIndex) {
 }
 
 
-//3 电话号码的字母组合
-/*题目描述：
+/*3 电话号码的字母组合
+ *题目描述：
  *手机的九宫格按键,2-9这几个数字上是有字母的
  *问，这几个数字，任意输出几个数字，有多少种组合方式
  * 比如：输入2,3
  * 可以有：ad, ae, af, bd, be, bf, cd, ce, cf
  *同样，如果输入更多的数组，那么组合的形式会更多
  */
-
 //将2-9这8个数字对应的字符串映射到一个二维数组上
 const string letterMap[10] = {
     "",//0代表空字符串
@@ -153,10 +152,10 @@ void letterCombinations(const string& digits, int index) {
 
 }
 
-//4 组合总和
-/*题目描述：
+/*4 组合总和
+ *题目描述：
  *给定一个数组candidates和一个目标数字target
- *注意：candidates中的数在[2,40]之内,且均为正整数
+ *注意：candidates中的数在[2,40]之内,且均为正整数，且candidates中的元素不重复
  *要求：从candidates中挑选数字，让这些数字之和为target
  *对于candidates中的数字可以重复使用
  *比如：
@@ -197,6 +196,46 @@ void combinationSum(int sum, int target, vector<int> candidates, int startIndex)
     }
 }
 
+/*5 数组总和（二）
+ *题目描述：
+ *给定一个candidates和一个target
+ *从candidates中挑出元素，使得挑出的元素之和为target
+ *注意：
+ *1.candidates中的元素可能重复，但是candadates中的元素不能重复使用
+ *2.candidates中的元素都在[1,50]之内，且都为正整数，且可能重复
+ */
+vector<vector<int>> result_05;//定义result_05保存最后的结果
+vector<int> path_05;//定义path_05用来保存路径上的元素
+void combinationSum2(int target, int sum, int starIndex, const vector<int>& candidates, vector<bool>& used) {
+    //step1：回溯算法的参数
+        //used：标记已经使用过的元素
+    //step2：回溯终止的条件
+    if (sum == target) {
+        result_05.push_back(path_05);
+        return;
+    }
+    //step3：单层回溯的逻辑
+    //starIndex控制下一层递归从哪里开始，后面的条件判断决定递归到哪里结束
+    for (int i = starIndex; i < candidates.size() && sum + candidates[i] <= target; i++){
+        /*去重：这个题目中，candidates中元素可以重复，path中的元素也可以重复，但是result中的元素不能重复
+         *比如：candidates:[1,1,2]
+         *可能出现[1,1], [1,2], [1,2]这几种情况，[1,2]重复了两次，而且这里的两个1是来自不同的1
+         *这时候就要进行去重。在使用candidates的时候，要先对其进行排序，如果candidates[i]==candidates[i-1]的时候
+         *说明，以candidates[i]开头的所有情况已经被candidates[i-1]开头所包含了，这时候continue就行了。
+         */
+        if (i > 0 && candidates[i] == candidates[i-1] && used[i-1] == false) {
+            continue;//注意，这里要加上used[i-1]== fasle是为了防止[1,1,2]这种类型的path被跳过
+        }
+        sum += candidates[i];
+        path_05.push_back(candidates[i]);
+        used[i] = true;
+        combinationSum2(target, sum, i+1, candidates, used);
+        //回溯
+        used[i] = false;
+        sum -= candidates[i];
+        path_05.pop_back();
+    }
+}
 
 
 #endif // BACKTRACKING_H_INCLUDED
