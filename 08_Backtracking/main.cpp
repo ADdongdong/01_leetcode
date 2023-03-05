@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    combinationSum2Test();
+    PartitionTest();
     return 0;
 }

@@ -76,4 +76,12 @@ void combinationSum2Test() {
     print2Vector(result_05);
 }
 
+//6 分割回文串测试
+void PartitionTest() {
+    string s = "aab";
+    Partition(s, 0);
+    for (auto i : result_06){
+        print2VectorStr(i);
+    }
+}
 #endif // BACKTRACKINGTEST_H_INCLUDED

@@ -237,5 +237,82 @@ void combinationSum2(int target, int sum, int starIndex, const vector<int>& cand
     }
 }
 
+/*6 分割回文串
+ *给定一个字符串 s，将 s 分割成一些子串，使每个子串都是回文串。
+ *返回 s 所有可能的分割方案。
+ *示例: 输入: "aab" 输出: [ ["aa","b"], ["a","a","b"] ]
+ *注意，这里的每一个path都是vector<string>类型的，是一个字符串类型的数组
+ *即，每一个path就是一种对s的分割方式
+ *问题，对于不能构成回文的path是怎么排除的？
+ *做if判断，把只能构成回文的字符串加入，不能构成的不加入。
+ *比如上面的例子：
+ *for循环i指向0，从第一个a开始，a,可以构成加入path，进入下一层回溯，stratIndex从第二个a开始
+ *第二个a可以构成加入path，进入下一层回溯，startIndex从b开始
+ *b可以构成加入path,进入下一层回溯，判断starIndex==s.size(),将当前path加入result
+ *当前path为["a", "a","b"]
+ *回溯到上一层，弹出b,当前path为["a","a"]
+ *回溯到上一层,弹出a,当前path为["a"]
+ *回溯到上一层，弹出a,当前path为[]
+ *此时，for循环i指向1,从第二个a开始
+ *检测第一个子串切片为长度为1 - startIndex + 1 = 1 - 0 + 1 = 2
+ *判断"aa"是否为回文，是，加入path
+ *进入下一层递归，startIndex从b开始，判断b是回文，加入path=["aa", "b"],进入下一层递归，把当前path加入result
+ *当前result为[["a", "a","b"],["aa", "b"]]
+ *回溯到上一层，弹出b, 回溯到上一层，弹出aa,此时path为[]
+ *此时，for循环i指向2，从b开始
+ *检测管当前子串切片为3
+ *判断aab是否为回文，不是，for循环结束。
+ *最终result为[["a", "a","b"],["aa", "b"]]
+ */
+vector<vector<string>> result_06;
+vector<string> path_06;
+//声明回文检测函数
+bool isPalindrome(const string&, int, int);
+//定义回溯算法
+void Partition(const string& s, int startIndex) {
+    //回溯终止的条件
+    //如果startIndex已经到了s字符串的最后一个位置，那么就可以将path加入了
+    //因为starIndex已经不能再往后走了
+    if (startIndex >= s.size()) {
+        result_06.push_back(path_06);
+        return;
+    }
+    //单层递归的逻辑，判断是否为回文的逻辑也在这里，只有是回文的字符串才会加入paht
+    for (int i = startIndex; i < s.size(); i++){
+        //判断是否为回文串
+        if (isPalindrome(s, startIndex, i)){
+            //获取[startIndex, i]在s中的子串
+            //substr函数：是切分出s的一个子串，这个子串起始下标是第一个参数，子串的长度是第二个参数
+            string str = s.substr(startIndex, i - startIndex + 1);
+            //将切分好的子串加入到path中
+            path_06.push_back(str);
+        } else {
+            //如果这个片段不能构成回文，那就跳过当前i的for训话，进入下一个i
+            continue;
+        }
+        //递归进入下一层
+        Partition(s, i + 1);//下一次切分就要从当前i的下一个位置开始了
+        //每次递归到最后一层的时候，将会判断startIndex是否到最后一层了，
+        //如果到了，就会将当前的path_06加入到result_06中去
+        //所以，无论给定的s是一个怎样的字符串，都至少存才一个path
+        //这个path中，每个元素是一个字符串s比如s = "abc"
+        //result就是[["a", "b", "c"]]
+        //回溯
+        path_06.pop_back();//弹出子串，以寻找下一种切片组合
+    }
+}
+
+//判断是否为回文（这里是判断字符串s的一个子串是否为回文）
+bool isPalindrome(const string& s, int start, int End) {
+    for (int i = start, j = End; i < j; i++, j--) {
+        if (s[i] != s[j]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+
+
 
 #endif // BACKTRACKING_H_INCLUDED
