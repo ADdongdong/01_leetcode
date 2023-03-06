@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    PartitionTest();
+    restoreIpAddressesTest();
     return 0;
 }

@@ -84,4 +84,13 @@ void PartitionTest() {
         print2VectorStr(i);
     }
 }
+
+//7 测试复原IP地址
+void restoreIpAddressesTest() {
+    string s = "25525511135";
+    restoreIpAddresses(s, 0, 0);
+    for(auto i : result_07) {
+        cout << i << endl;
+    }
+}
 #endif // BACKTRACKINGTEST_H_INCLUDED

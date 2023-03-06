@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <list>
 #include <algorithm>
 
 using namespace std;
@@ -312,7 +313,86 @@ bool isPalindrome(const string& s, int start, int End) {
     return true;
 }
 
+/*复原IP地址
+ *给定一个只包含数字的字符串，复原它并返回所有可能的 IP 地址格式。
+ *有效的 IP 地址 正好由四个整数（每个整数位于0到255之间组成，且不能含有前导0），
+ *整数之间用 '.' 分隔。
+ *例如："0.1.2.201"和"192.168.1.1" 是有效的IP地址,但是"0.011.255.245""192.168.1.312"和
+ *"192.168@1.1" 是 无效的 IP 地址。
+ *示例 1：
+ *输入：s = "25525511135"
+ *输出：["255.255.11.135","255.255.111.35"]
+ *示例 2：
+ *输入：s = "0000"
+ *输出：["0.0.0.0"]
+ */
+vector<string> result_07;
+bool isValid(const string&,int,int);
+void restoreIpAddresses(string& s, int startIndex, int pointNum) {
+/*参数：pointNum表示添加逗点的数量
+ */
+/*思路：
+ *本题，是要找出s符合条件的ip地址划分，不是在s中挑几个元素做排列组合
+ *所以，不会改变s顺序，就不需要path了。直接对s进行划分添加逗号。
+ *添加逗号后，将符合条件的s加入的result_07就可以了。不符合条件会回溯到上一层重新划分。
+ *如果一直招不到合适的划分，就会返回空的result_07
+ */
+    //回溯算法终止条件：如果当s中的逗号数量到达了3说明前三个段已经判断合法
+    if (pointNum == 3) {
+        //判断第四个子字符串是否合法，如果合法就加入到result中
+        if (isValid(s, startIndex, s.size() -1)) {
+            result_07.push_back(s);
+        }
+        return;
+    }
 
+    //单层遍历的逻辑
+    for (int i = startIndex; i < s.size(); i++) {
+        if (isValid(s, startIndex, i)){
+        //判断[startIndex,i]这个区间的子串是否合法
+            s.insert(s.begin() + i + 1, '.');//在i后面添加一个逗点
+            pointNum++;//添加完逗点pointNum就要加一
+            restoreIpAddresses(s, i + 2, pointNum);
+            //加入逗点后，下一个区间的起始位置为i+2,因为是左闭右闭区间的
+            //回溯
+            pointNum--;
+            //erase函数：删除掉字符串s的指定位置的指定字符
+            s.erase(s.begin() + i + 1);//回溯删除掉逗点
+        } else break;//不过不合法，直接结束本层for循环
+    }
+}
 
+//判断字符串s在左闭右闭的区间[start, end]所组成的数字是否合法
+bool isValid(const string& s, int start, int End) {
+    if (start > End) {
+        return false;//如果这个区间是空区间，返回不合法
+    }
+    //这个区间如果超过一个字符，且首字符为空，则为不合法，即012这种区间
+    if (s[start] == '0' && start != End) {
+        //start!=false表示这个区间超过一个字符
+        return false;
+    }
+    int num = 0;
+    //判断s内是否有符号或者小于0的数字
+    //如何判断是否不为数字：判断当前字符的ASCII码，如果在'0'到'9'之间就是合法的
+    for (int i = start; i <= End; i++) {
+        if (s[i] > '9' || s[i] < '0') {
+            return false;
+        }
+        //在这个区间内，如果计算出来这个区间的最大值是大于255的不合法
+        /*如何计算?
+         *比如这个区间为"123"
+         *先选取第一个元素"1"将其转换成数字"1"-"0" = 1
+         *选取第二个元素"2",将第一个元素1*10加上"2"-"0" = 2,最后结果为12
+         *选取第三个元素"3",将第二个元素算出来的结果12*10加上"3"-"0" = 3，最后结果为123
+         */
+        num = num * 10 + (s[i] - '0');
+        if (num > 255) {
+            //如果大于255了，则不合法
+            return false;
+        }
+    }
+    return true;
+}
 
 #endif // BACKTRACKING_H_INCLUDED

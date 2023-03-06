@@ -3,14 +3,15 @@
 	<iostream>
 	"BacktrackingTest.h"
 
-1678015595 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\08_backtracking\backtrackingtest.h
+1678066710 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\08_backtracking\backtrackingtest.h
 	<iostream>
 	<algorithm>
 	"Backtracking.h"
 
-1678017258 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\08_backtracking\backtracking.h
+1678066538 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\08_backtracking\backtracking.h
 	<iostream>
 	<vector>
 	<string>
+	<list>
 	<algorithm>
 
