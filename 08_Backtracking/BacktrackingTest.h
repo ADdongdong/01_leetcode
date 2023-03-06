@@ -15,15 +15,32 @@ void printVector(vector<int> result){
 
 //定义打印二维数组的函数
 void print2Vector(vector<vector<int>> result) {
-    for (vector<int> i : result) {
-        cout << "[";
-        cout << i[0];
-        for (int j = 1; j < i.size(); j++) {
-            cout << ","<< i[j];
+    cout << "[";
+    //for (vector<int> i : result) {
+    for (int i = 0; i < result.size(); i++){
+        //如果遇到了空数组，就对其进行特殊处理，不然程序会终止
+        if (result[i].size() == 0) {
+            cout << "[]";
+            continue;
         }
-        cout << "]" << ' ';
+        if (i == 0) {
+            cout << "[";
+            cout << result[0][0];
+            for (int j = 1 ; j < result[0].size(); j++){
+                cout << ","<< result[0][j];
+            }
+            cout << "]";
+            continue;
+        }
+
+        cout << ", [";
+        cout << result[i][0];
+        for (int j = 1; j < result[i].size(); j++) {
+            cout << ","<< result[i][j];
+        }
+        cout << "]";
     }
-    cout << endl;
+    cout << "]" << endl;
 }
 
 //打印二维字符串数组
@@ -92,5 +109,12 @@ void restoreIpAddressesTest() {
     for(auto i : result_07) {
         cout << i << endl;
     }
+}
+
+//8 子集测试
+void subsetsTest() {
+    vector<int> nums = {1, 2, 3};
+    subsets(nums, 0);
+    print2Vector(result_08);
 }
 #endif // BACKTRACKINGTEST_H_INCLUDED

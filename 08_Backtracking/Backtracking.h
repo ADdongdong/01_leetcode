@@ -313,7 +313,7 @@ bool isPalindrome(const string& s, int start, int End) {
     return true;
 }
 
-/*复原IP地址
+/*7 复原IP地址
  *给定一个只包含数字的字符串，复原它并返回所有可能的 IP 地址格式。
  *有效的 IP 地址 正好由四个整数（每个整数位于0到255之间组成，且不能含有前导0），
  *整数之间用 '.' 分隔。
@@ -395,4 +395,32 @@ bool isValid(const string& s, int start, int End) {
     return true;
 }
 
+/*8 子集
+ *给定一组不含重复元素的整数数组nums，返回该数组所有可能的子集
+ *说明：解集不能包含重复的子集
+ *示例：输入: nums = [1,2,3] 输出: [[3],[1],[2],[1,2,3],[1,3],[2,3],[1,2],[]]
+ */
+vector<vector<int>> result_08;
+vector<int> path_08;
+
+//定义回溯算法
+void subsets(vector<int>& nums, int startIndex){
+/*思路
+ *空集是必然存在的，所以，可以把添加空集放在回溯算法之外添加。
+ *对于叶子结点，非叶子结点的path都要加入到result中。
+ *startIndex就要从i+1开始。
+ *什么时候path可以加入result呢？
+ *只要进入了下一层递归，都要加入
+ */
+    result_08.push_back(path_08);
+    if (startIndex >= nums.size()) {
+        return;
+    }
+    //单层递归的逻辑
+    for (int i = startIndex; i < nums.size(); i++) {
+        path_08.push_back(nums[i]);
+        subsets(nums, i + 1);
+        path_08.pop_back();
+    }
+}
 #endif // BACKTRACKING_H_INCLUDED

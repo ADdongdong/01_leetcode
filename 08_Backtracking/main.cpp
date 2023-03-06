@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    restoreIpAddressesTest();
+    subsetsTest();
     return 0;
 }
