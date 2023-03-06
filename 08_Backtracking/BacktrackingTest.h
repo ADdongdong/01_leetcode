@@ -117,4 +117,13 @@ void subsetsTest() {
     subsets(nums, 0);
     print2Vector(result_08);
 }
+
+//9 子集2测试
+void subsets2Test() {
+    vector<int> nums = {1, 2, 2};
+    vector<bool> used(nums.size(), false);
+    sort(nums.begin(), nums.end());
+    subsets2(nums, used, 0);
+    print2Vector(result_09);
+}
 #endif // BACKTRACKINGTEST_H_INCLUDED

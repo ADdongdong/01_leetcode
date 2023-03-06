@@ -423,4 +423,39 @@ void subsets(vector<int>& nums, int startIndex){
         path_08.pop_back();
     }
 }
+
+/*9 子集二
+ *给定一个可能包含重复元素的整数数组 nums，返回该数组所有可能的子集（幂集）。
+ *说明：解集不能包含重复的子集。
+ *示例:
+ *输入: [1,2,2]
+ *输出: [[2], [1], [1,2,2], [2,2], [1,2], []]
+ */
+
+vector<vector<int>> result_09;
+vector<int> path_09;
+void subsets2(vector<int>& nums, vector<bool>& used, int starIndex) {
+    //每次遇到一个路径，都要放进去
+    result_09.push_back(path_09);
+    //单层回溯的逻辑
+    for (int i = starIndex; i < nums.size(); i++) {
+        //去重
+        /*对nums进行去重，如果当前nums[i]和nums[i-1]相同，则跳过当前for循环
+         *注意：nums= [1, 1, 2]最终的结果里面是有[1, 1,2]这种情况的
+         *但是只能有一个[1,2]。所以要使用used数组，用来跳过第二个1和2组成的[1,2]
+         *如果不用used数组，[1,1,2]这种情况也会被删除了。
+         */
+        if (i > 0 && nums[i] == nums[i-1] && used[i-1] == false){
+            continue;
+        }
+        //否则，就加入到path中
+        path_09.push_back(nums[i]);
+        //将used位修改为true
+        used[i] = true;
+        subsets2(nums, used, i+1);
+        //回溯
+        used[i] = false;
+        path_09.pop_back();
+    }
+}
 #endif // BACKTRACKING_H_INCLUDED

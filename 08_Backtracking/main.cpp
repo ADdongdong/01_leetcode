@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    subsetsTest();
+    subsets2Test();
     return 0;
 }
