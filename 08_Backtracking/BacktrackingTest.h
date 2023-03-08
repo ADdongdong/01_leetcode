@@ -141,4 +141,13 @@ void permuteTest() {
     permute(nums, used, 0);
     print2Vector(result_11);
 }
+
+//11 全排列
+void permuteUniqueTest() {
+    vector<int> nums = {1, 1, 3};
+    vector<bool> used(nums.size(), false);
+    sort(nums.begin(), nums.end());
+    permuteUnique(nums, used, 0);
+    print2Vector(result_12);
+}
 #endif // BACKTRACKINGTEST_H_INCLUDED

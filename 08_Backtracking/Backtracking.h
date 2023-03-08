@@ -524,6 +524,7 @@ void permute(vector<int>& nums, vector<bool>& used, int index) {
     //当前startIndex到了和nums长度相同的时候
     if (index >= nums.size()) {
         result_11.push_back(path_11);
+        return;//这个题其实家不加return对代码逻辑都没有什么影响
     }
 
     /*单层回溯的逻辑
@@ -543,5 +544,56 @@ void permute(vector<int>& nums, vector<bool>& used, int index) {
     }
 }
 
+/*12 全排列2
+ *给定一个可包含重复数字的序列 nums ，按任意顺序 返回所有不重复的全排列。
+ *示例 1：
+ *输入：nums = [1,1,2]
+ *输出： [[1,1,2], [1,2,1], [2,1,1]]
+ *示例 2：
+ *输入：nums = [1,2,3]
+ *输出：[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+ *提示：
+  1 <= nums.length <= 8
+  -10 <= nums[i] <= 10
+ *这个题和上个题的区别就是，这个题是包含重复数字的，上个题是不包含重复数字的
+ */
+vector<vector<int>> result_12;
+vector<int> path_12;
+void permuteUnique(vector<int>& nums, vector<bool>& used, int index) {
+    //path加入result的条件
+    if (index >= nums.size()) {
+    //if (path.size() == nums.size())也可以，道理相同
+        result_12.push_back(path_12);
+        return;
+    }
+
+    //单层回溯的逻辑
+    for (int i = 0; i < nums.size(); i++) {
+        /*如何去重？
+         *对于nums为[1,1,2]的来说，如果使用used数组很可能出现两个[1,1,2]全排列组合。
+         *所以，对于同层元素，第一个1出现了，同层第二个1就不在出现了。
+         *也就是说，对于[1,1,2]对于第一个1开头生成的path和第二个1开头生成的path是相同的
+         *所以要跳过第二个1开头的path。nums[i] == nums[i-1]
+         *同时，还要保留[1,1,2]这种情况，所以要判断used[i-1]是否被使用过。
+         *若果i-1被使用过了，说明这是第一个1开头的path顺下来的，这种情况不能跳过。
+         *只有i-1没有被使用过，说明现在要找第二个1开头的path了，这就得跳过了，
+         *因为必然和第一个1开头的path重复。
+         */
+         if (i > 0 && nums[i] == nums[i-1] && used[i-1] == false) {
+            continue;
+         }
+         /*同样，因为每次i都是从0开始的，也需要把i重复添加到path中，所以
+          *只能加入used[i]为false的元素，used[i]为true的元素即已经加入path的元素
+          *就不要重复加入了
+          */
+         if (used[i] == false) {
+            used[i] = true;
+            path_12.push_back(nums[i]);
+            permuteUnique(nums, used,index + 1);
+            used[i] = false;
+            path_12.pop_back();
+         }
+    }
+}
 
 #endif // BACKTRACKING_H_INCLUDED
