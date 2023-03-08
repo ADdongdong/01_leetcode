@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    subsets2Test();
+    permuteTest();
     return 0;
 }

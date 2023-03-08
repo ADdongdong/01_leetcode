@@ -5,6 +5,7 @@
 #include <string>
 #include <list>
 #include <algorithm>
+#include <unordered_set>
 
 using namespace std;
 
@@ -460,18 +461,87 @@ void subsets2(vector<int>& nums, vector<bool>& used, int starIndex) {
 
 /*10 递增子序列
  *给定一个整数数组，你的任务是找到所有该数组的递增子序列，递增子序列的长度至少是2。
- *示例:
+ *示例1:
  *输入: [4, 6, 7, 7]
  *输出: [[4,6],[4,7],[4,6,7],[4,6,7,7],[6,7],[6,7,7],[7,7],[4,7,7]]
+ *示例2：
+ *输入：nums = [4,4,3,2,1]
+ *输出：[[4,4]] 注意，这里是4,4,我们是不能改变nums中元素的数据的
  *说明:
  *给定数组的长度不会超过15。
  *数组中的整数范围是 [-100,100]。
  *给定数组中可能包含重复数字，相等的数字应该被视为递增的一种情况
  */
-vector<vector<int>> result;
-vector<int> path;
+vector<vector<int>> result_10;
+vector<int> path_10;
 void findSubsequences(vector<int>& nums, int startIndex) {
+/*思路
+ *1.本题不能对nums数组进行排序，因为要求的就是当前nums的递增子序列，
+    如果进行排序了，所有的子序列都是递增的了
+ *2.只要是递增的子序列都要，所以，每一个path都要加入到result中
+    加入的条件是，只要path的长度大于2就可以加入了。并且，加入后不要返回上一层。
+    要继续向下递归。
+ *3.要去重，去重方式和前面不同，因为当前nums不是递增的了，还要避免共同父节点的path
+    其同一层孩子结点元素相同。所以，共同父节点孩子的同层孩子结点，如果一个元素使用过了，
+    与这个元素相同的另一个元素就不能再使用了。
+ */
 
+    //判断可以加入result的条件
+    if (path_10.size() >= 2) {
+        result_10.push_back(path_10);
+    }
+
+    //单层回溯的逻辑
+    unordered_set<int> uset;//使用set来对本层元素进行去重
+    for (int i = startIndex; i < nums.size(); i++){
+        //去重的逻辑
+        /*要求的是递增子序列，且，子序列不能重复，所以，有下面两种情况要进行剪枝
+         *1.不是递增子序列，也就是说，当前遍历到的nums[i] > path的最后一个元素
+         *2.出现重复子序列，即当前nums[i]能在uset表中找到，说用同样的元素已经加入path了
+         */
+        if ((!path_10.empty() && nums[i] < path_10.back())
+             || uset.find(nums[i]) != uset.end()) {
+                continue;
+             }
+        uset.insert(nums[i]);//这个元素在本层使用过了，就加入到uset中
+        path_10.push_back(nums[i]);
+        findSubsequences(nums, i+1);
+        path_10.pop_back();
+    }
 }
+
+
+/*11 全排列
+ *给定一个 没有重复 数字的序列，返回其所有可能的全排列。
+ *示例:
+ *输入: [1,2,3]
+ *输出: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+ */
+vector<vector<int>> result_11;
+vector<int> path_11;
+void permute(vector<int>& nums, vector<bool>& used, int index) {
+    //path加入result的条件
+    //当前startIndex到了和nums长度相同的时候
+    if (index >= nums.size()) {
+        result_11.push_back(path_11);
+    }
+
+    /*单层回溯的逻辑
+     *每层选择一个数字，下一层，从没有选择过的数字中选择一个数字。
+     *再下一层，再从没有选择过的数据中选择一个。
+     *如何知道这个数字有没有被被选择过呢，还是使用used数组，检查当前位置是不是true。
+     *如果被选择过了，那么这个数字就不能再次加入到path中了，加入了就不不是排列了，会产生重复。
+     */
+    for (int i = 0; i < nums.size(); i++) {
+        //检查当前nums[i]是否在path中使用过
+        if (used[i] == true) continue;
+        used[i] = true;
+        path_11.push_back(nums[i]);
+        permute(nums, used, index + 1);
+        used[i] = false;
+        path_11.pop_back();
+    }
+}
+
 
 #endif // BACKTRACKING_H_INCLUDED

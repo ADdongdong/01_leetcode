@@ -126,4 +126,19 @@ void subsets2Test() {
     subsets2(nums, used, 0);
     print2Vector(result_09);
 }
+
+//10 递增子序列
+void findSubsequencesTest() {
+    vector<int> nums = {4, 4, 3, 2, 1};
+    findSubsequences(nums, 0);
+    print2Vector(result_10);
+}
+
+//11 全排列
+void permuteTest() {
+    vector<int> nums = {1, 2, 3};
+    vector<bool> used(nums.size(), false);
+    permute(nums, used, 0);
+    print2Vector(result_11);
+}
 #endif // BACKTRACKINGTEST_H_INCLUDED
