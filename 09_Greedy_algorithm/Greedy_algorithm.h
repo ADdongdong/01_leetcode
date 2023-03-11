@@ -38,6 +38,8 @@ int findContentChildren(vector<int>& g, vector<int>& s) {
     int i = g.size()-1;
     int j = s.size()-1;
     while (i >= 0 && j >= 0){
+        //这种写法可以发现，无论饼干是否满足当前孩子，孩子的下标都是要移动的
+        //因此，可以以孩子下标为循环变量写出for循环
         if (s[j] >= g[i]){
             //如果当前饼干能满足当前孩子的胃口，那么就继续检查下一个饼干和下一个孩子
             num++;
@@ -48,10 +50,10 @@ int findContentChildren(vector<int>& g, vector<int>& s) {
             i--;
         }
     }
-    /*
-    int index = s.size() -1;
-    int result = 0;
-    for (int i = g.size() - 1; i >= 0; i++) {
+    /*另一种写法
+    int index = s.size() -1;//定义饼干的下标
+    int result = 0;//定义最终的结果
+    for (int i = g.size() - 1; i >= 0; i--) {
         if (index >=0 && s[index] >= g[i]) {
             result++;
             index--;
