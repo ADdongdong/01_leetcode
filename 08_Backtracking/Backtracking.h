@@ -6,6 +6,8 @@
 #include <list>
 #include <algorithm>
 #include <unordered_set>
+#include <map>
+#include <unordered_map>
 
 using namespace std;
 
@@ -566,7 +568,6 @@ void permuteUnique(vector<int>& nums, vector<bool>& used, int index) {
         result_12.push_back(path_12);
         return;
     }
-
     //单层回溯的逻辑
     for (int i = 0; i < nums.size(); i++) {
         /*如何去重？
@@ -589,11 +590,114 @@ void permuteUnique(vector<int>& nums, vector<bool>& used, int index) {
          if (used[i] == false) {
             used[i] = true;
             path_12.push_back(nums[i]);
-            permuteUnique(nums, used,index + 1);
+            permuteUnique(nums, used, index + 1);
             used[i] = false;
             path_12.pop_back();
          }
     }
 }
 
+/*13 重新安排行程
+ *不会
+ */
+unordered_map<string, map<string, int>> targets;
+bool findItinerary(int ticketNum, vector<string>& result) {
+    if (result.size() == ticketNum +1) {
+        return true;
+    }
+
+    for (pair<const string, int>& target: targets[result[result.size() - 1]]) {
+        if (target.second > 0) {
+            result.push_back(target.first);
+            target.second--;
+            if (findItinerary(ticketNum, result)) return true;
+            result.pop_back();
+            target.second++;
+        }
+    }
+    return false;
+}
+
+/*14 N皇后
+ *描述
+ *给定一个整数n，这个n是这个棋盘的阶数。
+ *给棋盘上摆放皇后棋子，个数为n个。
+ *要求，摆放过后皇后棋子的位置
+ *1.不能同行
+ *2.不能同列
+ *3.不能同斜线
+ */
+
+//定义判定皇后位置合法性的代码
+bool isValidNQueens(int, int, vector<string>&, int);
+vector<vector<string>> result_13;
+void solveNQueens(int n, int row, vector<string>& chessboard) {
+    //加入到result的条件，当遍历完三层，遍历到叶子节点了，就可以加入到result
+    if (row == n) {//n是阶数，row是当前遍历到的行数,当row==n的时候，
+                   //说明row已经经历过了0, 1, 2, 3到3的时候,说明row为0，1，2这三行已经进完了，所以就可以加入了
+        result_13.push_back(chessboard);
+        return;
+    }
+
+    //单层搜索的逻辑
+    /*思路
+     *递归的深度控制棋盘的行，每一层递归的for循环控制棋盘的列
+     *每一层都是从这一行的第0个位置开始的，所以，for从0开始
+     */
+    for (int col = 0; col < n; col++) {
+        //对每一个结点进行验证，验证函数后面定义，只要这个结点验证没有问题了，
+        if (isValidNQueens(row, col, chessboard, n)) {
+            //给这个合法位置放置皇后
+            chessboard[row][col] = 'Q';//放置皇后
+            //递归到下一层，也就是去下一行寻找能防止皇后的合法位置
+            solveNQueens(n, row + 1, chessboard);
+            //回溯到上一层，同时，将刚才防止皇后的位置置为'.',表示撤销皇后
+            chessboard[row][col] = '.';//回溯撤销皇后
+        }
+    }
+}
+
+//实现判断皇后合法位置的代码
+bool isValidNQueens(int row, int col, vector<string>& chessboard, int n) {
+    // 检查列
+    for (int i = 0; i < row; i++) {
+        // 检查遍历到当前层，前面层的同一列有没有皇后，如果有皇后，说明这个位置不行
+        if (chessboard[i][col] == 'Q') {
+            return false;
+        }
+    }
+    //为什么不检查行呢？
+    //因为每一层只会放置一个Q元素，放置一个以后就会进入到下一行了，所以，不会出现同一行出现多个Q的情况
+
+    // 检查 45度角是否有皇后
+    /*
+            . . √ . .
+            . . . Q .
+     */
+    //Q的位置为row, col,那么Q的45度方向的就是row-1,col-1
+    //然后，每次往45度检查一个单位
+    //问题？这个Q的45度斜线上一个Q都不能有吗，如果和这个Q间隔一行呢？
+    //不行，查了下百度，王后是车和象的结合体，只要不越子，可以无线走。
+    for (int i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) {
+        if (chessboard[i][j] == 'Q') {
+            return false;
+        }
+    }
+    // 检查 135度角是否有皇后
+    /*
+            . . . . √
+            . . . Q .
+     */
+    for (int i = row - 1, j = col + 1; i >= 0 && j < n; i--, j++) {
+        if (chessboard[i][j] == 'Q') {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+/*15 解数独
+ *
+ */
 #endif // BACKTRACKING_H_INCLUDED

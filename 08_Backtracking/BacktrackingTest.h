@@ -51,7 +51,7 @@ void print2VectorStr(vector<string> result) {
         for (int j = 1; j < i.size(); j++) {
             cout << ","<< i[j];
         }
-        cout << "]" << ' ';
+        cout << "]" << endl;
     }
     cout << endl;
 }
@@ -149,5 +149,17 @@ void permuteUniqueTest() {
     sort(nums.begin(), nums.end());
     permuteUnique(nums, used, 0);
     print2Vector(result_12);
+}
+
+//13 N皇后
+void solveNQueensTest() {
+    int n = 4;
+    //创建一个空棋盘，这个空气盘有四行，每一行都有四个.代表4个没有放置棋子的位置
+    vector<string> chessboard(n, string(n, '.'));
+    solveNQueens(n, 0, chessboard);
+    //注意，result_13是vector<vector<string>>类型
+    for(auto i : result_13) {
+        print2VectorStr(i);
+    }
 }
 #endif // BACKTRACKINGTEST_H_INCLUDED

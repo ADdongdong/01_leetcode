@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    permuteUniqueTest();
+    solveNQueensTest();
     return 0;
 }
