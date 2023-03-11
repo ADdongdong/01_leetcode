@@ -2,14 +2,24 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="main.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="BacktrackingTest.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="-3" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="117" topLine="0" />
+			<Cursor1 position="3750" topLine="67" />
 		</Cursor>
+		<Folding>
+			<Collapse line="9" />
+			<Collapse line="16" />
+			<Collapse line="59" />
+			<Collapse line="65" />
+			<Collapse line="71" />
+			<Collapse line="79" />
+			<Collapse line="86" />
+			<Collapse line="96" />
+		</Folding>
 	</File>
-	<File name="Backtracking.h" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="-5" zoom_2="0">
+	<File name="Backtracking.h" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="-5" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="28482" topLine="95" />
+			<Cursor1 position="32015" topLine="33" />
 		</Cursor>
 		<Folding>
 			<Collapse line="21" />
@@ -40,23 +50,16 @@
 			<Collapse line="523" />
 			<Collapse line="548" />
 			<Collapse line="563" />
+			<Collapse line="599" />
+			<Collapse line="603" />
+			<Collapse line="620" />
+			<Collapse line="633" />
+			<Collapse line="660" />
 		</Folding>
 	</File>
-	<File name="BacktrackingTest.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="main.cpp" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3443" topLine="57" />
+			<Cursor1 position="68" topLine="0" />
 		</Cursor>
-		<Folding>
-			<Collapse line="9" />
-			<Collapse line="16" />
-			<Collapse line="46" />
-			<Collapse line="59" />
-			<Collapse line="65" />
-			<Collapse line="71" />
-			<Collapse line="79" />
-			<Collapse line="86" />
-			<Collapse line="96" />
-			<Collapse line="105" />
-		</Folding>
 	</File>
 </CodeBlocks_layout_file>

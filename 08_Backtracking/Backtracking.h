@@ -698,6 +698,72 @@ bool isValidNQueens(int row, int col, vector<string>& chessboard, int n) {
 }
 
 /*15 解数独
- *
+ *数独游戏就是，有一个9×9的格子，这个格子每一行，每一列都只能填写1-9这9个数字，且不能重复。
+ *并且，将这个81个格子分成了9个3×3的小矩阵，每个小矩阵内也填写1-9这9个数字，这9个数字也不能重复。
+ *注意：这个题目只要找到一个符合条件的情况，就立刻返回。
+ *思路：
+ *和N皇后类似，还是暴力回溯。每一行可能有n个格子，先对n个空格的第一个空格进行取值，第一个空格可能的情况有9个。这就是一层。
+ *这9中情况对应9个矩阵，当第一个格子选取的时候，第二个格子也有9中情况可选。那继续进入下一层。‘
+ *也就是说，每个格子就是一层，递归的层数来控制当前到了第几个数字。
+ *每个格子有9中情况，对这9中情况使用for遍历，来实现每一层遍历的逻辑。
+ *同时，每一层，每一个元素进行写入的时候，都要判断是否满足：行、列、3×3小矩阵的要求
  */
+//定义判断当前位置防止当前数字是否合法的函数
+bool isValidSudoku(int row, int col, char val, vector<vector<char>>& board){
+    //判断是否行中重复
+    for (int i = 0; i < 9; i++) {
+        if (board[row][i] == val) {
+            return false;
+        }
+    }
+
+    //判断是否列中重复
+    for (int i = 0; i < 9; i++) {
+        if (board[i][col] == val) {
+            return false;
+        }
+    }
+
+    //判断9个放个中是否重复
+    int starRow = (row/3)*3;
+    int starCol = (col/3)*3;//拿列举例，比如当前在4列，4/3 = 1,1*3 =3
+    //其实0,1,2除以三的商都是0, 那么star都从0*3=0开始
+    //3,4,5除以3的商都是1，star都从1*3=3开始
+    //6,7,8除以3的商都是2，star都从2*3=6开始
+    for (int i = starRow; i < starRow  + 3; i++) {
+        for (int j = starCol; j < starCol + 3; i++) {
+            if (board[i][j] == val) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+bool solveSudoku(vector<vector<char>>& board) {
+    //遍历行
+    for (int i = 0; i < board.size(); i++) {
+        //遍历列(从左到右遍历每一行的每一个格子)
+        for (int j = 0; j < board.size(); j++) {
+            //如果当前位置没有填充数字，也就是"."那就进行填充数字处理
+            if (board[i][j] == '.') {
+                for (char k = '1'; k <= '9'; k++){
+                //现在才是单层回溯的逻辑，每个格子有9种情况
+                    if (isValidSudoku(i, j, k,board)) {
+                        //给当前位置赋值
+                        board[i][j] = k;
+                        //递归进行到下一行，如果有一种情况是成立的，那么这个函数就会返回true
+                        if (solveSudoku(board)) return true;
+                        //回溯到上一个数字，也就是试试这个空位置如果填上一个数字会怎样
+                        board[i][j] = '.';
+                    }
+                }
+                return false;//如果9个数字都尝试完了，都没有返回true那就返回false
+            }
+
+        }
+    }
+    //整个棋盘遍历完了，没有返回false那就返回true
+    return true;
+}
 #endif // BACKTRACKING_H_INCLUDED

@@ -162,4 +162,9 @@ void solveNQueensTest() {
         print2VectorStr(i);
     }
 }
+
+//14 数独
+void solveSudokuTest() {
+    //太太太麻烦了，pass
+}
 #endif // BACKTRACKINGTEST_H_INCLUDED
