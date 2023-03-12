@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    findContentChildrenTest();
+    wiggleMaxLengthTest();
     return 0;
 }

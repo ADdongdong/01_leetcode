@@ -60,7 +60,43 @@ int findContentChildren(vector<int>& g, vector<int>& s) {
         }
     }*/
     return num;
-
 }
+
+/*2 摆动序列
+ *给定一个整数序列，返回:作为摆动序列的最长子序列的长度。
+ *摆动序列是什么？
+ *如果连续数字之间的差严格地在正数和负数之间交替，就称作摆动序列。第一个差可能是正数或负数。
+ *如何获得一个序列的摆动序列？
+ *通过删除或不删除原始序列中的一些元素，来获得子序列，使得这个子序列是摆动序列。
+
+ *思路：
+ *摆动序列有什么特点:a1>a2, a2<a3, a3>a4...数组元素的大小关系必须是大于小于交替出现的。
+ *所以，对于给定的序列，要想让其称为摆动序列，就要避免出现连续的>或者<，也要避免出现=。
+ *因此，我们在统计子序列长度的时候，如果有一个>，只需要往后找，找后面最近的一对<就行。
+ *如果，只有一个>说明子序列长度为2，如果有个>还有个<说明子序列长度为3
+ */
+int wiggleMaxLength(vector<int>& nums) {
+    //如果给定数组中元素只有一个，那么这就是最大的摆动序列
+    if (nums.size() <= 1) return nums.size();
+    int curDiff = 0;// 当前一对的差值
+    int preDiff = 0;// 前一对差值
+    int result = 1;// 记录峰值个数，序列默认序列最右边有一个峰值
+    //以内循环体内是有i+1的，所以，i的上限就是nums.size()-1
+    for (int i = 0; i < nums.size() - 1; i++) {
+        curDiff = nums[i + 1] - nums[i];// 记录当前的差值
+        // 出现峰值
+        // 这里写成preDiff<=0其实，只有当nums只有两个结点的时候会触发等于号
+        // 如果没有=那么两个结点的nums只会返回0
+        // 如果一个nums = {1,2} 加上等于号，相当于给num前面加上了一个1
+        // 这个=不会影响到后面的的元素的，因为curDiff >0 或curDiff <0 注意，这里都是没有等于号的
+        // 并且，这个curDiff其实就是下一个cur的pre
+        if ((preDiff <= 0 && curDiff > 0) || (preDiff >= 0 && curDiff < 0)) {
+            result++;
+            preDiff = curDiff;// 只在摆出现变化的时候更新prediff
+        }
+    }
+    return result;
+}
+
 
 #endif // GREEDY_ALGORITHM_H_INCLUDED

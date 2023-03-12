@@ -1,6 +1,7 @@
 #ifndef GREEDY_ALGORITHMTEST_H_INCLUDED
 #define GREEDY_ALGORITHMTEST_H_INCLUDED
 #include <iostream>
+#include <vector>
 #include "Greedy_algorithm.h"
 
 
@@ -14,6 +15,11 @@ void findContentChildrenTest() {
     cout << result << endl;
 }
 
-
+//2 摆动序列
+void wiggleMaxLengthTest() {
+    vector<int> nums = {1, 7, 4, 9, 2, 5};
+    int result = wiggleMaxLength(nums);
+    cout << result << endl;
+}
 
 #endif // GREEDY_ALGORITHMTEST_H_INCLUDED
