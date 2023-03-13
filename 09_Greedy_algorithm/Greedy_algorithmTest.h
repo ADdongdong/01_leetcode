@@ -22,4 +22,11 @@ void wiggleMaxLengthTest() {
     cout << result << endl;
 }
 
+//3 最大子序列和
+void maxSubArrayTest() {
+    vector<int> nums = {-2,1,-3,4,-1,2,1,-5,4};
+    int result = maxSubArray(nums);
+    cout << result << endl;
+}
+
 #endif // GREEDY_ALGORITHMTEST_H_INCLUDED

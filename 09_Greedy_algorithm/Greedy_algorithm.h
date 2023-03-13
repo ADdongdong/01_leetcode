@@ -98,5 +98,31 @@ int wiggleMaxLength(vector<int>& nums) {
     return result;
 }
 
-
+/*3 最大子序和
+ *给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
+    示例:
+ *输入: [-2,1,-3,4,-1,2,1,-5,4]
+ *输出: 6
+ *解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
+ *
+ *思路：
+ *连续的子序列之和，对子序列的长度没有限制，就是最少得包含一个元素。
+ *贪心算法采取局部最优化的策略。定义一个count记录当前连续自序列的总和，当这个总和小于0的时候，就抛弃当前count.
+ *从i+1重新开始求新的子序列的和。
+ *因为，如果，当前子序列和都为0了，无论后面那个数字有多大，加上负数都会变小。
+ */
+int maxSubArray(vector<int>& nums) {
+    int result = INT32_MIN;
+    int Count = 0;
+    for (int i = 0; i < nums.size(); i++) {
+        Count += nums[i];
+        if (Count > result){
+            result = Count;
+        }
+        if (Count < 0) {
+            Count = 0;
+        }
+    }
+    return result;
+}
 #endif // GREEDY_ALGORITHM_H_INCLUDED
