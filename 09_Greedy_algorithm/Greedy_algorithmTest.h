@@ -29,4 +29,17 @@ void maxSubArrayTest() {
     cout << result << endl;
 }
 
+//9 分发糖果
+void candyTest() {
+    vector<int> nums = {1,0,2};
+    int result = candy(nums);
+    cout << result << endl;
+}
+
+//10 柠檬水找零
+void lemonadeChangeTest() {
+    vector<int> bills = {5,5,5,10,20};
+    bool result = lemonadeChange(bills);
+    cout << result << endl;
+}
 #endif // GREEDY_ALGORITHMTEST_H_INCLUDED

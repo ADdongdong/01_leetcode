@@ -3,6 +3,7 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <list>
 
 using namespace std;
 
@@ -287,5 +288,112 @@ int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
     return start;//如果没有返回-1说明能找到一条路径，并返回这个路径的起始下标
 }
 
+/*9 分发糖果
+ *n孩子站成一排（就是一个有n个元素的数组），老师要给这些孩子分发糖果，分发糖果要满足下面两个条件：
+ *1、每个孩子至少一个糖果
+ *2、相邻两个孩子，评分高必须获得更多的糖果（如果，评分相同，可以不获得更多的糖果）
+ *问？如何让老师发出尽量少的糖果
+ *思路：
+ *1.对于第一个要求，我们可以直接生成一个全是1的candyVec，后面再这个列表上进行+操作，就能保证第一个条件了
+ *2.对于第二个要求，我们对于每一个元素i,可以可以拆分为①ratings[i-1] < ratings[i]和②rating[i+1] < rating[i]
+*   分别对上面两个条件做判断，如果满足①那就给i加1个糖果，如果满足②，那就将rating[i+1]+1和rating[i]做比较，选大的
+ */
+int candy(vector<int>& ratings) {
+    vector<int> candyVec(ratings.size(), 1);//定义一个vector长度和打分表相同，所有元素均为1
+    //从前向后遍历(相邻连个孩子，分数高的一定比分数低的孩子多获得糖果)
+    for (int i = 1; i < ratings.size(); i++) {
+        if (ratings[i] > ratings[i-1]) {
+            //要保证比左边元素打一个，所以给右边元素赋值为左边的值+1,就一定比左边的大了
+            candyVec[i] = candyVec[i-1] +1;//如果右边元素大于左边元素，那就给右边元素+1
+        }
+    }
+    //从后向前
+    for (int i = ratings.size() -2; i >= 0; i--) {
+        //比较左边的元素和右边元素的大小，如果左边元素大于右边元素，那就++
+        if (ratings[i] > ratings[i + 1]) {
+            //如果，从前向后遍历的时候，i位置元素已经大于i+1位置元素，那就继续保持，
+            //否则，就让其为i+1元素还大1的值
+            candyVec[i] = max(candyVec[i], candyVec[i+1] + 1);
+        }
+    }
+    //统计糖果总数
+    int result;
+    for (int i = 0; i < candyVec.size(); i++) result += candyVec[i];
+    return result;
+}
+
+/*10 柠檬水找零
+ *收入5，10,20
+ *找零5 ，15
+ */
+bool lemonadeChange(vector<int>& bills) {
+    int five = 0, ten = 0;//其实不要twenty也行
+    for (int bill:bills) {
+        //1.收入5元
+        if (bill == 5){
+            five++;
+        }
+        //2.收入10元
+        if (bill == 10) {
+            ten++;
+            //如果有5元找零，否则，返回false
+            if (five > 0) {
+                five--;
+            }else {return false;}
+        }
+        //3.收入20元，有限花10块的
+        if (bill == 20) {
+            if (ten > 0) {
+                ten--;
+                if (five > 0) {
+                    five--;
+                }else {return false;}
+            }else if (ten ==0 && five > 2) {
+                five -= 3;
+            }else {
+                return false;
+            }
+        }
+    }
+    return true;
+ }
+
+/*11 根据身高重建队列
+ *描述：
+ *假设有打乱顺序的一群人站成一个队列，数组 people 表示队列中一些人的属性（不一定按顺序）。
+ *每个 people[i] = [hi, ki] 表示第 i 个人的身高为 hi ，前面正好有ki个身高大于或等于hi的人。
+ *要求：请你重新构造并返回输入数组 people 所表示的队列。
+ *返回的队列应该格式化为数组 queue ，其中 queue[j] = [hj, kj] 是队列中第 j 个人的属性（queue[0] 是排在队列前面的人）。
+ *示例 1：
+ *输入：people = [[7,0],[4,4],[7,1],[5,0],[6,1],[5,2]]
+ *输出：[[5,0],[7,0],[5,2],[6,1],[4,4],[7,1]]
+ *也就是说，要尽可能满足身高从高到低，同时必须满足[hj, kj]就是j前面有kj个身高大于等于hj的人
+ *
+ *思路：
+ *先对其按照身高进行排序，排序完成以后，在按照j前又kj个身高大于等于hj的人排序，这样就可以尽可能满足这两个条件了。
+ */
+//定义对二维数组进行排序的比较器
+static bool cmp_ (const vector<int>& a, const vector<int>& b) {
+    //如果两个是同身高，那么，把同身高前面人少的放前面
+    if (a[0] == b[0]) return a[1] < b[1];
+    //如果两人不同身高，把个子高的放前面
+    return a[0] > b[0];
+}
+vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
+    //按定义的比较器对people按照身高进行从大到小排序
+    sort(people.begin(), people.end(), cmp_);
+    list<vector<int>> que;//定义队列，队列是链表类型的，因为链表的插入效率很高，vector查找效率很高，但是插入效率太低
+    for (int i = 0; i < people.size(); i++) {
+        int position = people[i][1];//插入到下标为position的位置
+        //people的第二个元素指的是，这个人前面有大于[0]的几个人
+        //因为，我们已经按照身高进行排序过了，所以，就不考虑[0]的值了
+        list<vector<int>>::iterator it = que.begin();
+        while (position--) {//寻找插入位置
+            it++;
+        }
+        que.insert(it, people[i]);//在it位置插入people[i]
+    }
+    return vector<vector<int>>(que.begin(), que.end());
+}
 
 #endif // GREEDY_ALGORITHM_H_INCLUDED
