@@ -42,4 +42,12 @@ void lemonadeChangeTest() {
     bool result = lemonadeChange(bills);
     cout << result << endl;
 }
+
+//11 使用最少数量的箭引爆气球
+void findMinArrowShotsTest() {
+    vector<vector<int>> points = {{1,2}, {3,4}, {5,6}, {7,8}};
+    int result = findMinArrowShots(points);
+    cout << result << endl;
+
+}
 #endif // GREEDY_ALGORITHMTEST_H_INCLUDED

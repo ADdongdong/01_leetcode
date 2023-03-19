@@ -396,4 +396,30 @@ vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
     return vector<vector<int>>(que.begin(), que.end());
 }
 
+/*12 使用最少数量的箭引爆气球
+ *
+ *
+ */
+//定义sort函数的cmp参数，比较器
+static bool cmp_12(const vector<int>& a, const vector<int>& b) {
+    //按照气球半径的左端点进行排序
+    return a[0] < b[0];
+}
+int findMinArrowShots(vector<vector<int>>& points) {
+    if (points.size() == 0) return 0;
+    //对points列表进行排序
+    sort(points.begin(), points.end(), cmp_12);
+
+    int result = 1;//points 不为空至少需要一支箭
+    for (int i = 1; i < points.size(); i++) {
+        if (points[i][0] > points[i - 1][1]) {//这支箭的箭头和前一支箭的末尾没有重合，那就说明需要多一支箭。
+            result++;
+        }
+        else {// 如果气球是挨着的
+            points[i][1] = min(points[i - 1][1], points[i][1]);//更新重叠气球的最小右边界
+        }
+    }
+    return result;
+}
+
 #endif // GREEDY_ALGORITHM_H_INCLUDED
