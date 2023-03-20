@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    findMinArrowShotsTest();
+    MergeTest();
     return 0;
 }

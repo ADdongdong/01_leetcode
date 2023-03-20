@@ -7,6 +7,36 @@
 
 using namespace std;
 
+void print2Vector(vector<vector<int>> result) {
+    cout << "[";
+    //for (vector<int> i : result) {
+    for (int i = 0; i < result.size(); i++){
+        //如果遇到了空数组，就对其进行特殊处理，不然程序会终止
+        if (result[i].size() == 0) {
+            cout << "[]";
+            continue;
+        }
+        if (i == 0) {
+            cout << "[";
+            cout << result[0][0];
+            for (int j = 1 ; j < result[0].size(); j++){
+                cout << ","<< result[0][j];
+            }
+            cout << "]";
+            continue;
+        }
+
+        cout << ", [";
+        cout << result[i][0];
+        for (int j = 1; j < result[i].size(); j++) {
+            cout << ","<< result[i][j];
+        }
+        cout << "]";
+    }
+    cout << "]" << endl;
+}
+
+
 /*1 分发饼干
  *假设你是一位很棒的家长，想要给你的孩子们一些小饼干。但是，每个孩子最多只能给一块饼干。
  *对每个孩子 i，都有一个胃口值 g[i]，这是能让孩子们满足胃口的饼干的最小尺寸；
@@ -396,30 +426,139 @@ vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
     return vector<vector<int>>(que.begin(), que.end());
 }
 
-/*12 使用最少数量的箭引爆气球
- *
- *
- */
+//12 使用最少数量的箭引爆气球
 //定义sort函数的cmp参数，比较器
 static bool cmp_12(const vector<int>& a, const vector<int>& b) {
     //按照气球半径的左端点进行排序
-    return a[0] < b[0];
+    return a[0] < b[0];//这样就是从小到大排序
 }
 int findMinArrowShots(vector<vector<int>>& points) {
     if (points.size() == 0) return 0;
+    print2Vector(points);
     //对points列表进行排序
     sort(points.begin(), points.end(), cmp_12);
+    print2Vector(points);
 
     int result = 1;//points 不为空至少需要一支箭
     for (int i = 1; i < points.size(); i++) {
         if (points[i][0] > points[i - 1][1]) {//这支箭的箭头和前一支箭的末尾没有重合，那就说明需要多一支箭。
             result++;
+            cout << result << endl;
         }
-        else {// 如果气球是挨着的
+        else {// 如果气球是挨着的，更新当前重复气球的最左边的最小右边界。
+              // 因为，一旦下一个超过这个最小边界，就说明要多一支箭了
             points[i][1] = min(points[i - 1][1], points[i][1]);//更新重叠气球的最小右边界
+            cout << points[i][1] << endl;
         }
     }
     return result;
 }
 
+/*13 无重叠区间
+ *给定一个区间的集合，找到需要移除区间的最小数量，使剩余区间互不重叠。
+ *注意: 可以认为区间的终点总是大于它的起点。 区间 [1,2] 和 [2,3] 的边界相互“接触”，但没有相互重叠。
+ *示例 1:
+ *输入: [ [1,2], [2,3], [3,4], [1,3] ]
+ *输出: 1
+ *解释: 移除 [1,3] 后，剩下的区间没有重叠。
+ *注意，输出的是要移除的元素的数量，所以，对数组操作不用真的把真的元素移除，因为数组的插入和移除元素开销很大。
+ */
+//定义比较类
+static bool cmp_13 (const vector<int>& a, const vector<int>& b) {
+    return a[0] < b[0];//将这二维数组中的元素，按照开头从小到大进行排序
+}
+int eraseOverlapIntervals(vector<vector<int>>& intervals) {
+    //如果这个二维数组为空，那么就说明不需要移除元素
+    if (intervals.size() == 0) return 0;
+    //对这个数组进行排序
+    sort(intervals.begin(), intervals.end(), cmp_13);
+    //定义end记录，当前没有重叠区间短的最小右值
+    int End = intervals[0][1];
+    int result = 0;
+    for (int i = 1; i < intervals.size(); i++) {
+        //如果当前元素的卡头小于上一个元素的结尾，那就说明重叠了，要移除
+        if (intervals[i][0] < End) {
+            result++;
+            //移除以后，要给intervals重新赋值，因为，当移除了i,那么到i+1检测的时候，此时i+1对应的i就是i对应的i-1了
+            End = min(End, intervals[i][1]);
+        } else {
+            //如果没有重叠，也要更新end
+            End = intervals[i][1];
+        }
+    }
+    return result;
+}
+
+/*14 划分字母区间
+ *字符串 S 由小写字母组成。我们要把这个字符串划分为尽可能多的片段，
+ *同一字母最多出现在一个片段中。返回一个表示每个字符串片段的长度的列表。
+ *示例：
+ *输入：S = "ababcbacadefegdehijhklij"
+ *思路，遍历一遍整个字符串，找到每一个字符出现的区间
+ *这个题目，既然让我们划分，说明，给出的字符串应该都是能划分的，
+ *如果找到之前遍历过的所有字母的最远边界，
+ *说明这个边界就是分割点了。此时前面出现过所有字母，最远也就到这个边界了。
+ */
+vector<int> patitionlabels(string S) {
+    int hash[27] = {0};
+    for (int i = 0; i < S.size(); i++) {
+        //统计每一个字符最后出现的位置
+        hash[S[i] - 'a'] = i;
+    }
+    vector<int> result;
+    int left = 0;
+    int right = 0;
+    for (int i = 0; i < S.size(); i++) {
+        //在for循环中，不断更新当前起始字符到现在遍历的第i个字符中，
+        //所有字符出现的最远距离，因为这个距离前面已经计算出来了。
+        //如果，此时i就是i以前所有元素的最远距离，那么，就可以丛这里划分了。
+        right = max(right, hash[S[i] - 'a']);//找到字符串最远出现的点
+        if (i == right) {
+            result.push_back(right - left + 1);//计算区间长度
+            //重启区间的开始点
+            left = i + 1;
+        }
+    }
+    return result;
+}
+
+/*15 合并区间
+ *给出一个区间的集合，请合并所有重叠的区间。
+ *示例:
+ *输入: intervals = [[1,3],[2,6],[8,10],[15,18]]
+ *输出: [[1,6],[8,10],[15,18]]
+ *解释: 区间 [1,3] 和 [2,6] 重叠, 将它们合并为 [1,6].
+ *思路：还是以前面的【重叠区间】等题目为基础。首先，按照[0]从小到大对intervals进行排序
+ *然后，进行比较。定义start,end变量，作为一个新的区间的结尾，如果重叠，就更新end。
+ *如果不重叠，就将上个区间加入到result中，并开始一个新的区间更新start
+ */
+static bool cmp_15(const vector<int>& a, const vector<int>& b) {
+    return a[0] < b[0];
+}
+vector<vector<int>> Merge(vector<vector<int>>& intervals) {
+    //定义result
+    vector<vector<int>> result;
+    //如果intervals为空，则返回0
+    if (intervals.size() == 0) return result;
+    //对intervals进行排序
+    sort(intervals.begin(), intervals.end(), cmp_15);
+    //定义区间的开始
+    int star = intervals[0][0];
+    //定义区间的结尾
+    int End = intervals[0][1];
+    for (int i = 1; i < intervals.size(); i++) {
+        if (intervals[i][0] > End){
+            //否则，当前区间和上一个去加不重叠，首先将上一个区间加入到result中
+            result.push_back({star, End});
+            //更新star和End的值
+            star = intervals[i][0];
+            End = intervals[i][1];
+        } else {
+            //如果当前遍历的区间，和上一个区间重叠，那么就把这个区间合并到上个区间内
+            End = max(intervals[i][1], End);//选取最右边的边界作为新区间的右边界
+        }
+    }
+    result.push_back({star, End});//将最后一个区间手动加入进来
+    return result;
+}
 #endif // GREEDY_ALGORITHM_H_INCLUDED

@@ -50,4 +50,22 @@ void findMinArrowShotsTest() {
     cout << result << endl;
 
 }
+
+//13 无重叠区间
+void eraseOverlapIntervalsTest() {
+    //[ [1,2], [2,3], [3,4], [1,3] ]
+    vector<vector<int>> intervals = {{1,2}, {2,3}, {3, 4}, {1,3}};
+    int result = eraseOverlapIntervals(intervals);
+    cout << result << endl;
+}
+
+void MergeTest(){
+    /*输入：intervals = [[1,3],[2,6],[8,10],[15,18]]
+     *输出：[[1,6],[8,10],[15,18]]
+     */
+    //vector<vector<int>> intervals = {{1,3},{2,6},{8,10},{15,18}};
+    vector<vector<int>> intervals = {{1,3}};
+    vector<vector<int>> result = Merge(intervals);
+    print2Vector(result);
+}
 #endif // GREEDY_ALGORITHMTEST_H_INCLUDED
