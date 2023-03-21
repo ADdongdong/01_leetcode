@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <vector>
 #include <list>
+#include <string>
 
 using namespace std;
 
@@ -560,5 +561,77 @@ vector<vector<int>> Merge(vector<vector<int>>& intervals) {
     }
     result.push_back({star, End});//将最后一个区间手动加入进来
     return result;
+}
+
+/*16 单调递增数字
+ *给定一个数组N，找到一个小于等于N的最大数字，这个数字要满足下面条件：
+ *从各个位数上数字要单调递增<=，比如，N为123,那么这个数字就为123
+ *比如,N为322，这个数字就为299
+ *思路：满足数字递增，最末尾的数字选择9总是没有问题的。
+ *整体思路为，从右往左边进行遍历，检查挨着的两个数字，如果左大于右，那就左-1，将右边数字设置为9
+ */
+int monotoneIncreasingDigits(int n) {
+    //将给定的数字转化为字符串
+    string strNum = to_string(n);
+    int flag = strNum.size();
+    for (int i = strNum.size() - 1; i > 0; i--) {
+        if (strNum[i-1] > strNum[i]) {
+            flag = i;
+            cout << flag << endl;
+            strNum[i-1]--;//给i-1位的数字减1
+            cout << strNum << endl;
+        }
+    }
+    cout << "将后面的数字设置为9" << endl;
+    for (int i = flag; i < strNum.size(); i++) {
+        strNum[i] = '9';
+        cout << strNum << endl;
+    }
+    //stoi:string to interger
+    return stoi(strNum);//将字符串转换为整数
+}
+
+/*17 监控二叉树
+ */
+//定义二叉树结构体
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+};
+int result_17;
+int minCamerCover(TreeNode* cur) {
+    /*空节点，该结点有覆盖(遍历是从叶子往根遍历的)并且，我们希望，叶子结点没有监控，而是叶子结点的父节点有监控
+     *这样就可以大大节约监控的数量。所以，如果遍历到了叶子结点，我们就给其标记为被覆盖。
+     *三种状态码表示节点的三种情况：
+     *0:本结点无覆盖
+     *1:本节点有摄像头
+     *2:本节点有覆盖
+    */
+
+    if (cur == NULL) return 2;
+    //递归遍历左右子树
+    int left = minCamerCover(cur->left);
+    int right = minCamerCover(cur->right);
+
+    //情况1 如果左右节点都有覆盖 那么说明左右节点都没有监控，
+    //且，自己的父节点肯定没有监控，所以，当前结点是无覆盖
+    if (left == 2 && right == 2) return 0;
+
+    //情况2 如果左右子树，有任何一个子树是没有覆盖的，那么这个结点都必须要监控。
+    if (left == 0 || right == 0) {
+        result_17++;
+        return 1;
+    }
+
+
+    //情况3 如果左右子树，有任何一个结点是有监控的，那么，这个结点都被标记为友监控
+    if (left == 1|| right == 1) return 2;
+
+    //代码不会执行到这里，上面已经包含了所有的情况
+    return -1;
 }
 #endif // GREEDY_ALGORITHM_H_INCLUDED

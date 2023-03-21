@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    MergeTest();
+    monotoneIncreasingDigitsTest();
     return 0;
 }

@@ -1,16 +1,17 @@
 # depslib dependency file v1.0
-1679279337 source:d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\09_greedy_algorithm\main.cpp
+1679295646 source:d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\09_greedy_algorithm\main.cpp
 	<iostream>
 	"Greedy_algorithmTest.h"
 
-1679279657 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\09_greedy_algorithm\greedy_algorithmtest.h
+1679295646 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\09_greedy_algorithm\greedy_algorithmtest.h
 	<iostream>
 	<vector>
 	"Greedy_algorithm.h"
 
-1679279473 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\09_greedy_algorithm\greedy_algorithm.h
+1679360189 d:\02_code_learn\cpp_learning\06_leetcode\00_leetcode\09_greedy_algorithm\greedy_algorithm.h
 	<iostream>
 	<algorithm>
 	<vector>
 	<list>
+	<string>
 

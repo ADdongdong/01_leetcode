@@ -68,4 +68,9 @@ void MergeTest(){
     vector<vector<int>> result = Merge(intervals);
     print2Vector(result);
 }
+
+void monotoneIncreasingDigitsTest() {
+    int result = monotoneIncreasingDigits(332);
+    cout << result << endl;
+}
 #endif // GREEDY_ALGORITHMTEST_H_INCLUDED
