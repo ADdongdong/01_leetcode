@@ -42,7 +42,24 @@ int fib(int n) {
     return dp[n];
 }
 
-
-
+/*2 爬楼梯
+ *1.确定dp[i]数组 下标：到第i个阶梯 元素：到第i个阶梯有多少种方法
+ *2.确定递推公式 dp[i] = dp[i-1] + dp[i-2]
+ *  比如到了第i阶，可以从i-1到i,也可以从i-2到i,从i-1到i有dp[i-1]种方法，i-2到i有dp[i-2]种
+ *  所以，到第i阶，共有dp[i] = dp[i-2] + dp[i-1]
+ *3.dp数组如何初始化dp[1] = 1 dp[2] = 2 注意，这里讨论dp[0]没有意义，因为，不存在第0个台阶
+ *4.确定遍历顺序 从前往后
+ *5.举例推导dp公式
+ */
+int climbStairs(int n) {
+    if (n <= 2) return n;
+    vector<int> dp(n + 1);
+    dp[1] = 1;
+    dp[2] = 2;
+    for (int i = 3; i <= n; i++){
+        dp[i] = dp[i-1] + dp[i-2];
+    }
+    return dp[n];
+}
 
 #endif // DYNAMIC_PROGRAMMING_H_INCLUDED
