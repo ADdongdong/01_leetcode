@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    fibTest();
+    uniquePathsWithObstaclesTest();
     return 0;
 }

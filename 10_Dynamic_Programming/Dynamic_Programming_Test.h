@@ -12,4 +12,28 @@ void fibTest() {
     int result = fib(n);
     cout << result << endl;
 }
+
+//3 使用最小花费爬楼梯
+void minCostClimbingStairsTest() {
+    vector<int> cost = {1,100,1,1,1,100,1,1,100,1};
+    int result = minCostClimbingStairs(cost);
+    cout << result << endl;
+}
+
+//4 不同路径
+void uniquePathsTest() {
+    int m = 7, n = 10;
+    int result = uniquePaths(m, n);
+    cout << result << endl;
+}
+
+//5 不同路径2
+void uniquePathsWithObstaclesTest() {
+    vector<vector<int>> Obstical = {
+        {0,0,0},{0,1,0},{0,0,0}
+    };
+    vector<vector<int>> Obstical2 = {{0,0}, {0,1}};
+    int result = uniquePathsWithObstacles(Obstical2);
+    cout << result << endl;
+}
 #endif // DYNAMIC_PROGRAMMING_TEST_H_INCLUDED
