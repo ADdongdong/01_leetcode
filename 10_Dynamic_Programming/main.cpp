@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    uniquePathsWithObstaclesTest();
+    numTreesTest();
     return 0;
 }

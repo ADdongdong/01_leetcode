@@ -36,4 +36,18 @@ void uniquePathsWithObstaclesTest() {
     int result = uniquePathsWithObstacles(Obstical2);
     cout << result << endl;
 }
+
+//6 整数拆分
+void integerBreakTest() {
+    int n = 5;
+    int result = integerBreak(n);
+    cout << result << endl;
+}
+
+//7 不同的二叉搜索树
+void numTreesTest() {
+    int n = 3;
+    int result = numTrees(n);
+    cout << result << endl;
+}
 #endif // DYNAMIC_PROGRAMMING_TEST_H_INCLUDED

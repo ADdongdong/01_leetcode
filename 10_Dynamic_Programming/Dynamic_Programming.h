@@ -171,4 +171,55 @@ int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
     }
     return dp[obstacleGrid.size()-1][obstacleGrid[0].size()-1];
 }
+
+/*6 整数拆分
+ *1.dp数组的含义:  dp[i] 拆分数字i，可以得到的最大拆分元素的乘积就是dp[i]
+ *2.dp数组推导公式: 这里有两种拆分算乘积的方式，
+    1.dp[i] = dp[i-j]*j
+        这种方式，首先看看dp[i-j]是什么，是拆分数字i,可以得到的最大拆分元素的乘积
+        其实就是将i 拆分成了i-j 和j,其中，i-j再拆分，算出i-j拆分元素的最大乘积，用这个乘积和剩下的一部分j相乘
+        得到dp[i]的结果
+    2.dp[i] = (i-j)*j
+        这种方式，是直接将i拆分成两个部分，i-j 和 j，然后计算这两个数的乘积
+    综合，递推公式：dp[i] = max(dp[i], max(j*dp[i-j], (i-j)*j)) //dp[i]数组默认是0的
+ *3.初始化dp数组
+    dp[0]和dp[1]没有意义，也没法拆分，所以，不用为了拆分而拆分
+    直接初始化dp[2] = 1 dp[3] = 2
+ *4.确定遍历顺序 从前往后
+ *5.举例推导dp公式，看看dp公式是否合理
+ */
+int integerBreak(int n) {
+    vector<int> dp(n + 1);
+    //初始化dp数组
+    dp[2] = 1;
+    //遍历dp数组
+    for (int i = 3; i <= n; i++) {
+        for (int j = 1; j <= n/2; j++) {
+            dp[i] = max(dp[i], max(j*dp[i-j], j*(i-j)));
+        }
+        printVector(dp);
+    }
+    return dp[n];
+}
+
+/*7 不同的二叉搜索树
+ *1.确定dp数组的含义 dp[i] 1到i，i个结点组成的二叉搜索树的个数
+ *2.确定dp数组的递推公式
+    dp[i] += dp[j-1]*dp[i-j]其中j-1是以i为根左子树上结点的个数
+    其中i-j是以i为根的结点，在右子树上的个数
+ *3.初始化dp数组 dp[0] = 1
+ *4.递归数组遍历的方向 由大到小
+ *5.举例验证dp数组递推公式
+ */
+int numTrees(int n) {
+    vector<int> dp(n+1);
+    dp[0] = 1;
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= i; j++) {
+            dp[i] += dp[j-1]*dp[i-j];
+        }
+        printVector(dp);
+    }
+    return dp[n];
+}
 #endif // DYNAMIC_PROGRAMMING_H_INCLUDED
