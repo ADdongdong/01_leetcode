@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    numTreesTest();
+    lastStoneWeightIITest();
     return 0;
 }

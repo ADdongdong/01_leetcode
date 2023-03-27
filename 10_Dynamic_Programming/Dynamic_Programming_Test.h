@@ -50,4 +50,11 @@ void numTreesTest() {
     int result = numTrees(n);
     cout << result << endl;
 }
+
+//9
+void lastStoneWeightIITest() {
+    vector<int> stones = {2, 7, 4, 1, 8, 1};
+    int result = lastStoneWeightII(stones);
+    cout << result <<endl;
+}
 #endif // DYNAMIC_PROGRAMMING_TEST_H_INCLUDED

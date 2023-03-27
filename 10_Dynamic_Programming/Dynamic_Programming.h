@@ -222,4 +222,60 @@ int numTrees(int n) {
     }
     return dp[n];
 }
+
+/*8 分割等和子集
+ *用0-1背包解决这个题
+ *1.背包的体积为sum/2
+ *2.背包要放入的商品重量为元素的数值，价值也为元素的数值
+ *3.如果背包正好装满了，说明找到了总和为sum/2的子集
+ *4.背包中每一个元素是不可重复放入
+ *
+ */
+bool canPartition(vector<int>& nums) {
+    int sum = 0;
+    // dp[i]中的i表示背包内总和
+    // 题目中说，每个数组中元素不会超过100， 数组大小不会超过200
+    // 总和不会大于20000，背包最大只需要其中的一半，所以，只要有10001大小就行了
+    vector<int> dp(10001, 0);
+    for (int i = 0; i < nums.size(); i++) {
+        sum += nums[i];
+    }//计算nums的总和
+    if (sum % 2 == 1) return false;//如果不能均分，总和为奇数，直接返回false
+    int target = sum/2;
+
+    //开始0-1背包
+    for (int i = 0; i < nums.size(); i++) {
+        for (int j = target; j >= nums[i]; j--) {
+            dp[i] = max(dp[i], dp[j - nums[i]] + nums[i]);
+        }
+        printVector(dp);
+    }
+    //集合中的元素正好可以凑成总和target
+    if (dp[target] == target) return true;
+    return false;
+}
+
+/*9 最后一块石头的重量二
+ */
+int lastStoneWeightII(vector<int>& stones) {
+    //定义dp数组
+    vector<int> dp(15, 0);
+    //计算sum
+    int sum = 0;
+    for (int i = 0; i< stones.size(); i++) {
+        sum += stones[i];
+    }
+    //计算target
+    int target = sum/2;
+    cout << "target:" << target <<endl;
+    //进行背包
+    for (int i = 0; i < stones.size(); i++) {
+        for (int j = target; j >= stones[i]; j--) {
+            dp[j] = max(dp[j], dp[j - stones[i]] + stones[i]);
+        }
+        printVector(dp);
+    }
+    int result = sum - dp[target] - dp[target];
+    return result;
+}
 #endif // DYNAMIC_PROGRAMMING_H_INCLUDED
