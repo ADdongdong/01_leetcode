@@ -229,7 +229,6 @@ int numTrees(int n) {
  *2.背包要放入的商品重量为元素的数值，价值也为元素的数值
  *3.如果背包正好装满了，说明找到了总和为sum/2的子集
  *4.背包中每一个元素是不可重复放入
- *
  */
 bool canPartition(vector<int>& nums) {
     int sum = 0;
@@ -278,4 +277,73 @@ int lastStoneWeightII(vector<int>& stones) {
     int result = sum - dp[target] - dp[target];
     return result;
 }
+
+//10 目标和
+/*给定一个非负整数数组，a1, a2, ..., an, 和一个目标数，S。现在你有两个符号 + 和 -。对于数组中的任意一个整数，你都可以从 + 或 -中选择一个符号添加在前面。
+ *返回可以使最终数组和为目标数 S 的所有添加符号的方法数。
+ *示例：
+ *输入：nums: [1, 1, 1, 1, 1], S: 3
+ *输出：5
+ *
+ *思路
+ *将nums分成两堆数据，让两堆数据的差为S就可以了
+ *left - right = target
+ *left + right = sum
+ *right = sum - left
+ *left - (sum - left) = target
+ *left = (target+sum)/2
+ *所以，我们的目标就是要在nums中找到和为left的组合
+ *
+ *step1.定义dp数组 dp[j]表示，装满j这么大的背包，有多少种方法
+ *step2.dp数组递推公式dp[j] += dp[j - nums[i]]
+ *step3.dp数组初始化 dp[0] = 1
+ */
+int findTargetSumWays(vector<int>& nums, int target) {
+    //计算sum的值
+    int sum = 0;
+    for (int i = 0; i < nums.size(); i++) sum += nums[i];
+    //如果target的绝对值大于sum，则返回0，说明不可能凑成
+    if (abs(target) > sum) return 0;
+    //如果target+sum为奇数，则么有方案(left = (target+sum)/2)
+    if ((target + sum) % 2 == 1) return 0;
+    //定义dp数组
+    int bagsize = (target + sum)/2;
+    vector<int> dp(bagsize+1, 0);
+    //初始化dp数组
+    dp[0] = 1;
+    //开始01背包
+    for (int i = 0; i < nums.size(); i++) {
+        for (int j = bagsize; j >= nums[i]; j--) {
+            dp[j] += dp[j - nums[i]];
+        }
+    }
+    return dp[bagsize];
+}
+
+/*11 一和零
+ *1.确定dp数组的下标和含义
+ *  dp[i][j] 最多有i个0和j个1的strs的最大子集大小为dp[i][j]
+ *2.确定递推公式
+ *  dp[i][j] 可以由前一个strs里的字符串推导出来，strs里的字符串有zeroNum个0，oneNum个1
+ *  dp[i-zeroNum][j-oneNum]+1
+    dp[i][j] = max(dp[i][j], dp[j - weight[i]] + value[i])
+ */
+int findMaxForm(vector<string>& strs, int m, int n) {
+    vector<vector<int>> dp(m + 1, vector<int> (n+1, 0));
+    for (string str:strs) {
+        int oneNum = 0, zeroNum = 0;
+        for (char c : str) {
+            if (c == '0') zeroNum++;
+            else oneNum++;
+        }
+        for (int i = m; i >= zeroNum; i--) {
+            for (int j = n; j >= oneNum; j--) {
+                dp[i][j] = max(dp[i][j], dp[i - zeroNum][j - oneNum] + 1);
+            }
+        }
+        print2Vector(dp);
+    }
+    return dp[m][n];
+}
+
 #endif // DYNAMIC_PROGRAMMING_H_INCLUDED

@@ -57,4 +57,12 @@ void lastStoneWeightIITest() {
     int result = lastStoneWeightII(stones);
     cout << result <<endl;
 }
+
+//10
+void findMaxFormTest() {
+    vector<string> strs = {"10", "0001", "111001", "1", "0"};
+    int result = findMaxForm(strs, 5, 3);
+    cout << result << endl;
+
+}
 #endif // DYNAMIC_PROGRAMMING_TEST_H_INCLUDED
