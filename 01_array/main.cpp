@@ -26,7 +26,6 @@ int main()
     vector<vector<int>> v2 = {{1,2,3},{4,5,6},{7,8,9}};
     vector<vector<int>> v = generateMatrix(5);
     Print_matrix(v);
-
     return 0;
 }
 
