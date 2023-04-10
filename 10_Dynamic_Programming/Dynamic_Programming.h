@@ -296,6 +296,16 @@ int lastStoneWeightII(vector<int>& stones) {
  *
  *step1.定义dp数组 dp[j]表示，装满j这么大的背包，有多少种方法
  *step2.dp数组递推公式dp[j] += dp[j - nums[i]]
+ *递推公式举例：
+ *首先再明确一下dp数组的含义dp[j]表示，装满容量为j的背包，有多少种方法
+ *那么我们来举例看看dp[5]是怎么来的：
+ *假设nums[i]中还有一个1，那么有dp[4]种方法凑成容量为5的背包。dp[4]是装满容量为4的背包的方法数。
+ *假设nums[i]中还有一个2，那么有dp[3]种方法凑成容量为5的背包
+ *假设nums[i]中还有一个3，那么有dp[2]种方法凑成容量为5的背包
+ *假设nums[i]中还有一个4，那么有dp[1]种方法凑成容量为5的背包
+ *假设nums[i]中还有一个5，那么有dp[0]种方法凑成容量为5的背包
+ *
+ *dp[j] += dp[j - nums[i]]
  *step3.dp数组初始化 dp[0] = 1
  */
 int findTargetSumWays(vector<int>& nums, int target) {
@@ -315,6 +325,9 @@ int findTargetSumWays(vector<int>& nums, int target) {
     for (int i = 0; i < nums.size(); i++) {
         for (int j = bagsize; j >= nums[i]; j--) {
             dp[j] += dp[j - nums[i]];
+            cout << "【i, j】:" << i << "," << j << endl;
+            printVector(dp);
+            cout << endl;
         }
     }
     return dp[bagsize];
@@ -345,5 +358,11 @@ int findMaxForm(vector<string>& strs, int m, int n) {
     }
     return dp[m][n];
 }
+
+//12 零钱兑换
+/*1.dp[j]数组的含义 凑成金额为j的硬币组合数为dp[j]种类
+ *2.确定递推公式 dp[j] = dp[j -
+ *
+ */
 
 #endif // DYNAMIC_PROGRAMMING_H_INCLUDED

@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    findMaxFormTest();
+    findTargetSumWaysTest();
     return 0;
 }

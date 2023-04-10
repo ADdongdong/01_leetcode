@@ -58,6 +58,11 @@ void lastStoneWeightIITest() {
     cout << result <<endl;
 }
 
+void findTargetSumWaysTest() {
+    vector<int> nums = {1,1,1,1,1};
+    int result = findTargetSumWays(nums, 3);
+    cout << result << endl;
+}
 //10
 void findMaxFormTest() {
     vector<string> strs = {"10", "0001", "111001", "1", "0"};
