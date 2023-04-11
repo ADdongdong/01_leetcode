@@ -17,10 +17,10 @@ using namespace std;
 //定义打印数组的函数
 void printVector(vector<int> vec) {
     cout << "[" << vec[0];
-    for (int i = 1; i < vec.size(); i++) {
-        cout << ',' << vec[i];
-    }
-    cout << "]" << endl;
+	for (int i = 1; i < vec.size(); i++) {
+		cout << ',' << vec[i];
+	}
+	cout << "]" << endl;
 }
 
 //定义打印二维数组的函数
