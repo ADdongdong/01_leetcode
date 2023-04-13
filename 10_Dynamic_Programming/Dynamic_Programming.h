@@ -405,4 +405,13 @@ int coinChange(vector<int>& coins, int amount){
     if (dp[amount] == INT_MAX) return -1;
     return dp[amount];
 }
+
+//12 完全平方数
+/*描述：
+ *给定正整数n,找到若干个完全平方数（比如1,4,9,16，...）
+ *使得它们的和等于n.你需要让组成和完全平方的个数最少
+ *给你一个整数n,返回和为n的完全平方数的最少数量。
+ *
+ *
+ */
 #endif // DYNAMIC_PROGRAMMING_H_INCLUDED
