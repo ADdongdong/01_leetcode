@@ -5,6 +5,7 @@ using namespace std;
 
 int main()
 {
-    findTargetSumWaysTest();
+    coinChangeTest();
+    getchar();
     return 0;
 }

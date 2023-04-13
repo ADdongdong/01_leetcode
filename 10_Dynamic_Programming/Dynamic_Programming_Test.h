@@ -70,4 +70,11 @@ void findMaxFormTest() {
     cout << result << endl;
 
 }
+
+//coinChangeTest
+void coinChangeTest() {
+    vector<int> coins = {1,2,5};
+    int result = coinChange(coins, 11);
+    cout << result << endl;
+}
 #endif // DYNAMIC_PROGRAMMING_TEST_H_INCLUDED

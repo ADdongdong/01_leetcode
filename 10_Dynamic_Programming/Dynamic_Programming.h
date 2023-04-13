@@ -325,7 +325,7 @@ int findTargetSumWays(vector<int>& nums, int target) {
     for (int i = 0; i < nums.size(); i++) {
         for (int j = bagsize; j >= nums[i]; j--) {
             dp[j] += dp[j - nums[i]];
-            cout << "【i, j】:" << i << "," << j << endl;
+            cout << "[i, j]:" << i << "," << j << endl;
             printVector(dp);
             cout << endl;
         }
@@ -360,9 +360,49 @@ int findMaxForm(vector<string>& strs, int m, int n) {
 }
 
 //12 零钱兑换
-/*1.dp[j]数组的含义 凑成金额为j的硬币组合数为dp[j]种类
- *2.确定递推公式 dp[j] = dp[j -
+/*
+ *给定不同面额的硬币coins和一个总金额amount.
+ *编写一个函数来计算可以凑成总金额所需要的最少的硬币个数。
+ *如果没有任何一种硬币组合能组成总金额。返回-1.
+ *1.dp[j]数组的含义 凑成金额为j的硬币组合数为dp[j]种类
+ *2.确定递推公式 dp[j] = min(dp[j - coins[i]] + 1, dp[j])
+ *  解释：j是要凑够j块钱，j-coins[i]是要凑够j-coins[i]块钱
+         dp[j - coins[i]]是要凑够j-coins[i]块钱至少需要的硬币个数
+         那要凑够j块钱，只要在j-coins[i]块钱的基础上再加一个
+         面值为coins[i]的硬币，就是dp[j]凑够j块钱要的最少硬币了。
+
+ *3.dp数组如何初始化dp：dp[0]肯定是0，其他值都要初始化为最大值
+ *4.遍历顺序
  *
  */
-
+int coinChange(vector<int>& coins, int amount){
+    //初始化dp数组
+    vector<int> dp(amount + 1, INT_MAX);
+    dp[0] = 0;
+    //遍历循环
+    //遍历coins列表，从头开始遍历,比如coins第一个元素是1
+    //那么里面的for循环就带边，只用1这一种硬币，要凑成1-amount
+    //分别最少需要多少个硬币。
+    //当遍历到coins的第二个元素2,
+    //哪里里面的for循环就是，用面值为1和面值为2的硬币，凑成1-amount
+    //分别最少需要多少个硬币。
+    //比如，当只有硬币1的时候，凑成3需要三个硬币，即是3个1元硬币。
+    //      当有1元硬币和2元硬币的时候，凑成3则最少需要两个硬币，即一个1元，1个二元。
+    //这里的更新就是dp[j] = min(dp[j - coins[i]] + 1, dp[j]);
+    for (int i = 0; i < coins.size(); i++){
+        //j从当前硬币的面值开始遍历，直到目标总钱数停止
+        for (int j = coins[i]; j <= amount; j++){
+            printVector(dp);//打印dp数组，看dp数组是如何更新的
+            //dp[j-coins[i]]是我们更新dp[j]时候要用到的，所以要保证这个内容已经被更新过了
+            //dp[j-coins[i]]就没有添加硬币coins[i]时候，最少需要几个硬币，如果这一项没有被更新，就无法比较
+            cout << "dp[j -coins[i]]:" << dp[j - coins[i]] << endl;
+            //if ( dp[j - coins[i]] != INT_MAX) {
+                //更新dp[j],注意，这里是和dp[j]做比较，适合上一轮这个位置作比较
+                dp[j] = min(dp[j - coins[i]] + 1, dp[j]);
+            //}
+        }
+    }
+    if (dp[amount] == INT_MAX) return -1;
+    return dp[amount];
+}
 #endif // DYNAMIC_PROGRAMMING_H_INCLUDED
