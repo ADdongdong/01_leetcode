@@ -5,7 +5,7 @@ using namespace std;
 
 int main()
 {
-    coinChangeTest();
+    numSquaresTest();
     getchar();
     return 0;
 }
