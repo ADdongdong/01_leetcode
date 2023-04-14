@@ -77,4 +77,10 @@ void coinChangeTest() {
     int result = coinChange(coins, 11);
     cout << result << endl;
 }
+
+//numSquares
+void numSquaresTest() {
+    int result = numSquares(12);
+    cout << result << endl;
+}
 #endif // DYNAMIC_PROGRAMMING_TEST_H_INCLUDED

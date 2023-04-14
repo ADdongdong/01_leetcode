@@ -422,6 +422,33 @@ int coinChange(vector<int>& coins, int amount){
  *问的是：凑够这个背包最少需要几个物品（这些物品必须都得是完全平方数）
  *
  * 递归五部曲
- *1.确定dp数组
+ *1.确定dp数组 dp[j] 和为j的完全平方数的最少数量为dp[j]
+ *2.确定递推数组 dp[j] = min(dp[j - i*i] + 1, dp[j])
+ *3.dp数组初始化 dp[0]=0,其他都是最大的
+ *4.确定遍历顺序 本次知识求最小的数量，无关排列组合
+ *5.推导 
  */
+int numSquares(int n){
+    vector<int> dp(n + 1, INT_MAX);
+    dp[0] = 0;
+    //开始遍历
+    //这是先遍历背包，再遍历物品的代码
+    for (int j = 0; j <= n; j++){
+        for (int i = 1; i*i <= j; i++){
+            dp[j] = min(dp[j - i*i] + 1, dp[j]);
+            printVector(dp);
+        }
+    }
+    /*下面是先遍历物品，在遍历背包的代码
+    for (int i = 0; i*i <= n; i++) {
+        for (int j = i*i; j <= n; j++) {
+            //这里j要从i*i开始，因为当前物品的大小为i*i,所以要保证背包的容量大于i*i才能放下这个物品
+            //也就是说，d[j - i*i]不能越界
+            dp[j] = min(dp[j - i*i] + 1, dp[j]);
+        }
+    }
+    
+    */
+    return dp[n];
+}
 #endif // DYNAMIC_PROGRAMMING_H_INCLUDED
