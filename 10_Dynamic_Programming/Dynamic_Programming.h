@@ -451,4 +451,16 @@ int numSquares(int n){
     */
     return dp[n];
 }
+
+//13 单词拆分
+/*
+ *给定一个费控字符串s和一个包含非空单词的列表wordDict,
+ *判定s是否可以被空格拆分为一个或多个在字典wordDict中出现的单词。
+ *注意：拆分时，可以重复使用字典中的单词。
+ *举例：
+ *s = "leetcode", wordDict = ["leet", "code"]
+ *输出：true
+ *解释：返回true,因为，字符串s可由被空格拆分成字典里有的单词。
+ */
+
 #endif // DYNAMIC_PROGRAMMING_H_INCLUDED
