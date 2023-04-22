@@ -2,6 +2,8 @@
 #define DYNAMIC_PROGRAMMING_H_INCLUDED
 #include <iostream>
 #include <vector>
+#include <unordered_set>
+#include <string>
 
 using namespace std;
 
@@ -15,7 +17,8 @@ using namespace std;
  */
 
 //定义打印数组的函数
-void printVector(vector<int> vec) {
+template<class T>
+void printVector(vector<T> vec) {
     cout << "[" << vec[0];
 	for (int i = 1; i < vec.size(); i++) {
 		cout << ',' << vec[i];
@@ -461,6 +464,38 @@ int numSquares(int n){
  *s = "leetcode", wordDict = ["leet", "code"]
  *输出：true
  *解释：返回true,因为，字符串s可由被空格拆分成字典里有的单词。
+ *如何将这个题目和背包问题对应起来？
+ *字符串：背包
+ *字典：物品
+ *物品可以重复使用，只要能把背包放满，就算成功。
+ *动态规划5步：
+ *1.定义dp数组：dp[i]字符串长度为i的话，dp[i]为true，
+ *表示可以拆分为一个或多个在字典中出现的单词
+ *2.确定递推公式：如果确定dp[j]是true,且[j,i]这个区间的子串出现在字典里，
+ *  那么dp[i]一定是true
+ *  if([j, i]这个区间的子串出现在字典里 && dp[j]是ture) 那么 dp[i]=true
+ *3.初始化字符串
+ *  dp[0] = true dp[其他] = flase
+ *4.确定遍历顺序
+ *  先遍历背包，再遍历物品，因为对子串的顺序是有要求的
+ *5.
+ * 
  */
+bool wordBreak(string s, vector<string>& wordDict) {
+    unordered_set<string> wordSet(wordDict.begin(), wordDict.end());
+    vector<bool> dp(s.size() + 1, false);
+    dp[0] = true;
+    for(int i = 1; i <= s.size(); i++) { //遍历背包
+        for (int j = 0; j < i; j++) { //遍历物品
+            string word =s.substr(j, i -j); //substr函数,取s字符串的子串
+            //substr(起始位置，截取字符个数)
+            if (wordSet.find(word) != wordSet.end() && dp[j]) {
+                dp[i] =true;
+            }
+            printVector<bool>(dp);
+        }
+    }
+    return dp[s.size()];
+}
 
 #endif // DYNAMIC_PROGRAMMING_H_INCLUDED

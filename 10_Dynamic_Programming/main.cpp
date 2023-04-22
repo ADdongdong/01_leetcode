@@ -5,7 +5,7 @@ using namespace std;
 
 int main()
 {
-    numSquaresTest();
+    wordBreakTest();
     getchar();
     return 0;
 }

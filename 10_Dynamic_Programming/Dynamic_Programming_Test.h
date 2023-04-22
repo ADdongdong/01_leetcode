@@ -83,4 +83,12 @@ void numSquaresTest() {
     int result = numSquares(12);
     cout << result << endl;
 }
+
+void wordBreakTest() {
+    string s = "leetcode";
+    vector<string> wordDict = {"leet", "code"};
+    bool result =  wordBreak(s, wordDict);
+    cout << result << endl;
+ 
+}
 #endif // DYNAMIC_PROGRAMMING_TEST_H_INCLUDED
