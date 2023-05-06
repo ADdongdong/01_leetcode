@@ -505,6 +505,7 @@ bool wordBreak(string s, vector<string>& wordDict){
                 dp[i] = true;
             }
         }
+        printVector(dp);
     }
     return dp[s.size()];
 }
