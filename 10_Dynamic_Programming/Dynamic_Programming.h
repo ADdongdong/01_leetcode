@@ -457,7 +457,7 @@ int numSquares(int n){
 
 //13 单词拆分
 /*
- *给定一个费控字符串s和一个包含非空单词的列表wordDict,
+ *给定一个非空字符串s和一个包含非空单词的列表wordDict,
  *判定s是否可以被空格拆分为一个或多个在字典wordDict中出现的单词。
  *注意：拆分时，可以重复使用字典中的单词。
  *举例：
@@ -470,7 +470,7 @@ int numSquares(int n){
  *物品可以重复使用，只要能把背包放满，就算成功。
  *动态规划5步：
  *1.定义dp数组：dp[i]字符串长度为i的话，dp[i]为true，
- *表示可以拆分为一个或多个在字典中出现的单词
+ *  表示可以拆分为一个或多个在字典中出现的单词
  *2.确定递推公式：如果确定dp[j]是true,且[j,i]这个区间的子串出现在字典里，
  *  那么dp[i]一定是true
  *  if([j, i]这个区间的子串出现在字典里 && dp[j]是ture) 那么 dp[i]=true
@@ -478,24 +478,34 @@ int numSquares(int n){
  *  dp[0] = true dp[其他] = flase
  *4.确定遍历顺序
  *  先遍历背包，再遍历物品，因为对子串的顺序是有要求的
- *5.
- * 
+ *  比如说s = "applepenapple" wordDict = ["apple", "pen"]
+ *  这里要求物品的组合为"apple"+ "pen" + "apple"这样子来排序才能
+ *  存放到背包s="applepenapple"中，别的顺序是不可以的，所是排列
  */
-bool wordBreak(string s, vector<string>& wordDict) {
+bool wordBreak(string s, vector<string>& wordDict){
+    //将wordDict映射到一个unordered_set上
+    //set的特点是排重，这样这个wordSet中就没有重复的单词了
     unordered_set<string> wordSet(wordDict.begin(), wordDict.end());
+    //初始化dp数组
+    //dp[0] 初始化为true, dp[0]以外的内容全部初始化为false
     vector<bool> dp(s.size() + 1, false);
     dp[0] = true;
-    for(int i = 1; i <= s.size(); i++) { //遍历背包
-        for (int j = 0; j < i; j++) { //遍历物品
-            string word =s.substr(j, i -j); //substr函数,取s字符串的子串
-            //substr(起始位置，截取字符个数)
+    //开始动态规划
+    for (int i = 1; i <= s.size(); i++){
+    //遍历背包
+        for (int j = 0; j < i; j++){
+        //遍历物品
+            string word = s.substr(j, i-j);//截取s中从j到i的子串
+            //进行递归公式
             if (wordSet.find(word) != wordSet.end() && dp[j]) {
-                dp[i] =true;
+                //如果dp[j]是true,且,j到i之间这个子串也是可以再wordSet中找到的
+                //那么说明当前dp[i]就是可以被wordSet中的单词所表示的
+                dp[i] = true;
             }
-            printVector<bool>(dp);
         }
     }
     return dp[s.size()];
 }
+
 
 #endif // DYNAMIC_PROGRAMMING_H_INCLUDED

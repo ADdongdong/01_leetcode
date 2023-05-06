@@ -85,7 +85,7 @@ void numSquaresTest() {
 }
 
 void wordBreakTest() {
-    string s = "leetcode";
+    string s = "leetcodeleetcodecode";
     vector<string> wordDict = {"leet", "code"};
     bool result =  wordBreak(s, wordDict);
     cout << result << endl;

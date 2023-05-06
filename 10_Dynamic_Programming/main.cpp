@@ -6,6 +6,7 @@ using namespace std;
 int main()
 {
     wordBreakTest();
+    cout << "hello world" << endl;
     getchar();
     return 0;
 }
