@@ -1,6 +1,7 @@
 #ifndef _LINKLIST_H_INCLUDED
 #define _LINKLIST_H_INCLUDED
 #include <iostream>
+#include <climits>
 using namespace std;
 
 //定义链表结点
