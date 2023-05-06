@@ -5,7 +5,8 @@ using namespace std;
 
 int main()
 {
-    numSquaresTest();
+    wordBreakTest();
+    cout << "hello world" << endl;
     getchar();
     return 0;
 }
