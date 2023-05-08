@@ -15,6 +15,10 @@ class Test():
         result = slu.rob(List)
         print(result)
 
+    def main(self, test):
+        test()
+        
 
 if __name__ == "__main__":
     test = Test()
+    test.main(test.robTest)
