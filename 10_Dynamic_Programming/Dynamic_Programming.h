@@ -510,5 +510,50 @@ bool wordBreak(string s, vector<string>& wordDict){
     return dp[s.size()];
 }
 
+//打家劫舍问题
+/*街道上有n个房屋，沿着街道对房屋进行偷窃，请问一晚上时间能偷到的最多的钱数
+ *偷窃限制：一晚上，如果偷了紧挨着的两家，就会触发报警，就gg了
+ *所以，偷东西，至少间隔一家
+ *举例子
+ *输入 [1,2,3,1]
+ *输出 4
+ *解释 偷了1然后偷3
+
+ *动态规划五部曲
+ *1.dp数组的含义
+ *  dp[i] 表示第i间房子（包含第i间房子）及以前被偷的房子能偷到的最大现金
+ *2.dp数组的递推公式
+ *  如果偷第i间房子
+ *      dp[i] = dp[i - 2] + nums[i]
+ *      解释：dp[i-2] 表示第i-2个房子及以前所有房子能偷到的最大钱数
+ *      因为，至少必须间隔一个,所以，咱们就不能偷i-1,只能偷i-2
+ *  如果不偷第i间房子
+ *      dp[i] = dp[i-1] 这个就不解释了
+ *  然后取上面两种情况的最大值
+ *  dp[i] = max(dp[i-2] +nums[i], dp[i-1])
+ *3.初始化dp数组
+ *  dp[i]明显和dp[i-1]、dp[i-2]有关
+ *  所以，只要初始化好dp[0]和dp[1]后面按照递推公式进行递推就行了
+ *4.dp数组遍历的
+ *  从前到后遍历
+ *5.打印dp数组
+*/     
+int rob(vector<int>& nums) {
+    //定义dp数组
+    vector<int> dp(nums.size());
+    //判断，如果nums.size() <= 2 直接return
+    if (nums.size() <= 2) {
+        return max(nums[0], nums[1]);
+    }
+    //初始化dp数组
+    dp[0] = nums[0];
+    dp[1] = max(dp[0], nums[1]);
+    //开始进行递归遍历
+    for(int i = 2; i < nums.size(); i++){
+        dp[i] = max(dp[i-1], dp[i-2] + nums[i]);
+        printVector(dp);
+    }
+    return dp[nums.size()-1];
+}
 
 #endif // DYNAMIC_PROGRAMMING_H_INCLUDED

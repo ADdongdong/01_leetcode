@@ -5,8 +5,7 @@ using namespace std;
 
 int main()
 {
-    wordBreakTest();
-    cout << "hello world" << endl;
+    robTest();
     getchar();
     return 0;
 }

@@ -91,4 +91,10 @@ void wordBreakTest() {
     cout << result << endl;
  
 }
+
+void robTest() {
+    vector<int> nums = {1,2,3,1};
+    int result = rob(nums);
+    cout << result << endl;
+}
 #endif // DYNAMIC_PROGRAMMING_TEST_H_INCLUDED
