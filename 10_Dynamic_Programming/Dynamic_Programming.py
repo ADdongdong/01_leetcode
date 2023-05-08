@@ -29,22 +29,3 @@ class Solution:
             print(dp) 
 
         return dp[len(List) - 1]
-#定义测试函数
-def wordBreaktest():
-    slu = Solution()
-    wordList = ["leet","code"]
-    s = "leetcode"
-    result = slu.workBreak(s, wordList)
-    print(result)
-
-def robTest():
-    slu = Solution()
-    List = [1,2,3,1]
-    result = slu.rob(List)
-    print(result)
-
-def main():
-    robTest()
-
-if __name__ == "__main__":
-    main()
