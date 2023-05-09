@@ -556,4 +556,53 @@ int rob(vector<int>& nums) {
     return dp[nums.size()-1];
 }
 
+//打家劫舍2
+/*这里和【打家劫舍】基本条件一样，对房屋加上了如下的描述：
+ *所有的房屋围成一圈，也就是，第一个房屋和最后一间房屋是挨着的。
+ *代码举例：
+ *nums = [2, 3, 2]
+ *输出 3 因为两个2其实是挨着的
+ *nums = [1,2,3,1]
+ *输出 4
+ *
+ *动态规划五部曲
+ *1.dp数组的含义 dp[i]
+ *  从0-i这些房屋，能偷取的最大钱数
+ *2.dp数组的递推公式
+ *  dp[i] = max(dp[i-1], dp[i-2] + nums[i])
+ *  这里，有进行两次for循环，一次dp[0] = nums[0]
+ *  一次 dp[0] = nums[1]
+ *  最后，对两次的dp[nums.size()-1] 进行比较，取最大的
+ *3.初始化dp数组
+ *4.dp数组循环遍历的顺序
+ *5.打印dp数组
+ */
+int robRange(vector<int>& nums, int start, int end){
+    //如果这个区间只有一个元素，返回这个元素
+    if (start == end) return nums[start];
+    //定义dp数组
+    vector<int> dp(nums.size());
+    //初始化dp数组
+    dp[start] = nums[start];
+    dp[start + 1] = max(nums[start], nums[start+1]);
+    //遍历dp数组
+    for (int i = start+2; i <= end; i++){
+        dp[i] = max(dp[i-1], dp[i-2] + nums[i]);
+    }
+    return dp[end];
+
+}
+
+int rob_2(vector<int>& nums){
+    if (nums.size() == 0) return 0;
+    if (nums.size() == 1) return nums[0];
+    //这是不包含nums最后一个元素的情况
+    int result1 = robRange(nums, 0, nums.size() - 2);
+    //这是不包含nums第一个元素的情况
+    int result2 = robRange(nums, 1, nums.size() - 1);
+    return max(result1, result2);
+}
+
+
+
 #endif // DYNAMIC_PROGRAMMING_H_INCLUDED

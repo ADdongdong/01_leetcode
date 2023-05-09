@@ -5,7 +5,7 @@ using namespace std;
 
 int main()
 {
-    robTest();
+    rob2Test();
     getchar();
     return 0;
 }
