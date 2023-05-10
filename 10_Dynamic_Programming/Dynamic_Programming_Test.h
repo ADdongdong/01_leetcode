@@ -109,6 +109,9 @@ void rob3Test() {
     //先序遍历创建二叉树
     TreeNode<int>* root ;
     create(root);
+    vector<int> nums;
+    pre_traversal<int>(root, nums);//先序遍历二叉树
+    printVector(nums);
     int result = rob_3(root);
     cout << result << endl;
 }

@@ -31,6 +31,7 @@ public:
 };
 
 //前序递归创建二叉树
+//如果输入-1代表这个结点为null
 template <class T>
 void create(TreeNode<T>* &treeNode) {
     //传入的参数是一个指针的引用，这样，可以保证这个指针可以被改变

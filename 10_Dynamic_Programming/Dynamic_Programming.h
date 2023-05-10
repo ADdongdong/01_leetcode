@@ -624,6 +624,8 @@ int rob_2(vector<int>& nums){
  *  如果不偷当前结点 val2 = max(left[0], left[1]) + max(right[0], right[1])
  *5.举例推导dp数组
  */
+vector<int> robTree(TreeNode<int>*);
+
 int rob_3(TreeNode<int>* root){
     vector<int> result = robTree(root);
     return max(result[0], result[1]);
@@ -638,9 +640,9 @@ vector<int> robTree(TreeNode<int>* cur){
     //如果偷当前结点cur,那么就不能偷当前结点的左右孩子结点
     int val1 = cur->val + left[0] + right[0];
     //如果不偷当前结点cur，那么，左右节点可偷可不偷，从左右节点中选大的加上
-    int val2 = cur->val + max(left[0], left[1]) + max(right[0], right[1]);
+    int val2 = max(left[0], left[1]) + max(right[0], right[1]);
     vector<int> dp = {val1, val2};
     printVector(dp);//打印dp数组
-    return {val1, val2};
+    return {val2, val1};//dp数组，0是不偷，1是偷
 }
 #endif // DYNAMIC_PROGRAMMING_H_INCLUDED
