@@ -6,6 +6,20 @@ class TreeNode:
         self.left = left
         self.right = right
 
+    #手动先序生成二叉树
+    def bulidTree(self):
+        val = int(input())
+        if val == -1:
+            return None
+        
+        node = TreeNode(val)
+        node.left = self.bulidTree()
+        node.right = self.bulidTree()
+
+        return node
+        
+        
+
 
 class Solution:
     def workBreak(self, s: str, wordDict: list[str]) -> bool:
@@ -92,7 +106,7 @@ class Solution:
     def rob3(self, root: TreeNode) -> tuple:
         dp = self.robTree(root)
         return max(dp[0], dp[1])
-        
+
     
 
 

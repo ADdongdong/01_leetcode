@@ -1,4 +1,5 @@
 from Dynamic_Programming import Solution
+from Dynamic_Programming import TreeNode
 
 class Test():
     def __init__(self) -> None:
@@ -26,7 +27,10 @@ class Test():
 
     #测试打家劫舍3
     def rob3Test(self) -> None:
-        pass
+        root = TreeNode()
+        root.bulidTree()
+        result = self.slu.rob3(root)
+        print(result)
 
     def main(self, test: callable):
         test()
@@ -34,4 +38,4 @@ class Test():
 
 if __name__ == "__main__":
     test = Test()
-    test.main(test.rob2Test)
+    test.main(test.rob3Test)
