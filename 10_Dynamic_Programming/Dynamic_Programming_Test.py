@@ -27,8 +27,7 @@ class Test():
 
     #测试打家劫舍3
     def rob3Test(self) -> None:
-        root = TreeNode()
-        root.bulidTree()
+        root = TreeNode.bulidTree()
         result = self.slu.rob3(root)
         print(result)
 

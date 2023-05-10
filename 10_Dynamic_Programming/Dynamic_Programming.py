@@ -7,14 +7,19 @@ class TreeNode:
         self.right = right
 
     #手动先序生成二叉树
-    def bulidTree(self):
-        val = int(input())
+    #这里将buildTree()和函数声明为staticmethod方法
+    #因为这个方法和类的实例没有关系，即我们调用这个方法，不用实例一个类对象再通过对象调用也可以
+    #这只是一个单独的函数，也就是，写到类外面也是完全可以的，
+    #所以声明为staticmethod方法
+    @staticmethod
+    def bulidTree():
+        val = int(input('请输入当前结点的值：'))
         if val == -1:
             return None
         
         node = TreeNode(val)
-        node.left = self.bulidTree()
-        node.right = self.bulidTree()
+        node.left = TreeNode.bulidTree()
+        node.right = TreeNode.bulidTree()
 
         return node
         
