@@ -1,3 +1,12 @@
+#Definition for a binary tree node.
+class TreeNode:
+    #python中的__init__函数返回值为None,但是事实上会初始化一个对象，并返回这个对象的引用
+    def __init__(self, val = 0, left=None, right=None) -> None:
+        self.val = val 
+        self.left = left
+        self.right = right
+
+
 class Solution:
     def workBreak(self, s: str, wordDict: list[str]) -> bool:
         #排列
@@ -63,6 +72,26 @@ class Solution:
         #情况2 从第0元素到倒数第二个元素
         result2 = slef.robRange(nums[:-1])
         return max(result1, result2)
+        
+
+    #打家劫舍3
+    def robTree(self, node : TreeNode) -> tuple:
+        #递归终止的条件
+        if node == None:
+            return (0,0)
+        #递归遍历左右子树
+        left = self.robTree(node.left)
+        right = self.robTree(node.right)
+
+        #如果不偷当前结点 dp[0]
+        val0 = max(left[0], left[1]) + max(right[0], right[1])
+        #如果偷当前结点 dp[1]
+        val1 = node.val + left[0] + right[0]
+        return (val0, val1)
+        
+    def rob3(self, root: TreeNode) -> tuple:
+        dp = self.robTree(root)
+        return max(dp[0], dp[1])
         
     
 

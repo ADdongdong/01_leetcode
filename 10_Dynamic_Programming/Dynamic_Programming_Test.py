@@ -24,6 +24,10 @@ class Test():
         result = self.slu.rob_2(self.nums2)
         print(result)
 
+    #测试打家劫舍3
+    def rob3Test(self) -> None:
+        pass
+
     def main(self, test: callable):
         test()
         
