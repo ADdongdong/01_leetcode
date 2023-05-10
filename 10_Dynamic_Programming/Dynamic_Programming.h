@@ -5,7 +5,7 @@
 #include <unordered_set>
 #include <string>
 #include <climits>
-
+#include  "../07_biTree/biTree.h"
 
 using namespace std;
 
@@ -604,5 +604,43 @@ int rob_2(vector<int>& nums){
 }
 
 
+//打家劫舍3
+/*对【打家劫舍】1所做了如下修改：
+ *这里的房屋的结构为树结构，只能从根节点进入
+ *同样，如果一晚上偷了相邻的两户人家，则会触发报警。
+ *举例：
+ *[3,2,3,null,3,null,1]
+ *输出：7=3+3+1
+ *递归三部曲:
+ *`1.确定函数的参数和返回值
+ *  求一个结点偷与不偷两个状态所得到的金钱，返回值就是一个长度为2的数组。
+ *  即如果偷，会返回多少，如果不偷能得到多少钱。
+ *  dp数组的含义：[不偷该结点得到的最大钱数，偷该节点得到的最大钱数]
+ *2.确定终止条件
+ *  在遍历过程中，遇到空节点，返回[0,0] 
+ *3.确定遍历顺序 后序遍历，左右中
+ *4.确定单层递归的逻辑
+ *  如果偷当前结点 val1 = cur->val + left[0] + right[0]
+ *  如果不偷当前结点 val2 = max(left[0], left[1]) + max(right[0], right[1])
+ *5.举例推导dp数组
+ */
+int rob_3(TreeNode<int>* root){
+    vector<int> result = robTree(root);
+    return max(result[0], result[1]);
+}
 
+//dp数组为长度为2的数组 下标0 不偷该结点，下标1 偷该结点
+vector<int> robTree(TreeNode<int>* cur){
+    if (cur == NULL) return vector<int>{0, 0};
+    vector<int> left = robTree(cur->left);
+    vector<int> right = robTree(cur->right);
+    //单层遍历的逻辑
+    //如果偷当前结点cur,那么就不能偷当前结点的左右孩子结点
+    int val1 = cur->val + left[0] + right[0];
+    //如果不偷当前结点cur，那么，左右节点可偷可不偷，从左右节点中选大的加上
+    int val2 = cur->val + max(left[0], left[1]) + max(right[0], right[1]);
+    vector<int> dp = {val1, val2};
+    printVector(dp);//打印dp数组
+    return {val1, val2};
+}
 #endif // DYNAMIC_PROGRAMMING_H_INCLUDED

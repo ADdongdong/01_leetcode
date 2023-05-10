@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include "Dynamic_Programming.h"
+#include "../07_biTree/biTree.h"
 
 using namespace std;
 
@@ -101,6 +102,14 @@ void robTest() {
 void rob2Test() {
     vector<int> nums = {1,2,3};
     int result = rob_2(nums);
+    cout << result << endl;
+}
+
+void rob3Test() {
+    //先序遍历创建二叉树
+    TreeNode<int>* root ;
+    create(root);
+    int result = rob_3(root);
     cout << result << endl;
 }
 #endif // DYNAMIC_PROGRAMMING_TEST_H_INCLUDED
