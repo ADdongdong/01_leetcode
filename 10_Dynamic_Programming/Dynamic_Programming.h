@@ -508,4 +508,69 @@ bool wordBreak(string s, vector<string>& wordDict){
 }
 
 
+//打家劫舍问题
+/*动态规划5部；
+ *1.dp数组的含义：dp[i] 下标i以前的房屋，能偷到的最多的钱数
+ *2.确定递推公司：注意：不能连续偷两间房屋，
+ *  2.1 如果偷第i间房子,就不能偷第i-1间房子，此时，dp[i] = dp[i-2] + nums[i]
+ *  2.2 如果不偷第i间房子，那此时 dp[i] = dp[i-1]
+ *  2.3 到dp[i]的时候，只有上面两种情况，所以，取这两种情况种最大的就行了
+ *      dp[i] = max(dp[i-2] + nums[i], dp[i-1])
+ *3.初始化递归数组，想想，这里要初始化那些值，dp[0],d[1]初始化了，dp[2]就可以根据递推公式计算了
+ *  3.1 dp[0] = nums[0]
+ *  3.1 dp[1] = max(nums[0], nums[1])
+ *4.确定遍历顺序 dp[2]是根据dp[0],dp[1]得到的，所以顺序为从前往后
+ *5.打印dp数组
+*/
+int rob(vector<int>& nums) {
+    //初始化dp数组
+    vector<int> dp(nums.size());
+    if (nums.size() == 1) return nums[0];
+    if (nums.size() == 2) return max(nums[0], nums[1]);
+    //初始化dp数组
+    dp[0] = nums[0];
+    dp[1] = max(nums[0], nums[1]);
+    //遍历dp数组
+    for (int i = 2; i < nums.size(); i++){
+        dp[i] = max(dp[i-2] + nums[i], dp[i-1]);
+        printVector(dp);
+    }
+    return dp[nums.size() - 1];
+}
+
+//打家劫舍2
+/*从上一个问题的数组变成一个环了，同样还是不能连续取值
+ * 1 6 1 9 1
+ * 如果它不是一个环，其实就和上一个问题一样了
+ * 所以，我们要把这个环给切开，如何切开呢
+ * 1. 去掉第一个元素，后面的四个元素按照上一个问题来处理
+ * 2. 去掉最后一个元素，前面的四个元素按照上一个问题来处理
+ * 从这两种情况种选择一个最大的即可
+ *
+ */
+int robRange(vector<int>& nums, int start, int end){
+    if(start == end) return nums[start];
+    //初始化dp数组
+    vector<int> dp(nums.size());
+    //初始化
+    dp[start] = nums[start];
+    dp[start+1] = max(nums[start], nums[start+1]);
+    //遍历dp数组
+    for(int i = start+2; i <= end; i++){
+        dp[i] = max(dp[i - 2] + nums[i], dp[i-1]);
+        printVector(dp);
+    }
+    return dp[end];
+}
+
+int rob2(vector<int>& nums){
+    if (nums.size() == 0) return 0;
+    if (nums.size() == 1) return nums[0];
+    
+    //分两种情况
+    int result1 = robRange(nums, 0, nums.size()-2);
+    int result2 = robRange(nums, 1, nums.size()-1);
+
+    return max(result1, result2);
+}
 #endif // DYNAMIC_PROGRAMMING_H_INCLUDED
